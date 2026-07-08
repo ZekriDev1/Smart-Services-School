@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n-title="meta.indexTitle">SMARTSERVICES Schools - Tous les services de votre établissement en un seul endroit</title>
+  <meta data-i18n-page-title="meta.indexTitle">
+  <meta name="description" content="SMARTSERVICES Schools - Plateforme B2B dédiée aux établissements scolaires. Gérez tous vos services opérationnels depuis une plateforme centralisée.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== FLOATING ELEMENTS ===== -->
+  <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <div class="lang-selector">
+          <i class="fas fa-globe"></i>
+          <select id="langSelect" aria-label="Language">
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <a href="contact.html"><i class="fas fa-phone-alt"></i> +212 5XX XX XX XX</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> contact@smartservices.ma</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN HEADER ===== -->
+  <header class="main-header" id="mainHeader">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="images/Assets/logo.png" alt="SMARTSERVICES Schools Logo" class="logo-image">
+        <span class="logo-text">Smart Services<br>Schools</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="active" data-i18n="nav.home">Accueil</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="fonctionnement.html" data-i18n="nav.howItWorks">Fonctionnement</a>
+        <a href="contact.html" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="header-actions" id="headerActions">
+        <!-- Auth state is managed dynamically by auth.js -->
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-subtitle" data-i18n="hero.subtitle">SMARTSERVICES Schools</span>
+        <h1 data-i18n-html="hero.indexTitle">Tous les services de votre établissement... <span class="orange">en un seul endroit.</span></h1>
+        <p class="hero-description">
+          <span data-i18n="hero.indexDesc">Une plateforme B2B dédiée aux écoles publiques, privées et établissements d'enseignement au Maroc. 
+          Centralisez toutes vos demandes de services opérationnels et simplifiez votre gestion.</span>
+        </p>
+        <div class="hero-actions" id="heroActions">
+          <div id="heroAuthButtons" style="display: flex; gap: 12px;">
+            <button type="button" class="btn btn-primary" id="heroSignupBtn" data-i18n="hero.createAccount">Créer un compte</button>
+            <button type="button" class="btn btn-outline" id="heroLoginBtn" data-i18n="hero.signIn">Se connecter</button>
+          </div>
+          <a href="app.html" class="btn btn-primary" id="heroDashboardBtn" style="display: none;"><i class="fas fa-th-large"></i> <span>Tableau de bord</span></a>
+          <a href="#services" class="btn btn-outline"><i class="fas fa-bolt"></i> <span data-i18n="hero.quickRequest">Demande rapide</span></a>
+        </div>
+      </div>
+      <div class="hero-image-wrapper">
+        <img 
+          src="images/Assets/servis.jpeg" 
+          alt="SMARTSERVICES Schools - Établissement scolaire"
+          loading="lazy"
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES GRID ===== -->
+  <section class="levels section" id="services">
+    <div class="container">
+      <img src="images/Assets/logo2.png" alt="logo2" class="logo2-image">
+      <h2 class="section-title" data-i18n-html="services.sectionTitle">Nos <span class="orange">Services</span></h2>
+      <p class="section-subtitle"><span data-i18n="services.sectionSubtitle">Tous les services opérationnels dont votre établissement a besoin, réunis sur une seule plateforme.</span></p>
+      <div class="services-grid">
+        <div class="service-card" onclick="openServiceModal('supplies')">
+          <div class="service-image">
+            <img src="images/SchoolSupplies.png" alt="Fournitures de bureau" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-boxes"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.supplies.title">Fournitures de bureau</h3>
+            <p data-i18n="services.supplies.desc">Papeterie, cartouches d'encre, classeurs, fournitures administratives, mobilier de bureau.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('supplies')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('printing')">
+          <div class="service-image">
+            <img src="images/PrintingServices.png" alt="Services d'impression" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-print"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.printing.title">Services d'impression</h3>
+            <p data-i18n="services.printing.desc">Certificats, bannières, signalétique, flyers, cartes de visite, livres, impressions personnalisées.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('printing')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('events')">
+          <div class="service-image">
+            <img src="images/events.png" alt="Organisation d'événements" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-calendar-alt"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.events.title">Organisation d'événements</h3>
+            <p data-i18n="services.events.desc">Cérémonies, journées portes ouvertes, conférences, sorties scolaires, fêtes de fin d'année.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('events')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('gifts')">
+          <div class="service-image">
+            <img src="images/awards.png" alt="Cadeaux & Récompenses scolaires" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-gift"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.gifts.title">Cadeaux & Récompenses scolaires</h3>
+            <p data-i18n="services.gifts.desc">Trophées, médailles, coupes, certificats, cadeaux de fin d'année, lots de remise des prix.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('gifts')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('giveaways')">
+          <div class="service-image">
+            <img src="images/Goodies_scolaires.png" alt="Goodies scolaires" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-tags"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.giveaways.title">Goodies scolaires</h3>
+            <p data-i18n="services.giveaways.desc">Articles personnalisés : cahiers, stylos, sacs, uniformes, vêtements aux couleurs de l'établissement.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('giveaways')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('repair')">
+          <div class="service-image">
+            <img src="images/CCTVFIX.png" alt="Réparation informatique & CCTV" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-laptop"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.repair.title">Réparation informatique & CCTV</h3>
+            <p data-i18n="services.repair.desc">Réparation d'ordinateurs, installation de caméras de surveillance, maintenance des équipements.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('repair')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('wifi')">
+          <div class="service-image">
+            <img src="images/Réparation réseau Wi-Fi.png" alt="Réparation réseau Wi-Fi" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-wifi"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.wifi.title">Réparation réseau Wi-Fi</h3>
+            <p data-i18n="services.wifi.desc">Installation, dépannage et optimisation du réseau Wi-Fi dans l'ensemble de l'établissement.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('wifi')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('photo')">
+          <div class="service-image">
+            <img src="images/Photographie & Documentation.png" alt="Photographie & Documentation" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-camera"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.photo.title">Photographie & Documentation</h3>
+            <p data-i18n="services.photo.desc">Photos scolaires, couverture d'événements, vidéos institutionnelles, documentation pédagogique.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('photo')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('printer')">
+          <div class="service-image">
+            <img src="images/Réparation informatique & CCTV.png" alt="Maintenance d'imprimantes" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-tools"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.printer.title">Maintenance d'imprimantes</h3>
+            <p data-i18n="services.printer.desc">Réparation, entretien, fourniture de pièces détachées et cartouches pour tous types d'imprimantes.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('printer')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('programming')">
+          <div class="service-image">
+            <img src="images/Programmation.png" alt="Programmation & Développement" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-code"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.programming.title">Programmation & Développement</h3>
+            <p data-i18n="services.programming.desc">Développement de sites web, applications mobiles, logiciels de gestion, solutions e-learning et plateformes sur mesure.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('programming')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card" onclick="openServiceModal('consulting')">
+          <div class="service-image">
+            <img src="images/Consulting.png" alt="Consulting" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-chart-line"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.consulting.title">Consulting</h3>
+            <p data-i18n="services.consulting.desc">Conseil en gestion scolaire, audit des processus, accompagnement à la transformation numérique.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('consulting')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+          </div>
+        </div>
+        <div class="service-card service-card-highlight" onclick="openServiceModal('custom')">
+          <div class="service-image">
+            <img src="images/Demander un service personnalisé.png" alt="Service personnalisé" loading="lazy">
+            <div class="service-icon-overlay"><i class="fas fa-plus-circle"></i></div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="services.custom.title">Demander un service personnalisé</h3>
+            <p data-i18n="services.custom.desc">Vous ne trouvez pas ce que vous cherchez ? Décrivez-nous votre besoin et nous vous trouverons la solution.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('custom')" class="btn btn-primary btn-sm" data-i18n="services.customRequestBtn">Faire une demande</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="about section">
+    <div class="container">
+      <h2 class="section-title" data-i18n-html="steps.sectionTitle">Comment ça <span class="orange">marche ?</span></h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+          <h3 data-i18n="steps.step1Title">Vous soumettez une demande</h3>
+          <p><span data-i18n="steps.step1Desc">Choisissez le service dont vous avez besoin et remplissez un formulaire simple et rapide.</span></p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon"><i class="fas fa-cogs"></i></div>
+          <h3 data-i18n="steps.step2Title">Nous gérons l'exécution</h3>
+          <p><span data-i18n="steps.step2Desc">Notre équipe prend en charge votre demande et coordonne les meilleurs prestataires.</span></p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+          <h3 data-i18n="steps.step3Title">Vous recevez votre service</h3>
+          <p><span data-i18n="steps.step3Desc">Suivez l'avancement de votre demande et recevez votre service dans les délais impartis.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== WHY SMARTSERVICES ===== -->
+  <section class="engagement section">
+    <div class="container">
+      <h2 class="section-title" data-i18n-html="benefits.sectionTitle">Pourquoi <span class="orange">SMARTSERVICES Schools ?</span></h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-clock"></i></div>
+          <h3 data-i18n="benefits.timeTitle">Gain de temps</h3>
+          <p><span data-i18n="benefits.timeDesc">Plus besoin de contacter plusieurs fournisseurs. Une seule plateforme pour tous vos besoins.</span></p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-hand-holding-usd"></i></div>
+          <h3 data-i18n="benefits.costTitle">Optimisation des coûts</h3>
+          <p><span data-i18n="benefits.costDesc">Des tarifs négociés grâce à notre réseau de partenaires et notre volume d'achats groupés.</span></p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-clipboard-check"></i></div>
+          <h3 data-i18n="benefits.trackingTitle">Suivi transparent</h3>
+          <p><span data-i18n="benefits.trackingDesc">Suivez l'état de toutes vos demandes en temps réel depuis votre tableau de bord.</span></p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-headset"></i></div>
+          <h3 data-i18n="benefits.supportTitle">Accompagnement dédié</h3>
+          <p><span data-i18n="benefits.supportDesc">Un responsable de compte dédié pour vous accompagner à chaque étape.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="instagram-banner">
+    <div class="container">
+      <h2 data-i18n="cta.title">Prêt à simplifier la gestion de votre établissement ?</h2>
+      <p data-i18n="cta.subtitle">Rejoignez les écoles qui nous font déjà confiance au Maroc.</p>
+      <a href="#" class="btn btn-primary"><span data-i18n="cta.btn">Créer un compte gratuitement</span> <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 16px;">
+            <img src="images/Assets/logo2.png" alt="logo2" class="logo-image">
+            <span class="logo-text" style="color: white;">SMARTSERVICES<br>Schools</span>
+          </div>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6;"><span data-i18n="footer.desc">La plateforme B2B qui centralise tous les services opérationnels pour les établissements scolaires au Maroc.</span>
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.services">Services</h4>
+          <a href="services.html" data-i18n="services.supplies.title">Fournitures de bureau</a>
+          <a href="services.html" data-i18n="services.printing.title">Services d'impression</a>
+          <a href="services.html" data-i18n="services.events.title">Événements</a>
+          <a href="services.html" data-i18n="services.gifts.title">Cadeaux & Récompenses</a>
+          <a href="services.html" data-i18n="services.giveaways.title">Goodies</a>
+          <a href="services.html" data-i18n="services.programming.title">Programmation & Développement</a>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.company">Entreprise</h4>
+          <a href="index.html" data-i18n="footer.about">À propos</a>
+          <a href="fonctionnement.html" data-i18n="footer.howItWorks">Comment ça marche</a>
+          <a href="contact.html" data-i18n="nav.contact">Contact</a>
+          <a href="faq.html" data-i18n="footer.faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.contact">Contact</h4>
+          <span><i class="fas fa-phone-alt"></i> +212 5XX XX XX XX</span>
+          <span><i class="fas fa-envelope"></i> contact@smartservices.ma</span>
+          <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.location">Tanger, Maroc</span></span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">WEB DEVELOPMENT & WEB HOSTING BY Akram Zekri</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== AUTH MESSAGE MODAL ===== -->
+  <div class="modal-overlay auth-message-modal" id="authMessageModal">
+    <div class="modal-content auth-message-content">
+      <div class="auth-message-body">
+        <i class="auth-message-icon fas fa-exclamation-circle"></i>
+        <p id="authMessageText">Message</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LOGIN MODAL ===== -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-content modal-content-sm">
+      <div class="modal-header">
+        <h2 data-i18n="auth.loginTitle">Connexion</h2>
+        <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleLogin(event)" class="auth-form">
+          <div class="form-group">
+            <label data-i18n="auth.email">Email</label>
+            <input type="email" id="loginEmail" placeholder="votre@email.com" data-i18n-placeholder="auth.emailPlaceholder" required>
+          </div>
+          <div class="form-group">
+            <label data-i18n="auth.password">Mot de passe</label>
+            <input type="password" id="loginPassword" placeholder="Votre mot de passe" data-i18n-placeholder="auth.passwordPlaceholder" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+            <i class="fas fa-sign-in-alt"></i> <span data-i18n="auth.loginBtn">Se connecter</span>
+          </button>
+          <p class="auth-switch">
+            <span data-i18n="auth.noAccount">Pas encore de compte ?</span> <button type="button" class="link-btn" onclick="switchToSignup()" data-i18n="nav.signup">Créer un compte</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SIGNUP MODAL ===== -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 data-i18n="auth.signupTitle">Créer un compte</h2>
+        <button class="modal-close" onclick="closeSignupModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleSignup(event)" class="auth-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="auth.fullName">Nom complet</label>
+              <input type="text" id="signupFullName" placeholder="Votre nom" data-i18n-placeholder="auth.namePlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.school">Établissement</label>
+              <input type="text" id="signupSchoolName" placeholder="Nom de l'école" data-i18n-placeholder="auth.schoolPlaceholder" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="auth.email">Email</label>
+              <input type="email" id="signupEmail" placeholder="votre@email.com" data-i18n-placeholder="auth.emailPlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.phone">Téléphone</label>
+              <input type="tel" id="signupPhone" placeholder="+212 6XX XX XX XX" data-i18n-placeholder="auth.phonePlaceholder" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="auth.password">Mot de passe</label>
+              <input type="password" id="signupPassword" placeholder="Min. 6 caractères" data-i18n-placeholder="auth.passwordMinPlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.confirmPassword">Confirmer le mot de passe</label>
+              <input type="password" id="signupConfirmPassword" placeholder="Répétez le mot de passe" data-i18n-placeholder="auth.confirmPlaceholder" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+            <i class="fas fa-user-plus"></i> <span data-i18n="auth.signupBtn">Créer mon compte</span>
+          </button>
+          <p class="auth-switch">
+            <span data-i18n="auth.hasAccount">Déjà un compte ?</span> <button type="button" class="link-btn" onclick="switchToLogin()" data-i18n="auth.loginBtn">Se connecter</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SERVICE REQUEST MODAL ===== -->
+  <div class="modal-overlay" id="serviceModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle" data-i18n="form.newRequest">Nouvelle demande</h2>
+        <button class="modal-close" onclick="closeServiceModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="request-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.schoolName">Nom de l'établissement</label>
+              <input type="text" id="modalSchoolName" placeholder="Ex: Groupe Scolaire L'Univers" data-i18n-placeholder="form.schoolPlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="form.city">Ville</label>
+              <input type="text" id="modalSchoolCity" placeholder="Ex: Casablanca" data-i18n-placeholder="form.cityPlaceholder" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.contactName">Nom du contact</label>
+              <input type="text" id="modalContactName" placeholder="Votre nom" data-i18n-placeholder="auth.namePlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.phone">Téléphone</label>
+              <input type="tel" id="modalContactPhone" placeholder="+212 6XX XX XX XX" data-i18n-placeholder="auth.phonePlaceholder" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="auth.email">Email</label>
+            <input type="email" id="modalContactEmail" placeholder="contact@etablissement.ma" data-i18n-placeholder="form.emailPlaceholder" required>
+          </div>
+          <div class="form-group" id="modalServiceSpecificFields">
+            <!-- Dynamic fields will be injected here -->
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.description">Description détaillée du besoin</label>
+            <textarea id="modalRequestDescription" placeholder="Décrivez précisément ce dont vous avez besoin..." data-i18n-placeholder="form.descPlaceholder"></textarea>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.attachFiles">Joindre des documents (PDF, Images)</label>
+            <div class="upload-area" id="uploadArea">
+              <input type="file" id="modalRequestFiles" multiple accept=".pdf,.png,.jpg,.jpeg,.gif,.webp">
+              <i class="fas fa-cloud-upload-alt upload-icon"></i>
+              <p class="upload-text" data-i18n="form.uploadText">Glissez vos fichiers ici ou cliquez pour parcourir</p>
+              <p class="upload-hint" data-i18n="form.uploadHint">PDF, PNG, JPG, JPEG, GIF, WEBP (max 10MB par fichier)</p>
+            </div>
+            <div class="file-preview-grid" id="filePreviewGrid"></div>
+            <div class="upload-message" id="uploadMessage"></div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.desiredDate">Date souhaitée</label>
+            <input type="date" id="modalRequestDate">
+          </div>
+          <button class="btn btn-primary" onclick="submitModalRequest()"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">Soumettre la demande</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="js/config-loader.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/file-upload.js"></script>
+  <script>
+    // Service-specific form fields (same as app.html)
+    const modalServiceFields = {
+      gifts: `
+        <label data-i18n="formFields.rewardType">Type de récompense souhaitée</label>
+        <select>
+          <option data-i18n="options.trophies">Trophées</option>
+          <option data-i18n="options.medals">Médailles</option>
+          <option data-i18n="options.cups">Coupes</option>
+          <option data-i18n="options.certificates">Certificats</option>
+          <option data-i18n="options.prizePacks">Lots de remise des prix</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <input type="number" placeholder="Ex: 50">
+      `,
+      supplies: `
+        <label data-i18n="formFields.suppliesType">Type de fournitures</label>
+        <select>
+          <option data-i18n="options.stationery">Papeterie</option>
+          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
+          <option data-i18n="options.bindersStorage">Classeurs et rangement</option>
+          <option data-i18n="options.officeFurniture">Mobilier de bureau</option>
+          <option data-i18n="options.adminSupplies">Fournitures administratives</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
+        <input type="number" placeholder="Ex: 5000">
+      `,
+      giveaways: `
+        <label data-i18n="formFields.articleType">Type d'article</label>
+        <select>
+          <option data-i18n="options.customNotebooks">Cahiers personnalisés</option>
+          <option data-i18n="options.customPens">Stylos personnalisés</option>
+          <option data-i18n="options.customBags">Sacs personnalisés</option>
+          <option data-i18n="options.uniforms">Uniformes</option>
+          <option data-i18n="options.brandedClothes">Vêtements aux couleurs de l'établissement</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <input type="number" placeholder="Ex: 200">
+      `,
+      printing: `
+        <label data-i18n="formFields.printType">Type d'impression</label>
+        <select>
+          <option data-i18n="options.certificates">Certificats</option>
+          <option data-i18n="options.banners">Bannières</option>
+          <option data-i18n="options.signage">Signalétique</option>
+          <option data-i18n="options.flyers">Flyers</option>
+          <option data-i18n="options.businessCards">Cartes de visite</option>
+          <option data-i18n="options.books">Livres</option>
+          <option data-i18n="options.customPrints">Impressions personnalisées</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <input type="number" placeholder="Ex: 100">
+      `,
+      events: `
+        <label data-i18n="formFields.eventType">Type d'événement</label>
+        <select>
+          <option data-i18n="options.awardCeremony">Cérémonie de remise des prix</option>
+          <option data-i18n="options.openDay">Journée portes ouvertes</option>
+          <option data-i18n="options.conference">Conférence</option>
+          <option data-i18n="options.schoolTrip">Sortie scolaire</option>
+          <option data-i18n="options.yearEndParty">Fête de fin d'année</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedParticipants">Nombre de participants estimé</label>
+        <input type="number" placeholder="Ex: 300">
+      `,
+      repair: `
+        <label data-i18n="formFields.equipmentType">Type d'équipement</label>
+        <select>
+          <option data-i18n="options.desktopComputer">Ordinateur fixe</option>
+          <option data-i18n="options.laptop">Ordinateur portable</option>
+          <option data-i18n="options.securityCamera">Caméra de surveillance</option>
+          <option data-i18n="options.networkEquipment">Équipement réseau</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.equipmentCount">Nombre d'équipements</label>
+        <input type="number" placeholder="Ex: 10">
+      `,
+      wifi: `
+        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <select>
+          <option data-i18n="options.newInstallation">Nouvelle installation</option>
+          <option data-i18n="options.troubleshooting">Dépannage</option>
+          <option data-i18n="options.networkOptimization">Optimisation du réseau</option>
+          <option data-i18n="options.coverageExtension">Extension de couverture</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.coverageSurface">Surface à couvrir (m²)</label>
+        <input type="number" placeholder="Ex: 500">
+      `,
+      photo: `
+        <label data-i18n="formFields.prestationType">Type de prestation</label>
+        <select>
+          <option data-i18n="options.schoolPhotos">Photos scolaires</option>
+          <option data-i18n="options.eventCoverage">Couverture d'événement</option>
+          <option data-i18n="options.institutionalVideo">Vidéo institutionnelle</option>
+          <option data-i18n="options.educationalDocumentation">Documentation pédagogique</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedHours">Durée estimée (heures)</label>
+        <input type="number" placeholder="Ex: 4">
+      `,
+      printer: `
+        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <select>
+          <option data-i18n="options.repair">Réparation</option>
+          <option data-i18n="options.preventiveMaintenance">Entretien préventif</option>
+          <option data-i18n="options.spareParts">Fourniture de pièces</option>
+          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.printerCount">Nombre d'imprimantes</label>
+        <input type="number" placeholder="Ex: 5">
+      `,
+      programming: `
+        <label data-i18n="formFields.prestationType">Type de développement</label>
+        <select>
+          <option>Développement de site web</option>
+          <option>Application mobile</option>
+          <option>Logiciel de gestion</option>
+          <option>Solution e-learning</option>
+          <option>Plateforme sur mesure</option>
+          <option>Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
+        <input type="number" placeholder="Ex: 15000">
+      `,
+      consulting: `
+        <label data-i18n="formFields.consultingDomain">Domaine de consulting</label>
+        <select>
+          <option data-i18n="options.schoolManagement">Gestion scolaire</option>
+          <option data-i18n="options.processAudit">Audit des processus</option>
+          <option data-i18n="options.digitalTransformation">Transformation numérique</option>
+          <option data-i18n="options.staffTraining">Formation du personnel</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedDays">Durée estimée (jours)</label>
+        <input type="number" placeholder="Ex: 5">
+      `,
+      custom: `
+        <label data-i18n="formFields.serviceCategory">Catégorie du service</label>
+        <select>
+          <option data-i18n="options.generalServices">Services généraux</option>
+          <option data-i18n="options.equipment">Équipement</option>
+          <option data-i18n="options.training">Formation</option>
+          <option data-i18n="options.maintenance">Maintenance</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+      `
+    };
+
+    const modalServiceNames = {
+      gifts: 'Cadeaux & Récompenses scolaires',
+      supplies: 'Fournitures de bureau',
+      giveaways: 'Goodies scolaires',
+      printing: "Services d'impression",
+      events: "Organisation d'événements",
+      repair: 'Réparation informatique & CCTV',
+      wifi: 'Réparation réseau Wi-Fi',
+      photo: 'Photographie & Documentation',
+      printer: "Maintenance d'imprimantes",
+      programming: 'Programmation & Développement',
+      consulting: 'Consulting',
+      custom: 'Service personnalisé'
+    };
+
+    let currentService = null;
+
+    function openServiceModal(service) {
+      currentService = service;
+      document.getElementById('modalTitle').textContent = 'Demande : ' + (modalServiceNames[service] || 'Service');
+      document.getElementById('modalServiceSpecificFields').innerHTML = modalServiceFields[service] || '';
+      document.getElementById('serviceModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeServiceModal() {
+      document.getElementById('serviceModal').classList.remove('open');
+      document.body.style.overflow = '';
+      currentService = null;
+    }
+
+    // Close modal on overlay click
+    document.getElementById('serviceModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeServiceModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeServiceModal();
+      }
+    });
+
+    function submitModalRequest() {
+      alert('Votre demande a été soumise avec succès ! Un responsable SMARTSERVICES vous contactera dans les plus brefs délais.');
+      closeServiceModal();
+    }
+
+    // ===== HERO SECTION AUTH TOGGLE =====
+    function updateHeroAuthUI() {
+      const isLoggedIn = window.__auth && window.__auth.isLoggedIn();
+      const heroAuthBtns = document.getElementById('heroAuthButtons');
+      const heroDashboardBtn = document.getElementById('heroDashboardBtn');
+      if (heroAuthBtns && heroDashboardBtn) {
+        if (isLoggedIn) {
+          heroAuthBtns.style.display = 'none';
+          heroDashboardBtn.style.display = 'inline-flex';
+        } else {
+          heroAuthBtns.style.display = 'flex';
+          heroDashboardBtn.style.display = 'none';
+        }
+      }
+    }
+
+    // Listen for auth state changes to update hero section
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initial check after auth is ready
+      setTimeout(updateHeroAuthUI, 500);
+      // Listen for auth changes
+      if (window.__auth) {
+        window.__auth.onAuthChange(function(event) {
+          if (event === 'login' || event === 'logout') {
+            updateHeroAuthUI();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

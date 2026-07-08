@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMARTSERVICES Schools - Services</title>
+  <meta data-i18n-page-title="meta.appTitle">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <div class="lang-selector">
+          <i class="fas fa-globe"></i>
+          <select id="langSelect" aria-label="Language">
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+      <div class="top-bar-right" id="topBarAuth">
+        <a href="#" id="topBarBell"><i class="fas fa-bell"></i></a>
+        <!-- Auth state is managed dynamically by auth.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN HEADER ===== -->
+  <header class="main-header" id="mainHeader">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="images/Assets/logo2.png" alt="logo2" class="logo-image">
+          </div>
+        <span class="logo-text">SMARTSERVICES<br>Schools</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" data-i18n="nav.home">Accueil</a>
+        <a href="app.html" class="active" data-i18n="app.sidebarServices">Services</a>
+        <a href="app.html" data-i18n="app.sidebarRequests">Mes demandes</a>
+        <a href="app.html" data-i18n="app.sidebarInvoices">Factures</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#" class="btn btn-outline btn-sm" id="headerProfileBtn"><i class="fas fa-user"></i> <span data-i18n="nav.myProfile">Mon profil</span></a>
+        <a href="#" class="btn btn-primary btn-sm" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== APP CONTAINER ===== -->
+  <div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-menu">
+        <a href="#" class="active" data-view="services"><i class="fas fa-th-large"></i> <span data-i18n="app.sidebarServices">Services</span></a>
+        <a href="#" data-view="requests"><i class="fas fa-file-alt"></i> <span data-i18n="app.sidebarRequests">Mes demandes</span></a>
+        <a href="#" data-view="invoices"><i class="fas fa-file-invoice"></i> <span data-i18n="app.sidebarInvoices">Factures</span></a>
+        <a href="app.html" data-view="archives"><i class="fas fa-archive"></i> <span data-i18n="app.sidebarArchives">Archives</span></a>
+        <a href="app.html" data-view="profile"><i class="fas fa-user-cog"></i> <span data-i18n="app.sidebarProfile">Profil</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i> <span data-i18n="app.sidebarLogout">Déconnexion</span></a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+
+      <!-- Services View (Default) -->
+      <div id="servicesView">
+        <div class="app-header">
+          <h1 data-i18n="app.ourServices">Nos Services</h1>
+          <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> <span data-i18n="hero.quickRequest">Demande rapide</span></a>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card" onclick="openForm('supplies')">
+            <div class="service-image">
+              <img src="images/SchoolSupplies.png" alt="Fournitures de bureau" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-boxes"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.supplies.title">Fournitures de bureau</h3>
+              <p data-i18n="services.supplies.desc">Papeterie, cartouches d'encre, classeurs, fournitures administratives, mobilier de bureau.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('printing')">
+            <div class="service-image">
+              <img src="images/PrintingServices.png" alt="Services d'impression" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-print"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.printing.title">Services d'impression</h3>
+              <p data-i18n="services.printing.desc">Certificats, bannières, signalétique, flyers, cartes de visite, livres, impressions personnalisées.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('events')">
+            <div class="service-image">
+              <img src="images/events.png" alt="Organisation d'événements" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-calendar-alt"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.events.title">Organisation d'événements</h3>
+              <p data-i18n="services.events.desc">Cérémonies, journées portes ouvertes, conférences, sorties scolaires, fêtes de fin d'année.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('gifts')">
+            <div class="service-image">
+              <img src="images/awards.png" alt="Cadeaux & Récompenses scolaires" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-gift"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.gifts.title">Cadeaux & Récompenses scolaires</h3>
+              <p data-i18n="services.gifts.desc">Trophées, médailles, coupes, certificats, cadeaux de fin d'année, lots de remise des prix.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('giveaways')">
+            <div class="service-image">
+              <img src="images/awards2.png" alt="Goodies scolaires" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-tags"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.giveaways.title">Goodies scolaires</h3>
+              <p data-i18n="services.giveaways.desc">Articles personnalisés : cahiers, stylos, sacs, uniformes, vêtements aux couleurs de l'établissement.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('repair')">
+            <div class="service-image">
+              <img src="images/PrintingServices.png" alt="Réparation informatique & CCTV" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-laptop"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.repair.title">Réparation informatique & CCTV</h3>
+              <p data-i18n="services.repair.desc">Réparation d'ordinateurs, installation de caméras de surveillance, maintenance des équipements.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('wifi')">
+            <div class="service-image">
+              <img src="images/PrintingServices.png" alt="Réparation réseau Wi-Fi" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-wifi"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.wifi.title">Réparation réseau Wi-Fi</h3>
+              <p data-i18n="services.wifi.desc">Installation, dépannage et optimisation du réseau Wi-Fi dans l'ensemble de l'établissement.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('photo')">
+            <div class="service-image">
+              <img src="images/events.png" alt="Photographie & Documentation" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-camera"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.photo.title">Photographie & Documentation</h3>
+              <p data-i18n="services.photo.desc">Photos scolaires, couverture d'événements, vidéos institutionnelles, documentation pédagogique.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('printer')">
+            <div class="service-image">
+              <img src="images/PrintingServices.png" alt="Maintenance d'imprimantes" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-tools"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.printer.title">Maintenance d'imprimantes</h3>
+              <p data-i18n="services.printer.desc">Réparation, entretien, fourniture de pièces détachées et cartouches pour tous types d'imprimantes.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('programming')">
+            <div class="service-image">
+              <img src="images/Programmation.png" alt="Programmation & Développement" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-code"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.programming.title">Programmation & Développement</h3>
+              <p data-i18n="services.programming.desc">Développement de sites web, applications mobiles, logiciels de gestion, solutions e-learning et plateformes sur mesure.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card" onclick="openForm('consulting')">
+            <div class="service-image">
+              <img src="images/SchoolSupplies.png" alt="Consulting" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-chart-line"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.consulting.title">Consulting</h3>
+              <p data-i18n="services.consulting.desc">Conseil en gestion scolaire, audit des processus, accompagnement à la transformation numérique.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            </div>
+          </div>
+          <div class="service-card service-card-highlight" onclick="openForm('custom')">
+            <div class="service-image">
+              <img src="images/awards.png" alt="Service personnalisé" loading="lazy">
+              <div class="service-icon-overlay"><i class="fas fa-plus-circle"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 data-i18n="services.custom.title">Demander un service personnalisé</h3>
+              <p data-i18n="services.custom.desc">Vous ne trouvez pas ce que vous cherchez ? Décrivez-nous votre besoin et nous vous trouverons la solution.</p>
+              <button class="btn btn-primary btn-sm" data-i18n="services.customRequestBtn">Faire une demande</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request Form View (hidden by default) -->
+      <div id="formView" style="display: none;">
+        <div class="app-header">
+          <h1 id="formTitle" data-i18n="form.newRequest">Nouvelle demande</h1>
+          <button class="btn btn-outline btn-sm" onclick="backToServices()"><i class="fas fa-arrow-left"></i> <span data-i18n="form.backToServices">Retour aux services</span></button>
+        </div>
+
+        <div class="request-form" id="requestForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.schoolName">Nom de l'établissement</label>
+              <input type="text" id="schoolName" placeholder="Ex: Groupe Scolaire L'Univers" data-i18n-placeholder="form.schoolPlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="form.city">Ville</label>
+              <input type="text" id="schoolCity" placeholder="Ex: Casablanca" data-i18n-placeholder="form.cityPlaceholder" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.contactName">Nom du contact</label>
+              <input type="text" id="contactName" placeholder="Votre nom" data-i18n-placeholder="auth.namePlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.phone">Téléphone</label>
+              <input type="tel" id="contactPhone" placeholder="+212 6XX XX XX XX" data-i18n-placeholder="auth.phonePlaceholder" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="auth.email">Email</label>
+            <input type="email" id="contactEmail" placeholder="contact@etablissement.ma" data-i18n-placeholder="form.emailPlaceholder" required>
+          </div>
+          <div class="form-group" id="serviceSpecificFields">
+            <!-- Dynamic fields will be injected here -->
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.description">Description détaillée du besoin</label>
+            <textarea id="requestDescription" placeholder="Décrivez précisément ce dont vous avez besoin..." data-i18n-placeholder="form.descPlaceholder"></textarea>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.attachFiles">Joindre des documents (PDF, Images)</label>
+            <div class="upload-area" id="uploadAreaApp">
+              <input type="file" id="requestFiles" multiple accept=".pdf,.png,.jpg,.jpeg,.gif,.webp">
+              <i class="fas fa-cloud-upload-alt upload-icon"></i>
+              <p class="upload-text" data-i18n="form.uploadText">Glissez vos fichiers ici ou cliquez pour parcourir</p>
+              <p class="upload-hint" data-i18n="form.uploadHint">PDF, PNG, JPG, JPEG, GIF, WEBP (max 10MB par fichier)</p>
+            </div>
+            <div class="file-preview-grid" id="filePreviewGridApp"></div>
+            <div class="upload-message" id="uploadMessageApp"></div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.desiredDate">Date souhaitée</label>
+            <input type="date" id="requestDate">
+          </div>
+          <button class="btn btn-primary" onclick="submitRequest()"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">Soumettre la demande</span></button>
+        </div>
+      </div>
+
+      <!-- My Requests View (hidden by default) -->
+      <div id="requestsView" style="display: none;">
+        <div class="app-header">
+          <h1 data-i18n="app.myRequests">Mes demandes</h1>
+        </div>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="app.requestNum">N° Demande</th>
+                <th data-i18n="app.service">Service</th>
+                <th data-i18n="app.submitDate">Date de soumission</th>
+                <th data-i18n="app.status">Statut</th>
+                <th>Devis</th>
+                <th data-i18n="app.action">Action</th>
+              </tr>
+            </thead>
+            <tbody id="requestsBody">
+              <!-- Requests loaded dynamically from the database -->
+            </tbody>
+          </table>
+          <div id="requestsEmpty" class="empty-state" style="display: none;">
+            <i class="fas fa-inbox"></i>
+            <h3 data-i18n="app.noRequests">Aucune demande pour le moment</h3>
+            <p data-i18n="app.noRequestsDesc">Les demandes que vous soumettez apparaîtront ici. Commencez par parcourir nos services.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoices View (hidden by default) -->
+      <div id="invoicesView" style="display: none;">
+        <div class="app-header">
+          <h1 data-i18n="app.invoices">Factures</h1>
+        </div>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="app.invoiceNum">N° Facture</th>
+                <th data-i18n="app.service">Service</th>
+                <th data-i18n="app.date">Date</th>
+                <th data-i18n="app.amount">Montant</th>
+                <th data-i18n="app.paymentStatus">Statut paiement</th>
+                <th data-i18n="app.action">Action</th>
+              </tr>
+            </thead>
+            <tbody id="invoicesBody">
+              <!-- Invoices loaded dynamically from the database -->
+            </tbody>
+          </table>
+          <div id="invoicesEmpty" class="empty-state" style="display: none;">
+            <i class="fas fa-file-invoice"></i>
+            <h3 data-i18n="app.noInvoices">Aucune facture pour le moment</h3>
+            <p data-i18n="app.noInvoicesDesc">Les factures liées à vos demandes apparaîtront ici une fois traitées.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile View (hidden by default) -->
+      <div id="profileView" style="display: none;">
+        <div class="app-header">
+          <h1 data-i18n="app.profile">Profil de l'établissement</h1>
+        </div>
+        <div class="profile-card">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.schoolName">Nom de l'établissement</label>
+              <input type="text" value="Groupe Scolaire L'Univers" placeholder="Nom de l'établissement">
+            </div>
+            <div class="form-group">
+              <label data-i18n="app.schoolType">Type d'établissement</label>
+              <select>
+                <option data-i18n="options.privateSchool">École privée</option>
+                <option data-i18n="options.publicSchool">École publique</option>
+                <option data-i18n="options.trainingInstitute">Institut de formation</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="app.directorName">Nom du directeur</label>
+              <input type="text" value="M. Ahmed Benali" placeholder="Nom du directeur">
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.phone">Téléphone</label>
+              <input type="tel" value="+212 6XX XX XX XX" placeholder="Téléphone">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="app.secondaryPhone">Téléphone secondaire</label>
+              <input type="tel" placeholder="Téléphone secondaire">
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.email">Email</label>
+              <input type="email" value="contact@univers.ma" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.city">Ville</label>
+            <input type="text" value="Casablanca" placeholder="Ville">
+          </div>
+          <div class="form-group">
+            <label data-i18n="app.address">Adresse</label>
+            <input type="text" value="123, Avenue Mohammed V" placeholder="Adresse complète">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="app.preferredLang">Langue préférée</label>
+              <select>
+                <option data-i18n="options.french">Français</option>
+                <option data-i18n="options.arabic">العربية</option>
+                <option data-i18n="options.english">English</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label data-i18n="auth.password">Mot de passe</label>
+              <input type="password" value="********" placeholder="Nouveau mot de passe">
+            </div>
+          </div>
+          <button class="btn btn-primary"><i class="fas fa-save"></i> <span data-i18n="app.saveChanges">Enregistrer les modifications</span></button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="js/config-loader.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/file-upload.js"></script>
+  <script>
+    // ===== GLOBAL FUNCTIONS =====
+    function viewRequestDetails(id) {
+      alert('Détails de la demande #' + id + ' - Fonctionnalité à venir.');
+    }
+    function downloadInvoice(id) {
+      alert('Téléchargement de la facture #' + id + ' - Fonctionnalité à venir.');
+    }
+
+    // ===== LOGOUT HELPER =====
+    function performLogout() {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      window.location.href = 'index.html';
+    }
+
+    // ===== AUTH GUARD & APP INIT =====
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Production-grade auth guard: verify session with Supabase before rendering
+      const authenticated = await window.__auth?.requireAuth('index.html');
+      if (!authenticated) return;
+
+      // Auth verified — now initialize the UI
+      const user = window.__auth?.getCurrentUser();
+      const storedUser = localStorage.getItem('auth_user');
+      let displayName = 'Mon compte';
+      if (user) {
+        displayName = user.user_metadata?.full_name || user.full_name || user.email?.split('@')[0] || 'Mon compte';
+      } else if (storedUser) {
+        try {
+          const u = JSON.parse(storedUser);
+          displayName = u.full_name || u.email?.split('@')[0] || 'Mon compte';
+        } catch(e) {}
+      }
+
+      // Update top bar with user name
+      const accountLink = document.getElementById('topBarAccount');
+      if (accountLink) {
+        accountLink.style.display = 'inline-flex';
+        const nameSpan = accountLink.querySelector('.auth-user-name');
+        if (nameSpan) nameSpan.textContent = displayName;
+      }
+      const loginLink = document.getElementById('topBarLoginLink');
+      if (loginLink) loginLink.style.display = 'none';
+
+      // "Mon compte" → open profile view
+      document.getElementById('topBarAccount')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
+        if (profileLink) profileLink.click();
+      });
+
+      // Header "Mon profil" → open profile view
+      document.getElementById('headerProfileBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
+        if (profileLink) profileLink.click();
+      });
+
+      // Déconnexion buttons — use proper Supabase logout
+      document.getElementById('headerLogoutBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (window.__auth?.handleLogout) window.__auth.handleLogout();
+        else performLogout();
+      });
+      document.querySelectorAll('.sidebar-menu a[href="index.html"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+          if (this.querySelector('.fa-sign-out-alt')) {
+            e.preventDefault();
+            if (window.__auth?.handleLogout) window.__auth.handleLogout();
+            else performLogout();
+          }
+        });
+      });
+
+      // Listen for session expiration events
+      window.__auth?.onAuthChange((event, user) => {
+        if (event === 'logout') {
+          window.location.href = 'index.html';
+        }
+      });
+
+      // Auto-open form from URL parameter
+      const params = new URLSearchParams(window.location.search);
+      const service = params.get('service');
+      if (service && serviceFields[service]) {
+        openForm(service);
+      }
+    });
+
+    // ===== APP VIEW NAVIGATION =====
+    document.querySelectorAll('.sidebar-menu a[data-view]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.sidebar-menu a').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+
+        document.getElementById('servicesView').style.display = 'none';
+        document.getElementById('formView').style.display = 'none';
+        document.getElementById('requestsView').style.display = 'none';
+        document.getElementById('invoicesView').style.display = 'none';
+        document.getElementById('profileView').style.display = 'none';
+
+        const view = this.dataset.view;
+        if (view === 'services') {
+          document.getElementById('servicesView').style.display = 'block';
+        } else if (view === 'requests' || view === 'archives') {
+          document.getElementById('requestsView').style.display = 'block';
+          loadRequests();
+        } else if (view === 'invoices') {
+          document.getElementById('invoicesView').style.display = 'block';
+          loadInvoices();
+        } else if (view === 'profile') {
+          document.getElementById('profileView').style.display = 'block';
+        }
+      });
+    });
+
+    // ===== LOAD REQUESTS FROM SUPABASE =====
+    async function loadRequests() {
+      const tbody = document.getElementById('requestsBody');
+      const empty = document.getElementById('requestsEmpty');
+      tbody.innerHTML = '';
+      empty.style.display = 'none';
+
+      try {
+        const supabase = window.__supabase?.getClient();
+        if (!supabase) { empty.style.display = 'block'; return; }
+
+        const { data: requests, error } = await supabase
+          .from('requests')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!requests || requests.length === 0) { empty.style.display = 'block'; return; }
+
+        empty.style.display = 'none';
+        requests.forEach(req => {
+          const cls = req.status === 'completed' ? 'status-completed' :
+                      req.status === 'in_progress' ? 'status-progress' :
+                      req.status === 'approved' ? 'status-completed' :
+                      req.status === 'rejected' ? 'status-cancelled' :
+                      req.status === 'cancelled' ? 'status-cancelled' : 'status-new';
+          const lbl = req.status === 'completed' ? 'Terminé' :
+                      req.status === 'in_progress' ? 'En cours' :
+                      req.status === 'approved' ? 'Validé' :
+                      req.status === 'rejected' ? 'Refusé' :
+                      req.status === 'cancelled' ? 'Annulé' : 'En attente';
+          const hasDevis = req.quotation_url && req.quotation_url.trim() !== '';
+          const devisHtml = hasDevis
+            ? `<a href="${req.quotation_url}" target="_blank" class="btn-devis-view" style="color: #059669; font-weight: 600; text-decoration: none;"><i class="fas fa-file-pdf"></i> Voir le devis</a>`
+            : `<span style="color: #94a3b8; font-size: 0.85rem;">Aucun devis</span>`;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td><strong>${req.request_number || '#'+req.id}</strong></td>
+            <td>${req.service_name || '-'}</td>
+            <td>${req.created_at ? new Date(req.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+            <td><span class="status-badge ${cls}">${lbl}</span></td>
+            <td>${devisHtml}</td>
+            <td><button class="btn-view" onclick="viewRequestDetails('${req.id}')">Voir détails</button></td>`;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('loadRequests error:', err);
+        empty.style.display = 'block';
+      }
+    }
+
+    // ===== LOAD INVOICES FROM SUPABASE =====
+    async function loadInvoices() {
+      const tbody = document.getElementById('invoicesBody');
+      const empty = document.getElementById('invoicesEmpty');
+      tbody.innerHTML = '';
+      empty.style.display = 'none';
+
+      try {
+        const supabase = window.__supabase?.getClient();
+        if (!supabase) { empty.style.display = 'block'; return; }
+
+        const { data: invoices, error } = await supabase
+          .from('invoices')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        if (!invoices || invoices.length === 0) { empty.style.display = 'block'; return; }
+
+        empty.style.display = 'none';
+        invoices.forEach(inv => {
+          const cls = inv.payment_status === 'paid' ? 'payment-paid' :
+                      inv.payment_status === 'overdue' ? 'payment-overdue' : 'payment-pending';
+          const lbl = inv.payment_status === 'paid' ? 'Payé' :
+                      inv.payment_status === 'overdue' ? 'En retard' : 'En attente';
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td><strong>${inv.reference || '#'+inv.id}</strong></td>
+            <td>${inv.service_name || '-'}</td>
+            <td>${inv.date ? new Date(inv.date).toLocaleDateString('fr-FR') : '-'}</td>
+            <td>${inv.amount ? Number(inv.amount).toLocaleString('fr-FR',{minimumFractionDigits:2})+' MAD' : '-'}</td>
+            <td><span class="${cls}">${lbl}</span></td>
+            <td><button class="btn-download" onclick="downloadInvoice('${inv.id}')"><i class="fas fa-download"></i> PDF</button></td>`;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('loadInvoices error:', err);
+        empty.style.display = 'block';
+      }
+    }
+
+    // Service-specific form fields
+    const serviceFields = {
+      gifts: `
+        <label data-i18n="formFields.rewardType">Type de récompense souhaitée</label>
+        <select>
+          <option data-i18n="options.trophies">Trophées</option>
+          <option data-i18n="options.medals">Médailles</option>
+          <option data-i18n="options.cups">Coupes</option>
+          <option data-i18n="options.certificates">Certificats</option>
+          <option data-i18n="options.prizePacks">Lots de remise des prix</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <input type="number" placeholder="Ex: 50">
+      `,
+      supplies: `
+        <label data-i18n="formFields.suppliesType">Type de fournitures</label>
+        <select>
+          <option data-i18n="options.stationery">Papeterie</option>
+          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
+          <option data-i18n="options.bindersStorage">Classeurs et rangement</option>
+          <option data-i18n="options.officeFurniture">Mobilier de bureau</option>
+          <option data-i18n="options.adminSupplies">Fournitures administratives</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
+        <input type="number" placeholder="Ex: 5000">
+      `,
+      giveaways: `
+        <label data-i18n="formFields.articleType">Type d'article</label>
+        <select>
+          <option data-i18n="options.customNotebooks">Cahiers personnalisés</option>
+          <option data-i18n="options.customPens">Stylos personnalisés</option>
+          <option data-i18n="options.customBags">Sacs personnalisés</option>
+          <option data-i18n="options.uniforms">Uniformes</option>
+          <option data-i18n="options.brandedClothes">Vêtements aux couleurs de l'établissement</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <input type="number" placeholder="Ex: 200">
+      `,
+      printing: `
+        <label data-i18n="formFields.printType">Type d'impression</label>
+        <select>
+          <option data-i18n="options.certificates">Certificats</option>
+          <option data-i18n="options.banners">Bannières</option>
+          <option data-i18n="options.signage">Signalétique</option>
+          <option data-i18n="options.flyers">Flyers</option>
+          <option data-i18n="options.businessCards">Cartes de visite</option>
+          <option data-i18n="options.books">Livres</option>
+          <option data-i18n="options.customPrints">Impressions personnalisées</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <input type="number" placeholder="Ex: 100">
+      `,
+      events: `
+        <label data-i18n="formFields.eventType">Type d'événement</label>
+        <select>
+          <option data-i18n="options.awardCeremony">Cérémonie de remise des prix</option>
+          <option data-i18n="options.openDay">Journée portes ouvertes</option>
+          <option data-i18n="options.conference">Conférence</option>
+          <option data-i18n="options.schoolTrip">Sortie scolaire</option>
+          <option data-i18n="options.yearEndParty">Fête de fin d'année</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedParticipants">Nombre de participants estimé</label>
+        <input type="number" placeholder="Ex: 300">
+      `,
+      repair: `
+        <label data-i18n="formFields.equipmentType">Type d'équipement</label>
+        <select>
+          <option data-i18n="options.desktopComputer">Ordinateur fixe</option>
+          <option data-i18n="options.laptop">Ordinateur portable</option>
+          <option data-i18n="options.securityCamera">Caméra de surveillance</option>
+          <option data-i18n="options.networkEquipment">Équipement réseau</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.equipmentCount">Nombre d'équipements</label>
+        <input type="number" placeholder="Ex: 10">
+      `,
+      wifi: `
+        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <select>
+          <option data-i18n="options.newInstallation">Nouvelle installation</option>
+          <option data-i18n="options.troubleshooting">Dépannage</option>
+          <option data-i18n="options.networkOptimization">Optimisation du réseau</option>
+          <option data-i18n="options.coverageExtension">Extension de couverture</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.coverageSurface">Surface à couvrir (m²)</label>
+        <input type="number" placeholder="Ex: 500">
+      `,
+      photo: `
+        <label data-i18n="formFields.prestationType">Type de prestation</label>
+        <select>
+          <option data-i18n="options.schoolPhotos">Photos scolaires</option>
+          <option data-i18n="options.eventCoverage">Couverture d'événement</option>
+          <option data-i18n="options.institutionalVideo">Vidéo institutionnelle</option>
+          <option data-i18n="options.educationalDocumentation">Documentation pédagogique</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedHours">Durée estimée (heures)</label>
+        <input type="number" placeholder="Ex: 4">
+      `,
+      printer: `
+        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <select>
+          <option data-i18n="options.repair">Réparation</option>
+          <option data-i18n="options.preventiveMaintenance">Entretien préventif</option>
+          <option data-i18n="options.spareParts">Fourniture de pièces</option>
+          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.printerCount">Nombre d'imprimantes</label>
+        <input type="number" placeholder="Ex: 5">
+      `,
+      programming: `
+        <label data-i18n="formFields.prestationType">Type de développement</label>
+        <select>
+          <option>Développement de site web</option>
+          <option>Application mobile</option>
+          <option>Logiciel de gestion</option>
+          <option>Solution e-learning</option>
+          <option>Plateforme sur mesure</option>
+          <option>Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
+        <input type="number" placeholder="Ex: 15000">
+      `,
+      consulting: `
+        <label data-i18n="formFields.consultingDomain">Domaine de consulting</label>
+        <select>
+          <option data-i18n="options.schoolManagement">Gestion scolaire</option>
+          <option data-i18n="options.processAudit">Audit des processus</option>
+          <option data-i18n="options.digitalTransformation">Transformation numérique</option>
+          <option data-i18n="options.staffTraining">Formation du personnel</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedDays">Durée estimée (jours)</label>
+        <input type="number" placeholder="Ex: 5">
+      `,
+      custom: `
+        <label data-i18n="formFields.serviceCategory">Catégorie du service</label>
+        <select>
+          <option data-i18n="options.generalServices">Services généraux</option>
+          <option data-i18n="options.equipment">Équipement</option>
+          <option data-i18n="options.training">Formation</option>
+          <option data-i18n="options.maintenance">Maintenance</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+      `
+    };
+
+    const serviceNames = {
+      gifts: 'Cadeaux & Récompenses scolaires',
+      supplies: 'Fournitures de bureau',
+      giveaways: 'Goodies scolaires',
+      printing: "Services d'impression",
+      events: "Organisation d'événements",
+      repair: 'Réparation informatique & CCTV',
+      wifi: 'Réparation réseau Wi-Fi',
+      photo: 'Photographie & Documentation',
+      printer: "Maintenance d'imprimantes",
+      programming: 'Programmation & Développement',
+      consulting: 'Consulting',
+      custom: 'Service personnalisé'
+    };
+
+    function openForm(service) {
+      document.getElementById('servicesView').style.display = 'none';
+      document.getElementById('formView').style.display = 'block';
+      document.getElementById('formTitle').textContent = (window.I18n ? I18n.t('form.requestPrefix') : 'Demande : ') + serviceNames[service];
+      document.getElementById('serviceSpecificFields').innerHTML = serviceFields[service] || '';
+
+      // Store current service being requested
+      window.currentServiceKey = service;
+
+      if (window.I18n) I18n.applyTranslations();
+      if (window.I18n) I18n.applyTranslations();
+    }
+
+    function backToServices() {
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('servicesView').style.display = 'block';
+      window.currentServiceKey = null;
+    }
+
+    // ===== SUCCESS MODAL HTML (injected once) =====
+    (function injectModal() {
+      if (document.getElementById('successModalApp')) return;
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div id="successModalApp" class="modal-overlay">
+          <div class="modal-content modal-content-sm">
+            <div class="modal-body" style="text-align:center;padding:40px 30px;">
+              <div style="font-size:4rem;color:var(--primary);margin-bottom:16px;">&#10003;</div>
+              <h2 id="successModalTitle" style="font-size:1.5rem;font-weight:800;margin-bottom:12px;color:var(--secondary);" data-i18n="form.successTitle">Demande soumise avec succès</h2>
+              <p id="successModalMsg" style="color:var(--text-light);font-size:1rem;line-height:1.6;margin-bottom:24px;" data-i18n="form.successMsg">Votre demande a été soumise avec succès ! Un responsable SMARTSERVICES vous contactera dans les plus brefs délais.</p>
+              <button class="btn btn-primary" onclick="closeSuccessModal()"><span data-i18n="form.backToServices">Retour aux services</span></button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(div.firstElementChild);
+    })();
+
+    function closeSuccessModal() {
+      document.getElementById('successModalApp').classList.remove('open');
+      backToServices();
+    }
+
+    async function submitRequest() {
+      // Collect form data
+      const schoolName = document.getElementById('schoolName').value.trim();
+      const city = document.getElementById('schoolCity').value.trim();
+      const contactName = document.getElementById('contactName').value.trim();
+      const phone = document.getElementById('contactPhone').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const description = document.getElementById('requestDescription').value.trim();
+      const desiredDate = document.getElementById('requestDate').value;
+
+      if (!schoolName || !contactName || !phone || !email) {
+        alert('Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
+
+      try {
+        const supabase = window.__supabase?.getClient();
+        if (!supabase) {
+          // No Supabase configured — show success anyway (simulated)
+          const modal = document.getElementById('successModalApp');
+          if (modal) modal.classList.add('open');
+          return;
+        }
+
+        // Get current service being requested
+        const currentServiceKey = window.currentServiceKey || 'custom';
+        const currentServiceName = serviceNames[currentServiceKey] || 'Service personnalisé';
+
+        // Get current user
+        const user = window.__auth?.getCurrentUser();
+        const userId = user?.id || null;
+
+        const { data, error } = await supabase
+          .from('requests')
+          .insert([
+            {
+              user_id: userId,
+              service_key: currentServiceKey,
+              service_name: currentServiceName,
+              school_name: schoolName,
+              city: city,
+              contact_name: contactName,
+              contact_phone: phone,
+              contact_email: email,
+              description: description,
+              requested_date: desiredDate || null,
+              status: 'pending',
+              created_at: new Date().toISOString()
+            }
+          ])
+          .select();
+
+        if (error) throw error;
+
+        // Show success modal
+        const modal = document.getElementById('successModalApp');
+        if (modal) modal.classList.add('open');
+
+        // Clear current service
+        window.currentServiceKey = null;
+
+      } catch (err) {
+        console.error('Submit error:', err);
+        alert('Erreur lors de la soumission : ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

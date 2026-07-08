@@ -1,0 +1,120 @@
+/**
+ * SMARTSERVICES Schools - Request & Invoice Controller
+ */
+
+const requestService = require('../services/request.service');
+
+class RequestController {
+  async getRequests(req, res, next) {
+    try {
+      const limit = parseInt(req.query.limit) || 50;
+      const offset = parseInt(req.query.offset) || 0;
+      const search = req.query.search || '';
+      const status = req.query.status || null;
+
+      const userId = req.user.id;
+      const role = req.user.role;
+
+      const result = await requestService.listRequests(
+        { limit, offset, search, status },
+        userId,
+        role
+      );
+
+      return res.status(200).json({
+        success: true,
+        data: result.data,
+        total: result.total,
+        limit,
+        offset
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getRequestById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const request = await requestService.getRequestDetails(id);
+      
+      if (!request) {
+        return res.status(404).json({ success: false, error: 'Request not found' });
+      }
+
+      // Authorization check
+      if (req.user.role === 'user' && request.user_id !== req.user.id) {
+        return res.status(403).json({ success: false, error: 'Access Denied' });
+      }
+
+      return res.status(200).json({ success: true, data: request });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async createRequest(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const request = await requestService.createRequest(req.body, userId);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Request submitted successfully',
+        data: request
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateRequestStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { status, notes } = req.body;
+      const userId = req.user.id;
+
+      if (!status) {
+        return res.status(400).json({ success: false, error: 'Status is required' });
+      }
+
+      const updated = await requestService.updateRequestStatus(id, status, notes, userId);
+      return res.status(200).json({
+        success: true,
+        message: 'Request status updated successfully',
+        data: updated
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getInvoices(req, res, next) {
+    try {
+      const limit = parseInt(req.query.limit) || 50;
+      const offset = parseInt(req.query.offset) || 0;
+      const status = req.query.status || null;
+
+      const userId = req.user.id;
+      const role = req.user.role;
+
+      const result = await requestService.listInvoices(
+        { limit, offset, status },
+        userId,
+        role
+      );
+
+      return res.status(200).json({
+        success: true,
+        data: result.data,
+        total: result.total,
+        limit,
+        offset
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+}
+
+module.exports = new RequestController();
