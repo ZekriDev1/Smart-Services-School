@@ -49,26 +49,21 @@ class AuthService {
     // Resolve profile details from DB
     const profile = await userRepository.findById(data.user.id);
 
-    return {
-      session: {
-        access_token: data.session.access_token,
-        refresh_token: data.session.refresh_token,
-        expires_at: data.session.expires_at
-      },
-      user: profile || {
-        id: data.user.id,
-        email: data.user.email,
-        role: 'user'
-      }
-    };
-  }
+     return {
+       session: {
+         access_token: data.session.access_token,
+         refresh_token: data.session.refresh_token,
+         expires_at: data.session.expires_at
+       },
+       user: profile || {
+         id: data.user.id,
+         email: data.user.email
+       }
+     };
+   }
 
   async logout(token) {
     logger.info(`Logging out session`);
-    
-    // We can sign out via the Supabase client admin.
-    // Note: The global client with authorization header token is used.
-    // But since supabase client is initialized as a server client, we can call:
     const { error } = await supabase.auth.signOut(token);
     if (error) throw error;
     return true;

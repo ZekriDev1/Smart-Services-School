@@ -33,12 +33,12 @@ class RequestService {
     return requestRepository.findById(id);
   }
 
-  async listRequests(filters, userId, role) {
-    return requestRepository.listAll(filters, userId, role);
+  async listRequests(filters, userId) {
+    return requestRepository.listAll(filters, userId);
   }
 
-  async listInvoices(filters, userId, role) {
-    return invoiceRepository.listAll(filters, userId, role);
+  async listInvoices(filters, userId) {
+    return invoiceRepository.listAll(filters, userId);
   }
 
   async updateRequestStatus(id, status, notes, userId) {
@@ -53,11 +53,10 @@ class RequestService {
 
     // If status is updated to completed, check and update the associated invoice status
     if (status === 'completed') {
-      const { data: invoices } = await invoiceRepository.listAll({ limit: 10 }, request.user_id, 'user');
+      const { data: invoices } = await invoiceRepository.listAll({ limit: 10 }, request.user_id);
       const requestInvoice = invoices.find(inv => inv.request_id === id);
       if (requestInvoice && requestInvoice.status === 'pending') {
-        // Auto mark as paid for demonstration or let it be. Let's keep it pending or mark as paid.
-        // We will keep it as is or update it based on needs.
+        // Auto mark as paid for demonstration or let it be.
       }
     }
 

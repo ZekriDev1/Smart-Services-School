@@ -1,5 +1,5 @@
 /**
- * SMARTSERVICES Schools - Auth & RBAC Middleware
+ * SMARTSERVICES Schools - Auth Middleware
  */
 
 const { supabase } = require('../config/db');
@@ -24,19 +24,18 @@ async function requireAuth(req, res, next) {
       return res.status(401).json({ success: false, error: 'Invalid or expired session token' });
     }
 
-    // Load profile role from DB
+    // Load profile from DB
     const { data: profile, error: profileError } = await supabase
       .from('users')
-      .select('id, email, role, full_name, school_name')
+      .select('id, email, full_name, school_name')
       .eq('id', user.id)
       .single();
 
     if (profileError || !profile) {
-      logger.warn(`Auth user ${user.id} has no public profile. Defaulting to user role.`);
+      logger.warn(`Auth user ${user.id} has no public profile.`);
       req.user = {
         id: user.id,
-        email: user.email,
-        role: 'user'
+        email: user.email
       };
     } else {
       req.user = profile;
@@ -49,28 +48,6 @@ async function requireAuth(req, res, next) {
   }
 }
 
-/**
- * Middleware: Enforce Role-Based Access Control (RBAC)
- */
-function requireRole(allowedRoles = []) {
-  return (req, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({ success: false, error: 'Authentication required' });
-    }
-
-    const hasRole = allowedRoles.includes(req.user.role);
-    if (!hasRole) {
-      return res.status(403).json({ 
-        success: false, 
-        error: `Access Denied: Required role [${allowedRoles.join(', ')}], current role [${req.user.role}]` 
-      });
-    }
-
-    next();
-  };
-}
-
 module.exports = {
-  requireAuth,
-  requireRole
+  requireAuth
 };

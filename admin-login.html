@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Admin - SMARTSERVICES Schools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .admin-login-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    .admin-login-logo {
+      margin-bottom: 30px;
+    }
+    .admin-login-logo img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .admin-login-logo h1 {
+      font-size: 1.5rem;
+      color: #1e293b;
+      margin: 0;
+      font-weight: 800;
+    }
+    .admin-login-logo p {
+      color: #64748b;
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+    }
+    .auth-form .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .auth-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #334155;
+    }
+    .auth-form input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .auth-form input:focus {
+      outline: none;
+      border-color: #f97316;
+      box-shadow: 0 0 0 3px rgba(249, 115, 18, 0.1);
+    }
+    .auth-form input::placeholder {
+      color: #94a3b8;
+    }
+    .btn-admin-login {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-admin-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(249, 115, 18, 0.3);
+    }
+    .btn-admin-login:active {
+      transform: translateY(0);
+    }
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 0.9rem;
+    }
+    .loading-spinner {
+      display: none;
+    }
+    .loading-spinner.show {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-login-container">
+    <div class="admin-login-logo">
+      <img src="images/Assets/logo2.png" alt="SMARTSERVICES Schools">
+      <h1>SMARTSERVICES Schools</h1>
+      <p>Espace Administration</p>
+    </div>
+
+    <div class="error-message" id="errorMessage">
+      <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+    </div>
+
+    <form id="adminLoginForm" class="auth-form" novalidate>
+      <div class="form-group">
+        <label for="adminEmail">Email administrateur</label>
+        <input type="email" id="adminEmail" placeholder="admin@smartservices.ma" required>
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Mot de passe</label>
+        <input type="password" id="adminPassword" placeholder="Mot de passe" required>
+      </div>
+      <button type="submit" class="btn-admin-login">
+        <span class="loading-spinner" id="loadingSpinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </span>
+        <span id="buttonText"><i class="fas fa-sign-in-alt"></i> Se connecter</span>
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // ===== HARDCODED ADMIN CREDENTIALS =====
+    const ADMIN_EMAIL = 'admin@smartservices.ma';
+    const ADMIN_PASSWORD = 'G12345678';
+
+    // ===== HANDLE LOGIN SUBMISSION =====
+    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      
+      document.getElementById('loadingSpinner').classList.add('show');
+      document.getElementById('buttonText').style.opacity = '0';
+      
+      // Simulate network delay
+      setTimeout(() => {
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+          // Store admin session
+          localStorage.setItem('adminSession', JSON.stringify({
+            email: ADMIN_EMAIL,
+            loginTime: new Date().toISOString()
+          }));
+          
+          // Redirect to admin panel
+          window.location.href = 'admin.html';
+        } else {
+          document.getElementById('loadingSpinner').classList.remove('show');
+          document.getElementById('buttonText').style.opacity = '1';
+          showError('Email ou mot de passe incorrect.');
+        }
+      }, 500);
+    });
+
+    function showError(message) {
+      const errorEl = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorEl.style.display = 'block';
+      
+      setTimeout(() => {
+        errorEl.style.display = 'none';
+      }, 5000);
+    }
+
+    // Check if already logged in
+    if (localStorage.getItem('adminSession')) {
+      window.location.href = 'admin.html';
+    }
+  </script>
+</body>
+</html>

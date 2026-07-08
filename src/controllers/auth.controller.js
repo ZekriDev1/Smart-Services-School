@@ -86,25 +86,6 @@ class AuthController {
       next(err);
     }
   }
-
-  async getUsers(req, res, next) {
-    try {
-      const limit = parseInt(req.query.limit) || 50;
-      const offset = parseInt(req.query.offset) || 0;
-      const search = req.query.search || '';
-      
-      const userRepository = require('../repositories/user.repository');
-      const result = await userRepository.listAll(limit, offset, search);
-      
-      return res.status(200).json({
-        success: true,
-        data: result.data,
-        total: result.total
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
 }
 
 module.exports = new AuthController();

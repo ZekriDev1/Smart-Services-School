@@ -19,12 +19,12 @@ class InvoiceRepository {
     return data;
   }
 
-  async listAll({ limit = 50, offset = 0, status = null }, userId = null, role = 'user') {
+  async listAll({ limit = 50, offset = 0, status = null }, userId = null) {
     let query = supabase
       .from('invoices')
       .select('*', { count: 'exact' });
 
-    if (role === 'user' && userId) {
+    if (userId) {
       query = query.eq('user_id', userId);
     }
 

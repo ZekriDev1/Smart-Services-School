@@ -19,13 +19,13 @@ class RequestRepository {
     return data;
   }
 
-  async listAll({ limit = 50, offset = 0, status = null, search = '' }, userId = null, role = 'user') {
+  async listAll({ limit = 50, offset = 0, status = null, search = '' }, userId = null) {
     let query = supabase
       .from('requests')
       .select('*', { count: 'exact' });
 
-    // Filter by user unless admin/superadmin
-    if (role === 'user' && userId) {
+    // Filter by user
+    if (userId) {
       query = query.eq('user_id', userId);
     }
 

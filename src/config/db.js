@@ -16,7 +16,7 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 }
 
 // Initialize Supabase Client.
-// Use service role key if available for server-side admin functions, fallback to anon key.
+// Use service role key if available for server-side operations (bypasses RLS), fallback to anon key.
 const supabaseAdminKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
 const supabase = createClient(SUPABASE_URL, supabaseAdminKey, {
   auth: {

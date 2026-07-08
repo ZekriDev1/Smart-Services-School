@@ -13,12 +13,10 @@ class RequestController {
       const status = req.query.status || null;
 
       const userId = req.user.id;
-      const role = req.user.role;
 
       const result = await requestService.listRequests(
         { limit, offset, search, status },
-        userId,
-        role
+        userId
       );
 
       return res.status(200).json({
@@ -42,8 +40,8 @@ class RequestController {
         return res.status(404).json({ success: false, error: 'Request not found' });
       }
 
-      // Authorization check
-      if (req.user.role === 'user' && request.user_id !== req.user.id) {
+      // Authorization check - users can only see their own requests
+      if (request.user_id !== req.user.id) {
         return res.status(403).json({ success: false, error: 'Access Denied' });
       }
 

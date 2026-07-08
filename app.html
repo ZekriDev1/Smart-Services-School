@@ -235,11 +235,11 @@
           <div class="form-row">
             <div class="form-group">
               <label data-i18n="form.schoolName">Nom de l'établissement</label>
-              <input type="text" id="schoolName" placeholder="Ex: Groupe Scolaire L'Univers" data-i18n-placeholder="form.schoolPlaceholder" required>
+              <input type="text" id="schoolName" placeholder="Nom de l'établissement" data-i18n-placeholder="form.schoolPlaceholder" required>
             </div>
             <div class="form-group">
               <label data-i18n="form.city">Ville</label>
-              <input type="text" id="schoolCity" placeholder="Ex: Casablanca" data-i18n-placeholder="form.cityPlaceholder" required>
+              <input type="text" id="schoolCity" placeholder="Ville" data-i18n-placeholder="form.cityPlaceholder" required>
             </div>
           </div>
           <div class="form-row">
@@ -249,19 +249,19 @@
             </div>
             <div class="form-group">
               <label data-i18n="auth.phone">Téléphone</label>
-              <input type="tel" id="contactPhone" placeholder="+212 6XX XX XX XX" data-i18n-placeholder="auth.phonePlaceholder" required>
+              <input type="tel" id="contactPhone" placeholder="Téléphone" data-i18n-placeholder="auth.phonePlaceholder" required>
             </div>
           </div>
           <div class="form-group">
             <label data-i18n="auth.email">Email</label>
-            <input type="email" id="contactEmail" placeholder="contact@etablissement.ma" data-i18n-placeholder="form.emailPlaceholder" required>
+            <input type="email" id="contactEmail" placeholder="Email" data-i18n-placeholder="form.emailPlaceholder" required>
           </div>
           <div class="form-group" id="serviceSpecificFields">
             <!-- Dynamic fields will be injected here -->
           </div>
           <div class="form-group">
             <label data-i18n="form.description">Description détaillée du besoin</label>
-            <textarea id="requestDescription" placeholder="Décrivez précisément ce dont vous avez besoin..." data-i18n-placeholder="form.descPlaceholder"></textarea>
+            <textarea id="requestDescription" placeholder="Description détaillée du besoin" data-i18n-placeholder="form.descPlaceholder"></textarea>
           </div>
           <div class="form-group">
             <label data-i18n="form.attachFiles">Joindre des documents (PDF, Images)</label>
@@ -349,7 +349,7 @@
           <div class="form-row">
             <div class="form-group">
               <label data-i18n="form.schoolName">Nom de l'établissement</label>
-              <input type="text" value="Groupe Scolaire L'Univers" placeholder="Nom de l'établissement">
+              <input type="text" placeholder="Nom de l'établissement" data-i18n-placeholder="form.schoolPlaceholder">
             </div>
             <div class="form-group">
               <label data-i18n="app.schoolType">Type d'établissement</label>
@@ -363,11 +363,11 @@
           <div class="form-row">
             <div class="form-group">
               <label data-i18n="app.directorName">Nom du directeur</label>
-              <input type="text" value="M. Ahmed Benali" placeholder="Nom du directeur">
+              <input type="text" placeholder="Nom du directeur" data-i18n-placeholder="app.directorName">
             </div>
             <div class="form-group">
               <label data-i18n="auth.phone">Téléphone</label>
-              <input type="tel" value="+212 6XX XX XX XX" placeholder="Téléphone">
+              <input type="tel" placeholder="Téléphone" data-i18n-placeholder="auth.phonePlaceholder">
             </div>
           </div>
           <div class="form-row">
@@ -377,16 +377,16 @@
             </div>
             <div class="form-group">
               <label data-i18n="auth.email">Email</label>
-              <input type="email" value="contact@univers.ma" placeholder="Email">
+              <input type="email" placeholder="Email" data-i18n-placeholder="form.emailPlaceholder">
             </div>
           </div>
           <div class="form-group">
             <label data-i18n="form.city">Ville</label>
-            <input type="text" value="Casablanca" placeholder="Ville">
+            <input type="text" placeholder="Ville" data-i18n-placeholder="form.cityPlaceholder">
           </div>
           <div class="form-group">
             <label data-i18n="app.address">Adresse</label>
-            <input type="text" value="123, Avenue Mohammed V" placeholder="Adresse complète">
+            <input type="text" placeholder="Adresse complète">
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -399,7 +399,7 @@
             </div>
             <div class="form-group">
               <label data-i18n="auth.password">Mot de passe</label>
-              <input type="password" value="********" placeholder="Nouveau mot de passe">
+              <input type="password" placeholder="Nouveau mot de passe">
             </div>
           </div>
           <button class="btn btn-primary"><i class="fas fa-save"></i> <span data-i18n="app.saveChanges">Enregistrer les modifications</span></button>
@@ -416,95 +416,124 @@
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/file-upload.js"></script>
-  <script>
-    // ===== GLOBAL FUNCTIONS =====
-    function viewRequestDetails(id) {
-      alert('Détails de la demande #' + id + ' - Fonctionnalité à venir.');
-    }
-    function downloadInvoice(id) {
-      alert('Téléchargement de la facture #' + id + ' - Fonctionnalité à venir.');
-    }
+<script>
+     // ===== GLOBAL FUNCTIONS =====
+     function viewRequestDetails(id) {
+       alert('Détails de la demande #' + id + ' - Fonctionnalité à venir.');
+     }
+     function downloadInvoice(id) {
+       alert('Téléchargement de la facture #' + id + ' - Fonctionnalité à venir.');
+     }
 
-    // ===== LOGOUT HELPER =====
-    function performLogout() {
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('auth_user');
-      window.location.href = 'index.html';
-    }
+     // ===== LOGOUT HELPER =====
+     function performLogout() {
+       localStorage.removeItem('auth_token');
+       localStorage.removeItem('auth_user');
+       window.location.href = 'index.html';
+     }
 
-    // ===== AUTH GUARD & APP INIT =====
-    document.addEventListener('DOMContentLoaded', async function() {
-      // Production-grade auth guard: verify session with Supabase before rendering
-      const authenticated = await window.__auth?.requireAuth('index.html');
-      if (!authenticated) return;
+     // ===== ADMIN CHECK =====
+     function isAdminUser() {
+       const storedUser = localStorage.getItem('auth_user');
+       if (storedUser) {
+         try {
+           const u = JSON.parse(storedUser);
+           return u.email === 'admin@smartservices.ma';
+         } catch(e) {}
+       }
+       return false;
+     }
 
-      // Auth verified — now initialize the UI
-      const user = window.__auth?.getCurrentUser();
-      const storedUser = localStorage.getItem('auth_user');
-      let displayName = 'Mon compte';
-      if (user) {
-        displayName = user.user_metadata?.full_name || user.full_name || user.email?.split('@')[0] || 'Mon compte';
-      } else if (storedUser) {
-        try {
-          const u = JSON.parse(storedUser);
-          displayName = u.full_name || u.email?.split('@')[0] || 'Mon compte';
-        } catch(e) {}
-      }
+     // ===== AUTH GUARD & APP INIT =====
+     document.addEventListener('DOMContentLoaded', async function() {
+       // Production-grade auth guard: verify session with Supabase before rendering
+       const authenticated = await window.__auth?.requireAuth('index.html');
+       if (!authenticated) return;
 
-      // Update top bar with user name
-      const accountLink = document.getElementById('topBarAccount');
-      if (accountLink) {
-        accountLink.style.display = 'inline-flex';
-        const nameSpan = accountLink.querySelector('.auth-user-name');
-        if (nameSpan) nameSpan.textContent = displayName;
-      }
-      const loginLink = document.getElementById('topBarLoginLink');
-      if (loginLink) loginLink.style.display = 'none';
+       // Auth verified — now initialize the UI
+       const user = window.__auth?.getCurrentUser();
+       const storedUser = localStorage.getItem('auth_user');
+       let displayName = 'Mon compte';
+       if (user) {
+         displayName = user.user_metadata?.full_name || user.full_name || user.email?.split('@')[0] || 'Mon compte';
+       } else if (storedUser) {
+         try {
+           const u = JSON.parse(storedUser);
+           displayName = u.full_name || u.email?.split('@')[0] || 'Mon compte';
+         } catch(e) {}
+       }
 
-      // "Mon compte" → open profile view
-      document.getElementById('topBarAccount')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
-        if (profileLink) profileLink.click();
-      });
+       // Update top bar with user name
+       const accountLink = document.getElementById('topBarAccount');
+       if (accountLink) {
+         accountLink.style.display = 'inline-flex';
+         const nameSpan = accountLink.querySelector('.auth-user-name');
+         if (nameSpan) nameSpan.textContent = displayName;
+       }
+       const loginLink = document.getElementById('topBarLoginLink');
+       if (loginLink) loginLink.style.display = 'none';
 
-      // Header "Mon profil" → open profile view
-      document.getElementById('headerProfileBtn')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
-        if (profileLink) profileLink.click();
-      });
+       // "Mon compte" → open profile view
+       document.getElementById('topBarAccount')?.addEventListener('click', function(e) {
+         e.preventDefault();
+         const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
+         if (profileLink) profileLink.click();
+       });
 
-      // Déconnexion buttons — use proper Supabase logout
-      document.getElementById('headerLogoutBtn')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (window.__auth?.handleLogout) window.__auth.handleLogout();
-        else performLogout();
-      });
-      document.querySelectorAll('.sidebar-menu a[href="index.html"]').forEach(a => {
-        a.addEventListener('click', function(e) {
-          if (this.querySelector('.fa-sign-out-alt')) {
-            e.preventDefault();
-            if (window.__auth?.handleLogout) window.__auth.handleLogout();
-            else performLogout();
-          }
-        });
-      });
+       // Header "Mon profil" → open profile view
+       document.getElementById('headerProfileBtn')?.addEventListener('click', function(e) {
+         e.preventDefault();
+         const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
+         if (profileLink) profileLink.click();
+       });
 
-      // Listen for session expiration events
-      window.__auth?.onAuthChange((event, user) => {
-        if (event === 'logout') {
-          window.location.href = 'index.html';
-        }
-      });
+       // Déconnexion buttons — use proper Supabase logout
+       document.getElementById('headerLogoutBtn')?.addEventListener('click', function(e) {
+         e.preventDefault();
+         if (window.__auth?.handleLogout) window.__auth.handleLogout();
+         else performLogout();
+       });
+       document.querySelectorAll('.sidebar-menu a[href="index.html"]').forEach(a => {
+         a.addEventListener('click', function(e) {
+           if (this.querySelector('.fa-sign-out-alt')) {
+             e.preventDefault();
+             if (window.__auth?.handleLogout) window.__auth.handleLogout();
+             else performLogout();
+           }
+         });
+       });
 
-      // Auto-open form from URL parameter
-      const params = new URLSearchParams(window.location.search);
-      const service = params.get('service');
-      if (service && serviceFields[service]) {
-        openForm(service);
-      }
-    });
+       // Add admin button for admin users (after profile link)
+       if (isAdminUser()) {
+         const sidebarMenu = document.querySelector('.sidebar-menu');
+         const profileLink = document.querySelector('.sidebar-menu a[data-view="profile"]');
+         if (sidebarMenu && profileLink) {
+           const adminLink = document.createElement('a');
+           adminLink.href = '#';
+           adminLink.innerHTML = '<i class="fas fa-user-shield"></i> <span>Administration</span>';
+           adminLink.onclick = function(e) {
+             e.preventDefault();
+             window.location.href = 'admin-login.html';
+           };
+           // Insert after profile link
+           profileLink.parentNode.insertBefore(adminLink, profileLink.nextSibling);
+         }
+       }
+
+       // Listen for session expiration events
+       window.__auth?.onAuthChange((event, user) => {
+         if (event === 'logout') {
+           window.location.href = 'index.html';
+         }
+       });
+
+       // Auto-open form from URL parameter
+       const params = new URLSearchParams(window.location.search);
+       const service = params.get('service');
+       if (service && serviceFields[service]) {
+         openForm(service);
+       }
+     });
 
     // ===== APP VIEW NAVIGATION =====
     document.querySelectorAll('.sidebar-menu a[data-view]').forEach(link => {
@@ -638,7 +667,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
-        <input type="number" placeholder="Ex: 50">
+        <input type="number" placeholder="Quantité estimée">
       `,
       supplies: `
         <label data-i18n="formFields.suppliesType">Type de fournitures</label>
@@ -651,7 +680,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
-        <input type="number" placeholder="Ex: 5000">
+        <input type="number" placeholder="Budget estimé">
       `,
       giveaways: `
         <label data-i18n="formFields.articleType">Type d'article</label>
@@ -664,7 +693,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
-        <input type="number" placeholder="Ex: 200">
+        <input type="number" placeholder="Quantité estimée">
       `,
       printing: `
         <label data-i18n="formFields.printType">Type d'impression</label>
@@ -678,7 +707,7 @@
           <option data-i18n="options.customPrints">Impressions personnalisées</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
-        <input type="number" placeholder="Ex: 100">
+        <input type="number" placeholder="Quantité estimée">
       `,
       events: `
         <label data-i18n="formFields.eventType">Type d'événement</label>
@@ -691,7 +720,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedParticipants">Nombre de participants estimé</label>
-        <input type="number" placeholder="Ex: 300">
+        <input type="number" placeholder="Participants estimés">
       `,
       repair: `
         <label data-i18n="formFields.equipmentType">Type d'équipement</label>
@@ -703,7 +732,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.equipmentCount">Nombre d'équipements</label>
-        <input type="number" placeholder="Ex: 10">
+        <input type="number" placeholder="Nombre d'équipements">
       `,
       wifi: `
         <label data-i18n="formFields.interventionType">Type d'intervention</label>
@@ -714,7 +743,7 @@
           <option data-i18n="options.coverageExtension">Extension de couverture</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.coverageSurface">Surface à couvrir (m²)</label>
-        <input type="number" placeholder="Ex: 500">
+        <input type="number" placeholder="Surface à couvrir">
       `,
       photo: `
         <label data-i18n="formFields.prestationType">Type de prestation</label>
@@ -726,7 +755,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedHours">Durée estimée (heures)</label>
-        <input type="number" placeholder="Ex: 4">
+        <input type="number" placeholder="Durée estimée">
       `,
       printer: `
         <label data-i18n="formFields.interventionType">Type d'intervention</label>
@@ -737,7 +766,7 @@
           <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.printerCount">Nombre d'imprimantes</label>
-        <input type="number" placeholder="Ex: 5">
+        <input type="number" placeholder="Nombre d'imprimantes">
       `,
       programming: `
         <label data-i18n="formFields.prestationType">Type de développement</label>
@@ -750,7 +779,7 @@
           <option>Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
-        <input type="number" placeholder="Ex: 15000">
+        <input type="number" placeholder="Budget estimé">
       `,
       consulting: `
         <label data-i18n="formFields.consultingDomain">Domaine de consulting</label>
@@ -762,7 +791,7 @@
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedDays">Durée estimée (jours)</label>
-        <input type="number" placeholder="Ex: 5">
+        <input type="number" placeholder="Durée estimée">
       `,
       custom: `
         <label data-i18n="formFields.serviceCategory">Catégorie du service</label>
@@ -835,7 +864,6 @@
     }
 
     async function submitRequest() {
-      // Collect form data
       const schoolName = document.getElementById('schoolName').value.trim();
       const city = document.getElementById('schoolCity').value.trim();
       const contactName = document.getElementById('contactName').value.trim();

@@ -5,12 +5,10 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  // ===== INTERNATIONALIZATION =====
   if (window.I18n) {
     I18n.init();
   }
 
-  // ===== MOBILE MENU TOGGLE =====
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
 
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
       spans.forEach(span => span.classList.toggle('active'));
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', function() {
         navLinks.classList.remove('open');
@@ -70,6 +67,24 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         mainHeader.classList.remove('scrolled');
       }
+    });
+  }
+
+  // ===== HERO AUTH BUTTONS =====
+  const heroSignupBtn = document.getElementById('heroSignupBtn');
+  const heroLoginBtn = document.getElementById('heroLoginBtn');
+
+  if (heroSignupBtn && typeof openSignupModal === 'function') {
+    heroSignupBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openSignupModal();
+    });
+  }
+
+  if (heroLoginBtn && typeof openLoginModal === 'function') {
+    heroLoginBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openLoginModal();
     });
   }
 

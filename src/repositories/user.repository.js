@@ -8,7 +8,7 @@ class UserRepository {
   async findById(id) {
     const { data, error } = await supabase
       .from('users')
-      .select('id, email, full_name, school_name, phone, role, avatar_url, created_at')
+      .select('id, email, full_name, school_name, phone, avatar_url, created_at')
       .eq('id', id)
       .single();
     
@@ -22,7 +22,7 @@ class UserRepository {
   async findByEmail(email) {
     const { data, error } = await supabase
       .from('users')
-      .select('id, email, full_name, school_name, phone, role, avatar_url, created_at')
+      .select('id, email, full_name, school_name, phone, avatar_url, created_at')
       .eq('email', email)
       .single();
     
@@ -42,8 +42,7 @@ class UserRepository {
           email: profileData.email,
           full_name: profileData.fullName || '',
           school_name: profileData.schoolName || '',
-          phone: profileData.phone || '',
-          role: profileData.role || 'user'
+          phone: profileData.phone || ''
         }
       ])
       .select()
@@ -73,7 +72,7 @@ class UserRepository {
   async listAll(limit = 50, offset = 0, search = '') {
     let query = supabase
       .from('users')
-      .select('id, email, full_name, school_name, phone, role, created_at', { count: 'exact' });
+      .select('id, email, full_name, school_name, phone, created_at', { count: 'exact' });
 
     if (search) {
       query = query.or(`email.ilike.%${search}%,full_name.ilike.%${search}%,school_name.ilike.%${search}%`);

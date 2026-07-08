@@ -998,6 +998,351 @@ html[lang="en"] .service-image::after {
   margin: 0;
 }
 
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 1024px) {
+  .hero .container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-image-wrapper {
+    order: -1;
+  }
+
+  .hero-image-wrapper img {
+    max-width: 80%;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Header */
+  .main-header {
+    padding: 12px 0;
+  }
+
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .logo-image {
+    width: 48px;
+    height: 48px;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 50px 0 40px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-image-wrapper img {
+    max-width: 60%;
+  }
+
+  /* Sections */
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Services */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .service-image {
+    height: 180px;
+  }
+
+  /* Steps */
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .step-card {
+    padding: 32px 24px;
+  }
+
+  /* Benefits */
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .benefit-card {
+    padding: 32px 24px;
+  }
+
+  /* CTA Banner */
+  .instagram-banner {
+    padding: 60px 0;
+  }
+
+  .instagram-banner h2 {
+    font-size: 2rem;
+  }
+
+  .instagram-banner p {
+    font-size: 1rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 48px 0 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-col a:hover {
+    padding-left: 0;
+  }
+
+  /* Modals */
+  .modal-content {
+    margin: 0 16px;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Top Bar */
+  .top-bar {
+    font-size: 0.75rem;
+  }
+
+  .top-bar-left,
+  .top-bar-right {
+    gap: 12px;
+  }
+
+  /* Header */
+  .main-header .container {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 40px 0 30px;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+  }
+
+  .hero-image-wrapper img {
+    max-width: 50%;
+  }
+
+  /* Sections */
+  .section {
+    padding: 50px 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  /* Service Cards */
+  .service-image {
+    height: 160px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-body h3 {
+    font-size: 1.1rem;
+  }
+
+  .card-body p {
+    font-size: 0.9rem;
+  }
+
+  /* Forms */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  /* Auth forms */
+  .auth-form .form-group {
+    margin-bottom: 16px;
+  }
+
+  /* CTA Banner */
+  .instagram-banner {
+    padding: 50px 0;
+  }
+
+  .instagram-banner h2 {
+    font-size: 1.75rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 40px 0 0;
+  }
+
+  .footer-col h4 {
+    font-size: 1rem;
+  }
+
+  .footer-col a {
+    font-size: 0.85rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+  }
+
+  /* Modals */
+  .modal-content-sm {
+    max-width: 100%;
+  }
+
+  .modal-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .auth-message-body {
+    padding: 24px 16px;
+  }
+
+  .auth-message-icon {
+    font-size: 3rem;
+  }
+
+  /* Devis cards */
+  .devis-card {
+    padding: 1rem;
+  }
+}
+
 /* ===== SCROLL TO TOP ===== */
 .scroll-to-top {
   position: fixed;
