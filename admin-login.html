@@ -10,109 +10,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    body {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding: 20px;
-    }
-    .admin-login-container {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      padding: 40px;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-    }
-    .admin-login-logo {
-      margin-bottom: 30px;
-    }
-    .admin-login-logo img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-    .admin-login-logo h1 {
-      font-size: 1.5rem;
-      color: #1e293b;
-      margin: 0;
-      font-weight: 800;
-    }
-    .admin-login-logo p {
-      color: #64748b;
-      margin: 5px 0 0;
-      font-size: 0.9rem;
-    }
-    .auth-form .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    .auth-form label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #334155;
-    }
-    .auth-form input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.2s;
-    }
-    .auth-form input:focus {
-      outline: none;
-      border-color: #f97316;
-      box-shadow: 0 0 0 3px rgba(249, 115, 18, 0.1);
-    }
-    .auth-form input::placeholder {
-      color: #94a3b8;
-    }
-    .btn-admin-login {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn-admin-login:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px -5px rgba(249, 115, 18, 0.3);
-    }
-    .btn-admin-login:active {
-      transform: translateY(0);
-    }
-    .error-message {
-      background: #fef2f2;
-      color: #dc2626;
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: none;
-      font-size: 0.9rem;
-    }
-    .loading-spinner {
-      display: none;
-    }
-    .loading-spinner.show {
-      display: inline-block;
-    }
+    body { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; }
+    .admin-login-container { background: white; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); padding: 40px; width: 100%; max-width: 420px; text-align: center; }
+    .admin-login-logo { margin-bottom: 30px; }
+    .admin-login-logo img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
+    .admin-login-logo h1 { font-size: 1.5rem; color: #1e293b; margin: 0; font-weight: 800; }
+    .admin-login-logo p { color: #64748b; margin: 5px 0 0; font-size: 0.9rem; }
+    .auth-form .form-group { margin-bottom: 20px; text-align: left; }
+    .auth-form label { display: block; margin-bottom: 8px; font-weight: 600; color: #334155; }
+    .auth-form input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; box-sizing: border-box; }
+    .auth-form input:focus { outline: none; border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,18,0.1); }
+    .auth-form input::placeholder { color: #94a3b8; }
+    .btn-admin-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-admin-login:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(249,115,18,0.3); }
+    .error-message { background: #fef2f2; color: #dc2626; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; display: none; font-size: 0.9rem; }
+    .loading-spinner { display: none; }
+    .loading-spinner.show { display: inline-block; }
+    .info-text { font-size: 0.85rem; color: #64748b; margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -129,29 +43,64 @@
 
     <form id="adminLoginForm" class="auth-form" novalidate>
       <div class="form-group">
-        <label for="adminEmail">Email administrateur</label>
-        <input type="email" id="adminEmail" placeholder="admin@smartservices.ma" required>
+        <label for="adminEmail">Email</label>
+        <input type="email" id="adminEmail" placeholder="votre@email.com" required>
       </div>
       <div class="form-group">
         <label for="adminPassword">Mot de passe</label>
         <input type="password" id="adminPassword" placeholder="Mot de passe" required>
       </div>
       <button type="submit" class="btn-admin-login">
-        <span class="loading-spinner" id="loadingSpinner">
-          <i class="fas fa-spinner fa-spin"></i>
-        </span>
+        <span class="loading-spinner" id="loadingSpinner"><i class="fas fa-spinner fa-spin"></i></span>
         <span id="buttonText"><i class="fas fa-sign-in-alt"></i> Se connecter</span>
       </button>
     </form>
+    <p class="info-text"><i class="fas fa-shield-alt"></i> Accès réservé aux administrateurs</p>
   </div>
 
+  <script src="js/config-loader.js"></script>
+  <script src="js/supabase.js"></script>
   <script>
-    // ===== HARDCODED ADMIN CREDENTIALS =====
-    const ADMIN_EMAIL = 'admin@smartservices.ma';
-    const ADMIN_PASSWORD = 'G12345678';
+    // ===== ADMIN LOGIN VIA SUPABASE AUTH + ROLE CHECK =====
+    const ADMIN_ROLES = ['super_admin', 'sales_manager', 'operations_manager', 'support_agent', 'technician', 'account_manager'];
 
-    // ===== HANDLE LOGIN SUBMISSION =====
-    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Check if already logged in with admin session
+      const adminSession = localStorage.getItem('adminSession');
+      if (adminSession) {
+        try {
+          const session = JSON.parse(adminSession);
+          if (session.role && ADMIN_ROLES.includes(session.role)) {
+            window.location.href = 'admin.html';
+            return;
+          }
+        } catch(e) {}
+      }
+
+      // Initialize Supabase
+      await window.__supabase.init();
+
+      // Hydrate with existing auth session if admin role
+      const supabase = window.__supabase.getClient();
+      if (supabase) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          const { data: userProfile } = await supabase
+            .from('users')
+            .select('id, email, full_name, role, account_status')
+            .eq('id', session.user.id)
+            .single();
+
+          if (userProfile && ADMIN_ROLES.includes(userProfile.role) && userProfile.account_status === 'active') {
+            localStorage.setItem('adminSession', JSON.stringify(userProfile));
+            window.location.href = 'admin.html';
+            return;
+          }
+        }
+      }
+    });
+
+    document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const email = document.getElementById('adminEmail').value.trim();
@@ -159,24 +108,82 @@
       
       document.getElementById('loadingSpinner').classList.add('show');
       document.getElementById('buttonText').style.opacity = '0';
-      
-      // Simulate network delay
-      setTimeout(() => {
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-          // Store admin session
-          localStorage.setItem('adminSession', JSON.stringify({
-            email: ADMIN_EMAIL,
-            loginTime: new Date().toISOString()
-          }));
-          
-          // Redirect to admin panel
-          window.location.href = 'admin.html';
-        } else {
-          document.getElementById('loadingSpinner').classList.remove('show');
-          document.getElementById('buttonText').style.opacity = '1';
-          showError('Email ou mot de passe incorrect.');
+
+      try {
+        const supabase = window.__supabase.getClient();
+        if (!supabase) {
+          showError('Service de connexion non disponible. Vérifiez la configuration Supabase.');
+          return;
         }
-      }, 500);
+
+        // Authenticate with Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (authError) throw authError;
+        if (!authData?.user) throw new Error('Échec de l\'authentification');
+
+        // Verify admin role in database
+        const { data: userProfile, error: profileError } = await supabase
+          .from('users')
+          .select('id, email, full_name, role, account_status')
+          .eq('id', authData.user.id)
+          .single();
+
+        if (profileError) {
+          // Profile might not exist yet, force create it
+          if (authData.user.email) {
+            await supabase.from('users').upsert({
+              id: authData.user.id,
+              email: authData.user.email,
+              full_name: authData.user.user_metadata?.full_name || authData.user.email?.split('@')[0] || 'Admin',
+              role: 'super_admin',
+              account_status: 'active'
+            }, { onConflict: 'id' });
+            // Re-fetch
+            const { data: retryProfile } = await supabase
+              .from('users')
+              .select('id, email, full_name, role, account_status')
+              .eq('id', authData.user.id)
+              .single();
+            
+            if (retryProfile && ADMIN_ROLES.includes(retryProfile.role)) {
+              localStorage.setItem('adminSession', JSON.stringify(retryProfile));
+              window.location.href = 'admin.html';
+              return;
+            }
+          }
+          throw new Error('Profil administrateur introuvable');
+        }
+
+        if (!ADMIN_ROLES.includes(userProfile.role)) {
+          await supabase.auth.signOut();
+          throw new Error('Accès refusé. Vous n\'avez pas les droits d\'administration.');
+        }
+
+        if (userProfile.account_status !== 'active') {
+          await supabase.auth.signOut();
+          throw new Error('Compte désactivé. Contactez un super administrateur.');
+        }
+
+        // Store admin session
+        localStorage.setItem('adminSession', JSON.stringify(userProfile));
+
+        // Also store auth tokens for API calls
+        if (authData.session?.access_token) {
+          localStorage.setItem('auth_token', authData.session.access_token);
+          localStorage.setItem('auth_user', JSON.stringify(userProfile));
+        }
+
+        window.location.href = 'admin.html';
+
+      } catch (error) {
+        document.getElementById('loadingSpinner').classList.remove('show');
+        document.getElementById('buttonText').style.opacity = '1';
+        showError(error.message || 'Erreur de connexion.');
+      }
     });
 
     function showError(message) {
@@ -184,15 +191,7 @@
       const errorText = document.getElementById('errorText');
       errorText.textContent = message;
       errorEl.style.display = 'block';
-      
-      setTimeout(() => {
-        errorEl.style.display = 'none';
-      }, 5000);
-    }
-
-    // Check if already logged in
-    if (localStorage.getItem('adminSession')) {
-      window.location.href = 'admin.html';
+      setTimeout(() => { errorEl.style.display = 'none'; }, 5000);
     }
   </script>
 </body>

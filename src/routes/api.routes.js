@@ -9,6 +9,7 @@ const authRoutes = require('./auth.routes');
 const productRoutes = require('./product.routes');
 const inventoryRoutes = require('./inventory.routes');
 const requestRoutes = require('./request.routes');
+const adminRoutes = require('./admin.routes');
 
 // Config endpoint (legacy/utility for configuration parameters mapping)
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
@@ -25,5 +26,6 @@ router.use('/auth', authRoutes);
 router.use('/products', productRoutes);
 router.use('/inventory', inventoryRoutes);
 router.use('/requests', requestRoutes);
+router.use('/admin', adminRoutes);
 
 module.exports = router;

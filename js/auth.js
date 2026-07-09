@@ -574,7 +574,9 @@ function showAuthSuccess(message) {
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
-  // Export all public functions
+
+  
+
   window.openLoginModal = openLoginModal;
   window.closeLoginModal = closeLoginModal;
   window.openSignupModal = openSignupModal;

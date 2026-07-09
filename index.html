@@ -698,10 +698,107 @@
       }
     });
 
-    function submitModalRequest() {
-      alert('Votre demande a été soumise avec succès ! Un responsable SMARTSERVICES vous contactera dans les plus brefs délais.');
-      closeServiceModal();
+    // ===== SUCCESS MODAL HTML (injected once) =====
+    (function injectModal() {
+      if (document.getElementById('successModalIndex')) return;
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div id="successModalIndex" class="modal-overlay">
+          <div class="modal-content modal-content-sm">
+            <div class="modal-body" style="text-align:center;padding:40px 30px;">
+              <div style="font-size:4rem;color:var(--primary);margin-bottom:16px;">&#10003;</div>
+              <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:12px;color:var(--secondary);">Demande soumise avec succès</h2>
+              <p style="color:var(--text-light);font-size:1rem;line-height:1.6;margin-bottom:24px;">Votre demande a été soumise avec succès ! Un responsable SMARTSERVICES vous contactera dans les plus brefs délais.</p>
+              <button class="btn btn-primary" onclick="closeSuccessModalIndex()">Retour aux services</button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(div.firstElementChild);
+    })();
+
+    function closeSuccessModalIndex() {
+      document.getElementById('successModalIndex').classList.remove('open');
     }
+
+    async function submitModalRequest() {
+      const schoolName = document.getElementById('modalSchoolName').value.trim();
+      const city = document.getElementById('modalSchoolCity').value.trim();
+      const contactName = document.getElementById('modalContactName').value.trim();
+      const phone = document.getElementById('modalContactPhone').value.trim();
+      const email = document.getElementById('modalContactEmail').value.trim();
+      const description = document.getElementById('modalRequestDescription').value.trim();
+      const desiredDate = document.getElementById('modalRequestDate').value;
+
+      if (!schoolName || !contactName || !phone || !email) {
+        alert('Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
+
+      try {
+        const supabase = window.__supabase?.getClient();
+        if (!supabase) {
+          alert('Service de soumission non disponible. Veuillez réessayer plus tard.');
+          return;
+        }
+
+        const currentServiceKey = currentService || 'custom';
+        const currentServiceName = modalServiceNames[currentServiceKey] || 'Service personnalisé';
+
+        const { data, error } = await supabase
+          .from('requests')
+          .insert([
+            {
+              user_id: null,
+              service_key: currentServiceKey,
+              service_name: currentServiceName,
+              school_name: schoolName,
+              city: city,
+              contact_name: contactName,
+              contact_phone: phone,
+              contact_email: email,
+              description: description,
+              requested_date: desiredDate || null,
+              status: 'pending',
+              created_at: new Date().toISOString()
+            }
+          ])
+          .select();
+
+        if (error) throw error;
+
+        // Close the service modal first
+        closeServiceModal();
+
+        // Show success modal
+        const modal = document.getElementById('successModalIndex');
+        if (modal) modal.classList.add('open');
+
+        // Reset form fields
+        document.getElementById('modalSchoolName').value = '';
+        document.getElementById('modalSchoolCity').value = '';
+        document.getElementById('modalContactName').value = '';
+        document.getElementById('modalContactPhone').value = '';
+        document.getElementById('modalContactEmail').value = '';
+        document.getElementById('modalRequestDescription').value = '';
+        document.getElementById('modalRequestDate').value = '';
+
+      } catch (err) {
+        console.error('Submit error:', err);
+        alert('Erreur lors de la soumission : ' + err.message);
+      }
+    }
+
+    // ===== ENSURE SUPABASE CLIENT INITIALIZED =====
+    (async function ensureSupabaseReady() {
+      try {
+        if (window.__supabase && !window.__supabase.getClient()) {
+          await window.__supabase.init();
+        }
+      } catch (e) {
+        console.warn('Supabase init deferred:', e.message);
+      }
+    })();
 
     // ===== HERO SECTION AUTH TOGGLE =====
     function updateHeroAuthUI() {

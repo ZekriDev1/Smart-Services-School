@@ -11,1115 +11,1597 @@
   <link rel="stylesheet" href="css/styles.css">
   <style>
     /* ===== ADMIN SPECIFIC STYLES ===== */
-    body {
-      background: var(--bg-light);
-      min-height: 100vh;
-      margin: 0;
-      font-family: var(--font-family);
-    }
-
-    /* Admin Header */
-    .admin-header {
-      background: var(--white);
-      border-bottom: 1px solid #e5e7eb;
-      padding: 16px 0;
-      margin-bottom: 0;
-    }
-
-    .admin-header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .admin-header .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .admin-header .logo-text {
-      font-size: 1.2rem;
-      font-weight: 900;
-      color: var(--secondary);
-    }
-
-    .admin-user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .admin-avatar {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-weight: 700;
-    }
-
-    .admin-details {
-      text-align: right;
-    }
-
-    .admin-details .role {
-      font-size: 0.85rem;
-      color: var(--text-light);
-    }
-
-    .admin-details .email {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--secondary);
-    }
-
-    /* App container adjustment */
-    .app-container {
-      min-height: calc(100vh - 80px);
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* Sidebar */
-    .app-sidebar {
-      width: 260px;
-    }
-
-    .sidebar-header {
-      padding: 0 24px 24px;
-      border-bottom: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-
-    .sidebar-header h3 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 16px;
-    }
-
-    .sidebar-menu {
-      gap: 4px;
-    }
-
-    .sidebar-menu a {
-      border-radius: 0;
-    }
-
-    .sidebar-menu a.active {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: var(--white);
-      border-left-color: var(--primary);
-    }
-
-    .sidebar-menu a.active i {
-      color: var(--white);
-    }
-
-    /* Stats Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .stat-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .stat-card .stat-icon {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-size: 1.5rem;
-      margin: 0 auto 16px;
-    }
-
-    .stat-card h3 {
-      margin: 0 0 10px 0;
-      color: var(--text-light);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--secondary);
-    }
-
-    /* Search Bar */
-    .search-bar {
-      margin-bottom: 24px;
-    }
-
-    .search-bar .form-group {
-      margin-bottom: 0;
-      position: relative;
-    }
-
-    .search-bar input {
-      padding-left: 40px;
-      max-width: 400px;
-    }
-
-    .search-bar i {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-light);
-    }
-
-    /* Table enhancements */
-    .data-table-wrapper {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-    }
-
-    .data-table thead th {
-      background: #f8fafc;
-    }
-
-    .user-avatar-small {
-      width: 32px;
-      height: 32px;
-      background: var(--secondary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    /* Status Dropdown */
-    .status-select {
-      padding: 6px 10px;
-      border: 2px solid #e5e7eb;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      background: var(--white);
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .status-select:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    /* Upload Button */
-    .btn-upload {
-      background: var(--primary);
-      color: var(--white);
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: var(--transition);
-    }
-
-    .btn-upload:hover {
-      background: var(--primary-light);
-    }
-
-    /* Action buttons */
-    .action-btns {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-    }
-
-    .btn-icon i {
-      font-size: 0.9rem;
-    }
-
-    .btn-view {
-      background: var(--primary);
-      color: var(--white);
-    }
-
-    .btn-view:hover {
-      background: var(--primary-light);
-    }
-
-    .btn-delete {
-      background: #fee2e2;
-      color: #dc2626;
-    }
-
-    .btn-delete:hover {
-      background: #fecaca;
-    }
-
-    /* Loading spinner */
-    .loading-spinner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--text-light);
-    }
-
-    /* Modal Styles */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal-content {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      max-width: 500px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .modal-header h3 {
-      margin: 0;
-      color: var(--secondary);
-      font-weight: 700;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-light);
-      padding: 0;
-      width: 30px;
-      height: 30px;
-    }
-
-    .modal-close:hover {
-      color: var(--primary);
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .detail-label {
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    .detail-value {
-      color: var(--text-light);
-      text-align: right;
-      flex: 1;
-      margin-left: 15px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .app-sidebar {
-        width: 100%;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .search-bar input {
-        max-width: 100%;
-      }
-      
-      .detail-row {
-        flex-direction: column;
-      }
-      
-      .detail-value {
-        text-align: left;
-        margin-left: 0;
-        margin-top: 5px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    body { background: var(--bg-light); min-height: 100vh; margin: 0; font-family: var(--font-family); }
+    .admin-header { background: var(--white); border-bottom: 1px solid #e5e7eb; padding: 16px 0; margin-bottom: 0; }
+    .admin-header .container { display: flex; justify-content: space-between; align-items: center; }
+    .admin-header .logo { display: flex; align-items: center; gap: 12px; }
+    .admin-header .logo-text { font-size: 1.2rem; font-weight: 900; color: var(--secondary); }
+    .admin-user-info { display: flex; align-items: center; gap: 12px; }
+    .admin-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .admin-details { text-align: right; }
+    .admin-details .role { font-size: 0.85rem; color: var(--text-light); }
+    .admin-details .email { font-size: 0.9rem; font-weight: 600; color: var(--secondary); }
+    .app-container { min-height: calc(100vh - 80px); max-width: 1400px; margin: 0 auto; }
+    .app-sidebar { width: 260px; }
+    .sidebar-header { padding: 0 24px 24px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
+    .sidebar-header h3 { font-size: 0.9rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+    .sidebar-menu { gap: 4px; }
+    .sidebar-menu a { border-radius: 0; }
+    .sidebar-menu a.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: var(--white); border-left-color: var(--primary); }
+    .sidebar-menu a.active i { color: var(--white); }
+    .sidebar-menu a .badge { background: #ef4444; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; margin-left: auto; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: var(--white); border-radius: var(--radius-md); padding: 24px; text-align: center; box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .stat-card .stat-icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 1.5rem; margin: 0 auto 16px; }
+    .stat-card h3 { margin: 0 0 10px 0; color: var(--text-light); font-size: 0.9rem; font-weight: 600; }
+    .stat-number { font-size: 2rem; font-weight: 800; color: var(--secondary); }
+    .search-bar { margin-bottom: 24px; }
+    .search-bar .form-group { margin-bottom: 0; position: relative; }
+    .search-bar input { padding-left: 40px; max-width: 400px; }
+    .search-bar i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+    .data-table-wrapper { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .data-table thead th { background: #f8fafc; }
+    .user-avatar-small { width: 32px; height: 32px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 0.8rem; font-weight: 600; }
+    .status-select { padding: 6px 10px; border: 2px solid #e5e7eb; border-radius: 6px; font-size: 0.85rem; font-weight: 600; background: var(--white); cursor: pointer; transition: var(--transition); }
+    .status-select:focus { outline: none; border-color: var(--primary); }
+    .btn-upload { background: var(--primary); color: var(--white); border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition); }
+    .btn-upload:hover { background: var(--primary-light); }
+    .action-btns { display: flex; gap: 8px; }
+    .btn-icon { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+    .btn-icon i { font-size: 0.9rem; }
+    .btn-view { background: var(--primary); color: var(--white); }
+    .btn-view:hover { background: var(--primary-light); }
+    .btn-edit { background: #dbeafe; color: #2563eb; }
+    .btn-edit:hover { background: #bfdbfe; }
+    .btn-delete { background: #fee2e2; color: #dc2626; }
+    .btn-delete:hover { background: #fecaca; }
+    .btn-success { background: #d1fae5; color: #059669; }
+    .btn-success:hover { background: #a7f3d0; }
+    .btn-warning { background: #fef3c7; color: #d97706; }
+    .btn-warning:hover { background: #fde68a; }
+    .loading-spinner { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--text-light); padding: 40px; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-overlay.open { display: flex; }
+    .modal-content { background: var(--white); border-radius: var(--radius-md); max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    .modal-content.modal-lg { max-width: 800px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #e5e7eb; }
+    .modal-header h3 { margin: 0; color: var(--secondary); font-weight: 700; }
+    .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); padding: 0; width: 30px; height: 30px; }
+    .modal-close:hover { color: var(--primary); }
+    .modal-body { padding: 20px; }
+    .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+    .detail-label { font-weight: 600; color: var(--text-dark); }
+    .detail-value { color: var(--text-light); text-align: right; flex: 1; margin-left: 15px; }
+    .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+    .filter-bar select, .filter-bar input { padding: 8px 12px; border: 2px solid #e5e7eb; border-radius: 6px; font-size: 0.85rem; }
+    .filter-bar select:focus, .filter-bar input:focus { outline: none; border-color: var(--primary); }
+    .chart-container { background: var(--white); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 20px; }
+    .chart-container h3 { margin: 0 0 16px 0; color: var(--secondary); font-size: 1rem; }
+    .chart-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .chart-bar .label { min-width: 120px; font-size: 0.85rem; color: var(--text-dark); }
+    .chart-bar .bar { height: 24px; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; transition: width 0.3s ease; min-width: 4px; }
+    .chart-bar .value { font-size: 0.85rem; font-weight: 600; color: var(--secondary); min-width: 40px; }
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; }
+    .tab-btn { padding: 10px 20px; border: none; background: none; font-weight: 600; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: var(--transition); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-btn:hover { color: var(--primary); }
+    .note-card { background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
+    .note-card .note-meta { font-size: 0.8rem; color: var(--text-light); margin-bottom: 4px; }
+    .note-card .note-text { font-size: 0.9rem; color: var(--text-dark); }
+    .priority-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .priority-low { background: #d1fae5; color: #059669; }
+    .priority-normal { background: #dbeafe; color: #2563eb; }
+    .priority-high { background: #fef3c7; color: #d97706; }
+    .priority-urgent { background: #fee2e2; color: #dc2626; }
+    .priority-critical { background: #fce7f3; color: #be185d; }
+    .status-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .status-pending, .status-nouvelle_demande, .status-en_attente { background: #fef3c7; color: #92400e; }
+    .status-review, .status-devis_envoye { background: #dbeafe; color: #1e40af; }
+    .status-devis_accepte, .status-en_preparation { background: #d1fae5; color: #065f46; }
+    .status-devis_refuse { background: #fee2e2; color: #991b1b; }
+    .status-prestataire_assigne, .status-en_cours { background: #e0e7ff; color: #3730a3; }
+    .status-livre, .status-termine, .status-completed { background: #d1fae5; color: #065f46; }
+    .status-annule, .status-cancelled { background: #f3f4f6; color: #6b7280; }
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .app-sidebar { width: 100%; } .stats-grid { grid-template-columns: repeat(2,1fr); } .search-bar input { max-width: 100%; } .detail-row { flex-direction: column; } .detail-value { text-align: left; margin-left: 0; margin-top: 5px; } .charts-grid { grid-template-columns: 1fr; } .filter-bar { flex-direction: column; } }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+    .notification-bell { position: relative; cursor: pointer; }
+    .notification-bell .badge { position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+    .notification-item { padding: 12px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: var(--transition); }
+    .notification-item:hover { background: #f8fafc; }
+    .notification-item.unread { background: #eff6ff; border-left: 3px solid var(--primary); }
+    .notification-item .notif-title { font-weight: 600; color: var(--secondary); font-size: 0.9rem; }
+    .notification-item .notif-time { font-size: 0.75rem; color: var(--text-light); }
+    .notification-item .notif-msg { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; }
+    .notification-panel { position: fixed; top: 80px; right: 20px; width: 380px; max-height: 500px; background: var(--white); border-radius: var(--radius-md); box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 999; display: none; overflow-y: auto; }
+    .notification-panel.open { display: block; }
+    .notification-panel .panel-header { padding: 16px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+    .notification-panel .panel-header h4 { margin: 0; font-size: 1rem; }
+    .notification-panel .panel-body { max-height: 400px; overflow-y: auto; }
+    .notification-panel .panel-footer { padding: 12px 16px; border-top: 1px solid #e5e7eb; text-align: center; }
+    .notification-panel .panel-footer a { color: var(--primary); font-weight: 600; text-decoration: none; font-size: 0.85rem; }
+    .form-row { display: flex; gap: 16px; margin-bottom: 16px; }
+    .form-row .form-group { flex: 1; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-weight: 600; color: var(--secondary); margin-bottom: 6px; font-size: 0.9rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; font-family: inherit; transition: var(--transition); box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: var(--white); }
+    .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-success { background: #059669; color: white; }
+    .btn-success:hover { background: #047857; }
+    .pagination { display: flex; justify-content: center; gap: 8px; padding: 20px; }
+    .pagination button { padding: 8px 16px; border: 1px solid #e5e7eb; border-radius: 6px; background: var(--white); cursor: pointer; font-weight: 600; }
+    .pagination button:hover { background: #f8fafc; }
+    .pagination button.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
+    .empty-state i { font-size: 3rem; margin-bottom: 16px; color: #d1d5db; }
+    .empty-state h3 { color: var(--secondary); margin-bottom: 8px; }
+    .section-title { font-size: 1.2rem; font-weight: 800; color: var(--secondary); margin-bottom: 20px; }
+    .inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+    .mt-4 { margin-top: 16px; }
+    .mb-4 { margin-bottom: 16px; }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .flex { display: flex; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .gap-2 { gap: 8px; }
+    .gap-4 { gap: 16px; }
+    .w-full { width: 100%; }
   </style>
 </head>
 <body>
-  <!-- ===== ADMIN HEADER ===== -->
   <header class="admin-header">
     <div class="container">
       <a href="index.html" class="logo">
         <img src="images/Assets/logo.png" alt="SMARTSERVICES Schools Logo" class="logo-image">
         <span class="logo-text">Smart Services<br>Schools</span>
       </a>
-      
       <div class="admin-user-info">
+        <div class="notification-bell" onclick="toggleNotifications()">
+          <i class="fas fa-bell" style="font-size:1.2rem;color:var(--secondary);"></i>
+          <span class="badge" id="notifBadge" style="display:none;">0</span>
+        </div>
         <div class="admin-details">
-          <div class="role">Administrateur</div>
-          <div class="email">admin@smartservices.ma</div>
+          <div class="role" id="adminRole">Administrateur</div>
+          <div class="email" id="adminEmail">admin@smartservices.ma</div>
         </div>
-        <div class="admin-avatar">
-          <i class="fas fa-user-shield"></i>
-        </div>
+        <div class="admin-avatar"><i class="fas fa-user-shield"></i></div>
       </div>
     </div>
   </header>
 
-  <!-- ===== APP CONTAINER WITH SIDEBAR ===== -->
+  <!-- Notification Panel -->
+  <div class="notification-panel" id="notificationPanel">
+    <div class="panel-header">
+      <h4>Notifications</h4>
+      <button class="btn btn-sm btn-outline" onclick="markAllNotifRead()">Tout marquer lu</button>
+    </div>
+    <div class="panel-body" id="notifPanelBody">
+      <div class="empty-state"><i class="fas fa-bell"></i><h3>Aucune notification</h3></div>
+    </div>
+    <div class="panel-footer"><a href="#" onclick="showTab('notifications', document.querySelector('[data-tab=notifications]')); closeNotifPanel();">Voir toutes les notifications</a></div>
+  </div>
+
   <div class="app-container">
-    <!-- Sidebar -->
     <nav class="app-sidebar">
-      <div class="sidebar-header">
-        <h3>Menu Administration</h3>
-      </div>
+      <div class="sidebar-header"><h3>Menu Administration</h3></div>
       <div class="sidebar-menu">
-        <a href="#" class="active" onclick="showTab('dashboard', this)">
-          <i class="fas fa-th-large"></i>
-          <span>Tableau de bord</span>
-        </a>
-        <a href="#" onclick="showTab('users', this)">
-          <i class="fas fa-users"></i>
-          <span>Gestion des utilisateurs</span>
-        </a>
-        <a href="#" onclick="showTab('requests', this)">
-          <i class="fas fa-clipboard-list"></i>
-          <span>Gestion des demandes</span>
-        </a>
-        <a href="admin-login.html" onclick="handleLogout(event)">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Déconnexion</span>
-        </a>
+        <a href="#" class="active" data-tab="dashboard" onclick="showTab('dashboard', this)"><i class="fas fa-th-large"></i><span>Tableau de bord</span></a>
+        <a href="#" data-tab="users" onclick="showTab('users', this)"><i class="fas fa-users"></i><span>Utilisateurs</span></a>
+        <a href="#" data-tab="requests" onclick="showTab('requests', this)"><i class="fas fa-clipboard-list"></i><span>Demandes</span></a>
+        <a href="#" data-tab="quotes" onclick="showTab('quotes', this)"><i class="fas fa-file-invoice-dollar"></i><span>Devis</span></a>
+        <a href="#" data-tab="invoices" onclick="showTab('invoices', this)"><i class="fas fa-file-invoice"></i><span>Factures</span></a>
+        <a href="#" data-tab="suppliers" onclick="showTab('suppliers', this)"><i class="fas fa-truck"></i><span>Fournisseurs</span></a>
+        <a href="#" data-tab="analytics" onclick="showTab('analytics', this)"><i class="fas fa-chart-bar"></i><span>Analytiques</span></a>
+        <a href="#" data-tab="notifications" onclick="showTab('notifications', this)"><i class="fas fa-bell"></i><span>Notifications</span></a>
+        <a href="#" data-tab="activity" onclick="showTab('activity', this)"><i class="fas fa-history"></i><span>Journal d'activité</span></a>
+        <a href="#" data-tab="calendar" onclick="showTab('calendar', this)"><i class="fas fa-calendar"></i><span>Calendrier</span></a>
+        <a href="#" data-tab="settings" onclick="showTab('settings', this)"><i class="fas fa-cog"></i><span>Paramètres</span></a>
+        <a href="admin-login.html" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
       </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="app-main">
-      <!-- Dashboard Tab -->
+      <!-- ===== DASHBOARD TAB ===== -->
       <div id="dashboardTab" class="tab-content">
-        <div class="app-header">
-          <h1><i class="fas fa-shield-alt"></i> Administration SMARTSERVICES</h1>
+        <div class="app-header"><h1><i class="fas fa-shield-alt"></i> Administration SMARTSERVICES</h1></div>
+        <div class="stats-grid" id="dashboardStats">
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><h3>Utilisateurs</h3><p class="stat-number" id="statTotalUsers">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-school"></i></div><h3>Établissements</h3><p class="stat-number" id="statTotalSchools">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-clipboard-list"></i></div><h3>Total demandes</h3><p class="stat-number" id="statTotalRequests">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><h3>En attente</h3><p class="stat-number" id="statPendingRequests">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-spinner"></i></div><h3>En cours</h3><p class="stat-number" id="statInProgressRequests">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><h3>Terminées</h3><p class="stat-number" id="statCompletedRequests">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div><h3>Revenus totaux</h3><p class="stat-number" id="statTotalRevenue">0 MAD</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-file-invoice"></i></div><h3>Devis envoyés</h3><p class="stat-number" id="statQuotesSent">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-check"></i></div><h3>Devis acceptés</h3><p class="stat-number" id="statQuotesAccepted">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-times"></i></div><h3>Devis refusés</h3><p class="stat-number" id="statQuotesRejected">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><h3>Nouveaux cette semaine</h3><p class="stat-number" id="statNewUsers">0</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><h3>Service le + demandé</h3><p class="stat-number" id="statTopService" style="font-size:1.2rem;">N/A</p></div>
         </div>
+        <div class="charts-grid">
+          <div class="chart-container"><h3>Demandes par mois</h3><div id="monthlyChart"></div></div>
+          <div class="chart-container"><h3>Demandes par ville</h3><div id="cityChart"></div></div>
+        </div>
+        <div class="data-table-wrapper" style="margin-top:20px;">
+          <div class="data-table"><table><thead><tr><th>#</th><th>Utilisateur</th><th>Établissement</th><th>Service</th><th>Date</th><th>Statut</th><th>Devis</th></tr></thead><tbody id="recentRequestsTableBody"><tr><td colspan="7" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div>
+        </div>
+      </div>
 
+      <!-- ===== USERS TAB ===== -->
+      <div id="usersTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-users-cog"></i> Gestion des utilisateurs</h1><button class="btn btn-primary btn-sm" onclick="exportData('users')"><i class="fas fa-download"></i> Exporter</button></div>
+        <div class="filter-bar">
+          <input type="text" id="userSearch" placeholder="Rechercher..." oninput="filterUsers()">
+          <select id="userStatusFilter" onchange="filterUsers()"><option value="">Tous les statuts</option><option value="active">Actif</option><option value="suspended">Suspendu</option><option value="pending_verification">En attente</option><option value="archived">Archivé</option></select>
+          <select id="userRoleFilter" onchange="filterUsers()"><option value="">Tous les rôles</option><option value="user">Utilisateur</option><option value="super_admin">Super Admin</option><option value="sales_manager">Commercial</option><option value="operations_manager">Opérations</option><option value="support_agent">Support</option><option value="technician">Technicien</option><option value="account_manager">Comptes</option></select>
+        </div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>#</th><th>Nom</th><th>Email</th><th>Établissement</th><th>Rôle</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr></thead><tbody id="usersTableBody"><tr><td colspan="8" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+        <div class="pagination" id="usersPagination"></div>
+      </div>
+
+      <!-- ===== REQUESTS TAB ===== -->
+      <div id="requestsTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-clipboard-list"></i> Gestion des demandes</h1><button class="btn btn-primary btn-sm" onclick="exportData('requests')"><i class="fas fa-download"></i> Exporter</button></div>
+        <div class="filter-bar">
+          <input type="text" id="requestSearch" placeholder="Rechercher..." oninput="filterRequests()">
+          <select id="requestStatusFilter" onchange="filterRequests()"><option value="">Tous les statuts</option><option value="nouvelle_demande">Nouvelle</option><option value="en_attente">En attente</option><option value="devis_envoye">Devis envoyé</option><option value="devis_accepte">Devis accepté</option><option value="devis_refuse">Devis refusé</option><option value="en_preparation">En préparation</option><option value="prestataire_assigne">Prestataire assigné</option><option value="en_cours">En cours</option><option value="livre">Livré</option><option value="termine">Terminé</option><option value="annule">Annulé</option></select>
+          <select id="requestPriorityFilter" onchange="filterRequests()"><option value="">Toutes priorités</option><option value="low">Basse</option><option value="normal">Normale</option><option value="high">Haute</option><option value="urgent">Urgente</option><option value="critical">Critique</option></select>
+          <select id="requestServiceFilter" onchange="filterRequests()"><option value="">Tous services</option></select>
+        </div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>#</th><th>Contact</th><th>Service</th><th>Établissement</th><th>Ville</th><th>Date</th><th>Priorité</th><th>Statut</th><th>Devis</th><th>Actions</th></tr></thead><tbody id="requestsTableBody"><tr><td colspan="10" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+        <div class="pagination" id="requestsPagination"></div>
+      </div>
+
+      <!-- ===== QUOTES TAB ===== -->
+      <div id="quotesTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-file-invoice-dollar"></i> Gestion des devis</h1><button class="btn btn-primary btn-sm" onclick="exportData('quotes')"><i class="fas fa-download"></i> Exporter</button></div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>N° Devis</th><th>Demande</th><th>Client</th><th>Montant</th><th>Version</th><th>Statut</th><th>Date</th><th>Actions</th></tr></thead><tbody id="quotesTableBody"><tr><td colspan="8" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+      </div>
+
+      <!-- ===== INVOICES TAB ===== -->
+      <div id="invoicesTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-file-invoice"></i> Factures</h1><button class="btn btn-primary btn-sm" onclick="exportData('invoices')"><i class="fas fa-download"></i> Exporter</button></div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>N° Facture</th><th>Service</th><th>Client</th><th>Montant</th><th>Statut</th><th>Date</th><th>Actions</th></tr></thead><tbody id="invoicesTableBody"><tr><td colspan="7" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+      </div>
+
+      <!-- ===== SUPPLIERS TAB ===== -->
+      <div id="suppliersTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-truck"></i> Fournisseurs</h1><button class="btn btn-primary btn-sm" onclick="openSupplierModal()"><i class="fas fa-plus"></i> Ajouter</button></div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>Nom</th><th>Contact</th><th>Email</th><th>Téléphone</th><th>Ville</th><th>Note</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="suppliersTableBody"><tr><td colspan="8" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+      </div>
+
+      <!-- ===== ANALYTICS TAB ===== -->
+      <div id="analyticsTab" class="tab-content" style="display:none;">
+        <div class="app-header"><h1><i class="fas fa-chart-bar"></i> Analytiques</h1></div>
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <h3>Utilisateurs</h3>
-            <p class="stat-number" id="totalUsers">0</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-clipboard-list"></i>
-            </div>
-            <h3>Total demandes</h3>
-            <p class="stat-number" id="totalRequests">0</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <h3>En attente</h3>
-            <p class="stat-number" id="pendingRequests">0</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-check-circle"></i>
-            </div>
-            <h3>Terminées</h3>
-            <p class="stat-number" id="completedRequests">0</p>
-          </div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-percent"></i></div><h3>Taux de conversion</h3><p class="stat-number" id="analyticsConversion">0%</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-money-bill"></i></div><h3>Valeur moyenne</h3><p class="stat-number" id="analyticsAvgValue">0 MAD</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><h3>Revenus totaux</h3><p class="stat-number" id="analyticsTotalRevenue">0 MAD</p></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-clipboard-check"></i></div><h3>Demandes totales</h3><p class="stat-number" id="analyticsTotalRequests">0</p></div>
         </div>
-
-        <div class="data-table-wrapper">
-          <div class="data-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Utilisateur</th>
-                  <th>Établissement</th>
-                  <th>Service</th>
-                  <th>Date</th>
-                  <th>Statut</th>
-                  <th>Devis</th>
-                </tr>
-              </thead>
-              <tbody id="recentRequestsTableBody">
-                <tr>
-                  <td colspan="7" class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin"></i> Chargement...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="charts-grid">
+          <div class="chart-container"><h3>Revenus par mois</h3><div id="revenueChart"></div></div>
+          <div class="chart-container"><h3>Demandes par mois</h3><div id="analyticsRequestsChart"></div></div>
+          <div class="chart-container"><h3>Top services</h3><div id="topServicesChart"></div></div>
+          <div class="chart-container"><h3>Top villes</h3><div id="topCitiesChart"></div></div>
         </div>
       </div>
 
-      <!-- Users Tab -->
-      <div id="usersTab" class="tab-content" style="display: none;">
-        <div class="app-header">
-          <h1><i class="fas fa-users-cog"></i> Liste des utilisateurs</h1>
-        </div>
-
-        <div class="search-bar">
-          <div class="form-group">
-            <i class="fas fa-search"></i>
-            <input type="text" id="userSearchInput" placeholder="Rechercher un utilisateur..." onkeyup="searchUsers(this.value)">
-          </div>
-        </div>
-
-        <div class="data-table-wrapper">
-          <div class="data-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nom complet</th>
-                  <th>Email</th>
-                  <th>Établissement</th>
-                  <th>Téléphone</th>
-                  <th>Date d'inscription</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="usersTableBody">
-                <tr>
-                  <td colspan="7" class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin"></i> Chargement des utilisateurs...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <!-- ===== NOTIFICATIONS TAB ===== -->
+      <div id="notificationsTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-bell"></i> Notifications</h1><button class="btn btn-sm btn-outline" onclick="markAllNotifRead()">Tout marquer lu</button></div>
+        <div id="notificationsList"></div>
       </div>
 
-      <!-- Requests Tab -->
-      <div id="requestsTab" class="tab-content" style="display: none;">
-        <div class="app-header">
-          <h1><i class="fas fa-clipboard-list"></i> Toutes les demandes</h1>
-        </div>
+      <!-- ===== ACTIVITY TAB ===== -->
+      <div id="activityTab" class="tab-content" style="display:none;">
+        <h1><i class="fas fa-history"></i> Journal d'activité</h1>
+        <div class="filter-bar"><select id="activityFilter" onchange="loadActivityLogs()"><option value="">Toutes les actions</option><option value="status_change">Changement de statut</option><option value="user_modification">Modification utilisateur</option><option value="quote_creation">Création devis</option><option value="quote_update">Mise à jour devis</option><option value="file_upload">Upload fichier</option><option value="login_attempt">Tentative connexion</option><option value="user_suspend">Suspension</option><option value="user_activate">Réactivation</option><option value="request_delete">Suppression demande</option></select></div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>Date</th><th>Action</th><th>Description</th><th>Admin</th></tr></thead><tbody id="activityTableBody"><tr><td colspan="4" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+      </div>
 
-        <div class="search-bar">
-          <div class="form-group">
-            <i class="fas fa-search"></i>
-            <input type="text" id="requestSearchInput" placeholder="Rechercher une demande..." onkeyup="searchRequests(this.value)">
-          </div>
-        </div>
+      <!-- ===== CALENDAR TAB ===== -->
+      <div id="calendarTab" class="tab-content" style="display:none;">
+        <div class="flex-between mb-4"><h1><i class="fas fa-calendar"></i> Calendrier</h1><button class="btn btn-primary btn-sm" onclick="openCalendarEventModal()"><i class="fas fa-plus"></i> Ajouter un événement</button></div>
+        <div class="data-table-wrapper"><div class="data-table"><table><thead><tr><th>Titre</th><th>Type</th><th>Date début</th><th>Date fin</th><th>Lieu</th><th>Assigné à</th><th>Actions</th></tr></thead><tbody id="calendarTableBody"><tr><td colspan="7" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr></tbody></table></div></div>
+      </div>
 
-        <div class="data-table-wrapper">
-          <div class="data-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Utilisateur</th>
-                  <th>Service</th>
-                  <th>Établissement</th>
-                  <th>Ville</th>
-                  <th>Date</th>
-                  <th>Statut</th>
-                  <th>Devis</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="requestsTableBody">
-                <tr>
-                  <td colspan="9" class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin"></i> Chargement des demandes...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <!-- ===== SETTINGS TAB ===== -->
+      <div id="settingsTab" class="tab-content" style="display:none;">
+        <h1><i class="fas fa-cog"></i> Paramètres</h1>
+        <div class="data-table-wrapper" style="padding:20px;">
+          <div class="form-group"><label>Rôles et permissions</label><div id="rolesList"></div></div>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- Request Details Modal -->
-  <div class="modal-overlay" id="detailsModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modalTitle">Détails de la demande</h3>
-        <button class="modal-close" onclick="closeModal()">&times;</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-        <!-- Details will be populated here -->
-      </div>
-    </div>
-  </div>
+  <!-- ===== MODALS ===== -->
+  <div class="modal-overlay" id="detailsModal"><div class="modal-content modal-lg"><div class="modal-header"><h3 id="modalTitle">Détails</h3><button class="modal-close" onclick="closeModal('detailsModal')">&times;</button></div><div class="modal-body" id="modalBody"></div></div></div>
+  <div class="modal-overlay" id="userEditModal"><div class="modal-content"><div class="modal-header"><h3>Modifier l'utilisateur</h3><button class="modal-close" onclick="closeModal('userEditModal')">&times;</button></div><div class="modal-body" id="userEditBody"></div></div></div>
+  <div class="modal-overlay" id="requestEditModal"><div class="modal-content modal-lg"><div class="modal-header"><h3>Modifier la demande</h3><button class="modal-close" onclick="closeModal('requestEditModal')">&times;</button></div><div class="modal-body" id="requestEditBody"></div></div></div>
+  <div class="modal-overlay" id="quoteModal"><div class="modal-content"><div class="modal-header"><h3>Créer un devis</h3><button class="modal-close" onclick="closeModal('quoteModal')">&times;</button></div><div class="modal-body" id="quoteModalBody"></div></div></div>
+  <div class="modal-overlay" id="supplierModal"><div class="modal-content"><div class="modal-header"><h3 id="supplierModalTitle">Ajouter un fournisseur</h3><button class="modal-close" onclick="closeModal('supplierModal')">&times;</button></div><div class="modal-body" id="supplierModalBody"></div></div></div>
+  <div class="modal-overlay" id="calendarEventModal"><div class="modal-content"><div class="modal-header"><h3 id="calendarModalTitle">Ajouter un événement</h3><button class="modal-close" onclick="closeModal('calendarEventModal')">&times;</button></div><div class="modal-body" id="calendarModalBody"></div></div></div>
+  <div class="modal-overlay" id="noteModal"><div class="modal-content"><div class="modal-header"><h3>Ajouter une note interne</h3><button class="modal-close" onclick="closeModal('noteModal')">&times;</button></div><div class="modal-body" id="noteModalBody"></div></div></div>
 
   <script src="js/config-loader.js"></script>
   <script src="js/supabase.js"></script>
   <script>
-    // ===== ADMIN STATE =====
-    const ADMIN_EMAIL = 'admin@smartservices.ma';
-    let allUsers = [];
-    let allRequests = [];
+    // ===== STATE =====
+    const ADMIN_ROLES = ['super_admin', 'sales_manager', 'operations_manager', 'support_agent', 'technician', 'account_manager'];
+    let allUsers = [], allRequests = [], allQuotes = [], allInvoices = [], allSuppliers = [];
+    let currentPage = { users: 1, requests: 1 };
+    let adminUser = null;
 
-    // ===== INITIALIZATION =====
-    document.addEventListener('DOMContentLoaded', async function() {
-      // Check if admin is already logged in
-      const adminSession = localStorage.getItem('adminSession');
-      if (!adminSession) {
-        window.location.href = 'admin-login.html';
-        return;
+    // ===== RESTORE AUTH SESSION =====
+    async function restoreAdminSession() {
+      const supabase = window.__supabase.getClient();
+      if (!supabase) return;
+
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        try {
+          await supabase.auth.setSession({
+            access_token: token,
+            refresh_token: localStorage.getItem('auth_refresh_token') || token
+          });
+        } catch (e) {
+          console.warn('Session restore warning:', e.message);
+        }
       }
+    }
 
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', async function() {
+      const adminSession = localStorage.getItem('adminSession');
+      if (!adminSession) { window.location.href = 'admin-login.html'; return; }
       try {
         const session = JSON.parse(adminSession);
-        if (session.email !== ADMIN_EMAIL) {
-          localStorage.removeItem('adminSession');
-          window.location.href = 'admin-login.html';
-          return;
-        }
-      } catch (e) {
-        localStorage.removeItem('adminSession');
-        window.location.href = 'admin-login.html';
-        return;
-      }
-
-      // Initialize Supabase and load data
+        if (!session.role || !ADMIN_ROLES.includes(session.role)) { localStorage.removeItem('adminSession'); window.location.href = 'admin-login.html'; return; }
+        if (session.account_status && session.account_status !== 'active') { localStorage.removeItem('adminSession'); window.location.href = 'admin-login.html'; return; }
+        adminUser = session;
+        document.getElementById('adminEmail').textContent = session.email;
+        document.getElementById('adminRole').textContent = session.role || 'Administrateur';
+      } catch(e) { localStorage.removeItem('adminSession'); window.location.href = 'admin-login.html'; return; }
       await window.__supabase.init();
-      loadAdminData();
+      await restoreAdminSession();
+      loadAllData();
+      loadNotifications();
+      setInterval(loadNotifications, 30000);
     });
 
-    // ===== MODAL FUNCTIONS =====
-    function showModal(title, content) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalBody').innerHTML = content;
-      document.getElementById('detailsModal').classList.add('open');
+    // ===== NOTIFICATIONS =====
+    let notifPanelOpen = false;
+    function toggleNotifications() {
+      notifPanelOpen = !notifPanelOpen;
+      document.getElementById('notificationPanel').classList.toggle('open', notifPanelOpen);
+    }
+    function closeNotifPanel() { notifPanelOpen = false; document.getElementById('notificationPanel').classList.remove('open'); }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.notification-bell') && !e.target.closest('.notification-panel')) closeNotifPanel();
+    });
+
+    async function loadNotifications() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('notifications').select('*').order('created_at', { ascending: false }).limit(20);
+        if (error) throw error;
+        const unread = data ? data.filter(n => !n.is_read).length : 0;
+        const badge = document.getElementById('notifBadge');
+        if (unread > 0) { badge.style.display = 'inline'; badge.textContent = unread; } else { badge.style.display = 'none'; }
+        const panelBody = document.getElementById('notifPanelBody');
+        if (!data || data.length === 0) {
+          panelBody.innerHTML = '<div class="empty-state"><i class="fas fa-bell"></i><h3>Aucune notification</h3></div>';
+        } else {
+          panelBody.innerHTML = data.slice(0, 10).map(n => `
+            <div class="notification-item ${n.is_read ? '' : 'unread'}" onclick="markNotifRead('${n.id}')">
+              <div class="notif-title">${n.title}</div>
+              <div class="notif-msg">${n.message || ''}</div>
+              <div class="notif-time">${new Date(n.created_at).toLocaleDateString('fr-FR')}</div>
+            </div>
+          `).join('');
+        }
+      } catch(e) { console.error('Notifications error:', e); }
     }
 
-    function closeModal() {
-      document.getElementById('detailsModal').classList.remove('open');
+    async function markNotifRead(id) {
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('notifications').update({ is_read: true }).eq('id', id);
+        loadNotifications();
+      } catch(e) {}
     }
 
-    // Close modal on overlay click or Escape key
-    document.getElementById('detailsModal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
+    async function markAllNotifRead() {
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('notifications').update({ is_read: true }).eq('is_read', false);
+        loadNotifications();
+      } catch(e) {}
+    }
 
     // ===== TAB NAVIGATION =====
     function showTab(tabName, el) {
-      // Hide all tabs
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = 'none';
-      });
-      
-      // Show selected tab
+      document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
       document.getElementById(tabName + 'Tab').style.display = 'block';
-      
-      // Update active state in sidebar
-      document.querySelectorAll('.sidebar-menu a').forEach(link => {
-        link.classList.remove('active');
-      });
+      document.querySelectorAll('.sidebar-menu a').forEach(l => l.classList.remove('active'));
       if (el) el.classList.add('active');
+      closeNotifPanel();
+      switch(tabName) {
+        case 'users': loadUsers(); break;
+        case 'requests': loadRequests(); break;
+        case 'quotes': loadQuotes(); break;
+        case 'invoices': loadInvoices(); break;
+        case 'suppliers': loadSuppliers(); break;
+        case 'analytics': loadAnalytics(); break;
+        case 'notifications': loadNotificationsList(); break;
+        case 'activity': loadActivityLogs(); break;
+        case 'calendar': loadCalendarEvents(); break;
+        case 'settings': loadRoles(); break;
+      }
     }
+
+    // ===== MODAL HELPERS =====
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    });
 
     // ===== LOAD ALL DATA =====
-    async function loadAdminData() {
-      await Promise.all([loadUsers(), loadRequests()]);
-      updateDashboardStats();
+    async function loadAllData() {
+      await Promise.all([loadUsers(), loadRequests(), loadQuotes(), loadInvoices(), loadSuppliers()]);
+      loadDashboardStats();
     }
 
-    // ===== LOAD USERS =====
+    // ===== DASHBOARD =====
+    async function loadDashboardStats() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.rpc ? {} : await fetch('/api/admin/dashboard/stats', {
+          headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('auth_token') || '') }
+        }).then(r => r.json()).catch(() => ({}));
+
+        // Fallback: compute from local data
+        const totalUsers = allUsers.length;
+        const totalRequests = allRequests.length;
+        const pending = allRequests.filter(r => ['pending','nouvelle_demande','en_attente','review'].includes(r.status)).length;
+        const inProgress = allRequests.filter(r => ['in_progress','en_preparation','prestataire_assigne','en_cours'].includes(r.status)).length;
+        const completed = allRequests.filter(r => ['completed','termine','livre'].includes(r.status)).length;
+        const schools = new Set(allRequests.map(r => r.school_name)).size;
+        const newUsers = allUsers.filter(u => u.created_at && new Date(u.created_at) > new Date(Date.now() - 7*24*60*60*1000)).length;
+
+        document.getElementById('statTotalUsers').textContent = totalUsers;
+        document.getElementById('statTotalSchools').textContent = schools;
+        document.getElementById('statTotalRequests').textContent = totalRequests;
+        document.getElementById('statPendingRequests').textContent = pending;
+        document.getElementById('statInProgressRequests').textContent = inProgress;
+        document.getElementById('statCompletedRequests').textContent = completed;
+        document.getElementById('statTotalRevenue').textContent = allInvoices.reduce((s, i) => s + Number(i.total_amount || 0), 0).toLocaleString() + ' MAD';
+        document.getElementById('statQuotesSent').textContent = allQuotes.filter(q => q.status === 'sent').length;
+        document.getElementById('statQuotesAccepted').textContent = allQuotes.filter(q => q.status === 'accepted').length;
+        document.getElementById('statQuotesRejected').textContent = allQuotes.filter(q => q.status === 'rejected').length;
+        document.getElementById('statNewUsers').textContent = newUsers;
+
+        // Top service
+        const svcCounts = {};
+        allRequests.forEach(r => { const k = r.service_name || r.service_key || 'N/A'; svcCounts[k] = (svcCounts[k]||0)+1; });
+        let topSvc = 'N/A', topCnt = 0;
+        Object.entries(svcCounts).forEach(([k,v]) => { if (v > topCnt) { topCnt = v; topSvc = k; } });
+        document.getElementById('statTopService').textContent = topSvc;
+
+        // Charts
+        renderMonthlyChart(allRequests);
+        renderCityChart(allRequests);
+        renderRecentRequests(allRequests.slice(0, 5));
+      } catch(e) { console.error('Dashboard error:', e); }
+    }
+
+    function renderMonthlyChart(requests) {
+      const months = {};
+      requests.forEach(r => {
+        if (!r.created_at) return;
+        const d = new Date(r.created_at);
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        months[key] = (months[key]||0)+1;
+      });
+      const sorted = Object.entries(months).sort((a,b) => a[0].localeCompare(b[0]));
+      const container = document.getElementById('monthlyChart');
+      if (sorted.length === 0) { container.innerHTML = '<p style="color:var(--text-light);text-align:center;">Aucune donnée</p>'; return; }
+      const max = Math.max(...sorted.map(([,v]) => v));
+      container.innerHTML = sorted.map(([k,v]) => `
+        <div class="chart-bar">
+          <span class="label">${k}</span>
+          <div class="bar" style="width:${(v/max)*100}%"></div>
+          <span class="value">${v}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderCityChart(requests) {
+      const cities = {};
+      requests.forEach(r => { const c = r.city || 'Inconnue'; cities[c] = (cities[c]||0)+1; });
+      const sorted = Object.entries(cities).sort((a,b) => b[1]-a[1]).slice(0, 10);
+      const container = document.getElementById('cityChart');
+      if (sorted.length === 0) { container.innerHTML = '<p style="color:var(--text-light);text-align:center;">Aucune donnée</p>'; return; }
+      const max = Math.max(...sorted.map(([,v]) => v));
+      container.innerHTML = sorted.map(([k,v]) => `
+        <div class="chart-bar">
+          <span class="label">${k}</span>
+          <div class="bar" style="width:${(v/max)*100}%"></div>
+          <span class="value">${v}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderRecentRequests(requests) {
+      const tbody = document.getElementById('recentRequestsTableBody');
+      if (!requests || requests.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;">Aucune demande récente</td></tr>'; return; }
+      tbody.innerHTML = requests.map((r, i) => `<tr>
+        <td>${i+1}</td>
+        <td>${r.contact_name || r.contact_email || 'N/A'}</td>
+        <td>${r.school_name || '-'}</td>
+        <td>${r.service_name || r.service_key}</td>
+        <td>${r.created_at ? new Date(r.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+        <td><span class="status-badge status-${r.status}">${getStatusLabel(r.status)}</span></td>
+        <td>${r.quotation_url ? `<a href="${r.quotation_url}" target="_blank" style="color:var(--primary);font-weight:600;"><i class="fas fa-file-pdf"></i> Voir</a>` : '<span style="color:#94a3b8;">Aucun</span>'}</td>
+      </tr>`).join('');
+    }
+
+    // ===== USERS =====
     async function loadUsers() {
       try {
         const supabase = window.__supabase.getClient();
-        const { data: users, error } = await supabase
-          .from('users')
-          .select('*')
-          .order('created_at', { ascending: false });
-
+        const { data, error } = await supabase.from('users').select('*').order('created_at', { ascending: false });
         if (error) throw error;
-
-        allUsers = users || [];
-        renderUsersTable(allUsers);
-
-      } catch (error) {
-        console.error('Error loading users:', error);
-        document.getElementById('usersTableBody').innerHTML = 
-          '<tr><td colspan="7" style="text-align:center;color:#dc2626;">Erreur lors du chargement des utilisateurs</td></tr>';
-      }
+        allUsers = data || [];
+        filterUsers();
+      } catch(e) { console.error('Users error:', e); document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="8" style="text-align:center;color:#dc2626;">Erreur de chargement</td></tr>'; }
     }
 
-    // ===== RENDER USERS TABLE =====
-    function renderUsersTable(users) {
-      const tbody = document.getElementById('usersTableBody');
-      if (!users || users.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center">Aucun utilisateur trouvé</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = users.map((user, index) => {
-        const initials = (user.full_name || user.email || '?')
-          .split(' ')
-          .map(n => n[0])
-          .join('')
-          .toUpperCase()
-          .slice(0, 2);
-        
-        const createdDate = user.created_at ? new Date(user.created_at).toLocaleDateString('fr-FR') : '-';
-
-        return `
-          <tr>
-            <td>${index + 1}</td>
-            <td>
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div class="user-avatar-small">${initials}</div>
-                <span>${user.full_name || 'N/A'}</span>
-              </div>
-            </td>
-            <td>${user.email || 'N/A'}</td>
-            <td>${user.school_name || '-'}</td>
-            <td>${user.phone || '-'}</td>
-            <td>${createdDate}</td>
-            <td>
-              <div class="action-btns">
-                <button class="btn-icon btn-view" title="Voir les demandes" onclick="viewUserRequests('${user.id}')">
-                  <i class="fas fa-eye"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    // ===== SEARCH USERS =====
-    function searchUsers(query) {
-      const filtered = allUsers.filter(user => 
-        (user.full_name || '').toLowerCase().includes(query.toLowerCase()) ||
-        (user.email || '').toLowerCase().includes(query.toLowerCase()) ||
-        (user.school_name || '').toLowerCase().includes(query.toLowerCase())
-      );
+    function filterUsers() {
+      const search = document.getElementById('userSearch').value.toLowerCase();
+      const status = document.getElementById('userStatusFilter').value;
+      const role = document.getElementById('userRoleFilter').value;
+      let filtered = allUsers.filter(u => {
+        if (search && !(u.full_name||'').toLowerCase().includes(search) && !(u.email||'').toLowerCase().includes(search) && !(u.school_name||'').toLowerCase().includes(search)) return false;
+        if (status && u.account_status !== status) return false;
+        if (role && u.role !== role) return false;
+        return true;
+      });
       renderUsersTable(filtered);
     }
 
-    // ===== LOAD REQUESTS - Direct from requests table =====
+    function renderUsersTable(users) {
+      const tbody = document.getElementById('usersTableBody');
+      if (!users || users.length === 0) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;">Aucun utilisateur trouvé</td></tr>'; return; }
+      tbody.innerHTML = users.map((u, i) => {
+        const initials = (u.full_name || u.email || '?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+        const statusClass = u.account_status === 'active' ? 'status-completed' : u.account_status === 'suspended' ? 'status-cancelled' : 'status-pending';
+        const statusLabel = u.account_status === 'active' ? 'Actif' : u.account_status === 'suspended' ? 'Suspendu' : u.account_status === 'pending_verification' ? 'En attente' : 'Archivé';
+        const roleLabel = u.role === 'super_admin' ? 'Super Admin' : u.role === 'sales_manager' ? 'Commercial' : u.role === 'operations_manager' ? 'Opérations' : u.role === 'support_agent' ? 'Support' : u.role === 'technician' ? 'Technicien' : u.role === 'account_manager' ? 'Comptes' : 'Utilisateur';
+        return `<tr>
+          <td>${i+1}</td>
+          <td><div style="display:flex;align-items:center;gap:10px;"><div class="user-avatar-small">${initials}</div><span>${u.full_name || 'N/A'}</span></div></td>
+          <td>${u.email || 'N/A'}</td>
+          <td>${u.school_name || '-'}</td>
+          <td><span class="priority-badge priority-normal">${roleLabel}</span></td>
+          <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+          <td>${u.created_at ? new Date(u.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+          <td><div class="action-btns">
+            <button class="btn-icon btn-view" title="Voir" onclick="viewUserDetails('${u.id}')"><i class="fas fa-eye"></i></button>
+            <button class="btn-icon btn-edit" title="Modifier" onclick="editUser('${u.id}')"><i class="fas fa-edit"></i></button>
+            ${u.account_status === 'active' ? `<button class="btn-icon btn-warning" title="Suspendre" onclick="suspendUser('${u.id}')"><i class="fas fa-pause"></i></button>` : `<button class="btn-icon btn-success" title="Réactiver" onclick="reactivateUser('${u.id}')"><i class="fas fa-play"></i></button>`}
+            <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteUser('${u.id}')"><i class="fas fa-trash"></i></button>
+          </div></td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function viewUserDetails(id) {
+      const u = allUsers.find(x => x.id === id);
+      if (!u) return;
+      const requests = allRequests.filter(r => r.user_id === id);
+      const spending = allInvoices.filter(i => i.user_id === id).reduce((s, i) => s + Number(i.total_amount || 0), 0);
+      const content = `
+        <div class="detail-row"><span class="detail-label">Nom:</span><span class="detail-value">${u.full_name || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Email:</span><span class="detail-value">${u.email || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Téléphone:</span><span class="detail-value">${u.phone || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Établissement:</span><span class="detail-value">${u.school_name || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Rôle:</span><span class="detail-value">${u.role || 'user'}</span></div>
+        <div class="detail-row"><span class="detail-label">Statut:</span><span class="detail-value">${u.account_status || 'active'}</span></div>
+        <div class="detail-row"><span class="detail-label">Email vérifié:</span><span class="detail-value">${u.email_verified ? 'Oui' : 'Non'}</span></div>
+        <div class="detail-row"><span class="detail-label">Total demandes:</span><span class="detail-value">${requests.length}</span></div>
+        <div class="detail-row"><span class="detail-label">Total dépenses:</span><span class="detail-value">${spending.toLocaleString()} MAD</span></div>
+        <div class="detail-row"><span class="detail-label">Dernière connexion:</span><span class="detail-value">${u.last_login ? new Date(u.last_login).toLocaleDateString('fr-FR') : 'Jamais'}</span></div>
+        <div class="detail-row"><span class="detail-label">Inscription:</span><span class="detail-value">${u.created_at ? new Date(u.created_at).toLocaleDateString('fr-FR') : '-'}</span></div>
+        <div class="mt-4"><button class="btn btn-sm btn-outline" onclick="closeModal('detailsModal');openNoteModal('user','${id}')"><i class="fas fa-sticky-note"></i> Notes internes</button>
+        <button class="btn btn-sm btn-outline" onclick="closeModal('detailsModal');resetPassword('${id}')"><i class="fas fa-key"></i> Réinitialiser mot de passe</button></div>
+      `;
+      document.getElementById('modalTitle').textContent = `Profil: ${u.full_name || u.email}`;
+      document.getElementById('modalBody').innerHTML = content;
+      openModal('detailsModal');
+    }
+
+    function editUser(id) {
+      const u = allUsers.find(x => x.id === id);
+      if (!u) return;
+      const body = document.getElementById('userEditBody');
+      body.innerHTML = `
+        <form onsubmit="saveUser(event, '${id}')">
+          <div class="form-row"><div class="form-group"><label>Nom complet</label><input type="text" id="editFullName" value="${u.full_name || ''}"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="editEmail" value="${u.email || ''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Téléphone</label><input type="text" id="editPhone" value="${u.phone || ''}"></div>
+          <div class="form-group"><label>Établissement</label><input type="text" id="editSchool" value="${u.school_name || ''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Rôle</label><select id="editRole">
+            <option value="user" ${u.role==='user'?'selected':''}>Utilisateur</option>
+            <option value="super_admin" ${u.role==='super_admin'?'selected':''}>Super Admin</option>
+            <option value="sales_manager" ${u.role==='sales_manager'?'selected':''}>Commercial</option>
+            <option value="operations_manager" ${u.role==='operations_manager'?'selected':''}>Opérations</option>
+            <option value="support_agent" ${u.role==='support_agent'?'selected':''}>Support</option>
+            <option value="technician" ${u.role==='technician'?'selected':''}>Technicien</option>
+            <option value="account_manager" ${u.role==='account_manager'?'selected':''}>Comptes</option>
+          </select></div>
+          <div class="form-group"><label>Statut</label><select id="editStatus">
+            <option value="active" ${u.account_status==='active'?'selected':''}>Actif</option>
+            <option value="suspended" ${u.account_status==='suspended'?'selected':''}>Suspendu</option>
+            <option value="pending_verification" ${u.account_status==='pending_verification'?'selected':''}>En attente</option>
+            <option value="archived" ${u.account_status==='archived'?'selected':''}>Archivé</option>
+          </select></div></div>
+          <div class="form-group"><label>Adresse</label><input type="text" id="editAddress" value="${u.address || ''}"></div>
+          <div class="form-row"><div class="form-group"><label>Téléphone secondaire</label><input type="text" id="editSecondaryPhone" value="${u.secondary_phone || ''}"></div>
+          <div class="form-group"><label>Manager assigné</label><input type="text" id="editManager" value="${u.assigned_manager || ''}" placeholder="ID utilisateur"></div></div>
+          <button type="submit" class="btn btn-primary w-full"><i class="fas fa-save"></i> Enregistrer</button>
+        </form>
+      `;
+      document.getElementById('userEditModal').classList.add('open');
+    }
+
+    async function saveUser(e, id) {
+      e.preventDefault();
+      const updates = {
+        full_name: document.getElementById('editFullName').value,
+        email: document.getElementById('editEmail').value,
+        phone: document.getElementById('editPhone').value,
+        school_name: document.getElementById('editSchool').value,
+        role: document.getElementById('editRole').value,
+        account_status: document.getElementById('editStatus').value,
+        address: document.getElementById('editAddress').value,
+        secondary_phone: document.getElementById('editSecondaryPhone').value,
+        assigned_manager: document.getElementById('editManager').value || null
+      };
+      try {
+        const supabase = window.__supabase.getClient();
+        const { error } = await supabase.from('users').update(updates).eq('id', id);
+        if (error) throw error;
+        showNotification('Utilisateur mis à jour', 'success');
+        closeModal('userEditModal');
+        loadUsers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function suspendUser(id) {
+      if (!confirm('Suspendre cet utilisateur ?')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('users').update({ account_status: 'suspended' }).eq('id', id);
+        showNotification('Utilisateur suspendu', 'success');
+        loadUsers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function reactivateUser(id) {
+      if (!confirm('Réactiver cet utilisateur ?')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('users').update({ account_status: 'active' }).eq('id', id);
+        showNotification('Utilisateur réactivé', 'success');
+        loadUsers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function deleteUser(id) {
+      if (!confirm('Supprimer définitivement cet utilisateur ? Cette action est irréversible.')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('users').delete().eq('id', id);
+        showNotification('Utilisateur supprimé', 'success');
+        loadUsers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function resetPassword(id) {
+      if (!confirm('Envoyer un email de réinitialisation de mot de passe ?')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        const u = allUsers.find(x => x.id === id);
+        if (u?.email) {
+          await supabase.auth.admin.generateLink({ type: 'recovery', email: u.email });
+          showNotification('Email de réinitialisation envoyé', 'success');
+        }
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    // ===== REQUESTS =====
     async function loadRequests() {
       try {
         const supabase = window.__supabase.getClient();
-        // Query requests table directly - uses data already stored in the table
-        const { data: requests, error } = await supabase
-          .from('requests')
-          .select('*')
-          .order('created_at', { ascending: false });
-
+        const { data, error } = await supabase.from('requests').select('*').order('created_at', { ascending: false });
         if (error) throw error;
-
-        allRequests = requests || [];
-        renderRequestsTable(allRequests);
-
-      } catch (error) {
-        console.error('Error loading requests:', error);
-        document.getElementById('requestsTableBody').innerHTML = 
-          '<tr><td colspan="9" style="text-align:center;color:#dc2626;">Erreur lors du chargement des demandes</td></tr>';
-      }
+        allRequests = data || [];
+        // Populate service filter
+        const svcFilter = document.getElementById('requestServiceFilter');
+        const services = [...new Set(allRequests.map(r => r.service_name || r.service_key).filter(Boolean))];
+        svcFilter.innerHTML = '<option value="">Tous services</option>' + services.map(s => `<option value="${s}">${s}</option>`).join('');
+        filterRequests();
+      } catch(e) { console.error('Requests error:', e); document.getElementById('requestsTableBody').innerHTML = '<tr><td colspan="10" style="text-align:center;color:#dc2626;">Erreur de chargement</td></tr>'; }
     }
 
-    // ===== RENDER REQUESTS TABLE =====
-    function renderRequestsTable(requests) {
-      const tbody = document.getElementById('requestsTableBody');
-      if (!requests || requests.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center">Aucune demande trouvée</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = requests.map((req, index) => {
-        // Use contact_name directly from requests table
-        const userName = req.contact_name || 'N/A';
-        
-        const hasDevis = req.quotation_url && req.quotation_url.trim() !== '';
-        const statusClass = req.status || 'pending';
-        const statusLabel = getStatusLabel(req.status);
-
-        return `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${userName}</td>
-            <td>${req.service_name || req.service_key}</td>
-            <td>${req.school_name || '-'}</td>
-            <td>${req.city || '-'}</td>
-            <td>${req.created_at ? new Date(req.created_at).toLocaleDateString('fr-FR') : '-'}</td>
-            <td>
-              <select class="status-select" onchange="updateRequestStatus('${req.id}', this.value)">
-                <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>En attente</option>
-                <option value="review" ${req.status === 'review' ? 'selected' : ''}>En révision</option>
-                <option value="in_progress" ${req.status === 'in_progress' ? 'selected' : ''}>En cours</option>
-                <option value="completed" ${req.status === 'completed' ? 'selected' : ''}>Terminée</option>
-                <option value="cancelled" ${req.status === 'cancelled' ? 'selected' : ''}>Annulée</option>
-              </select>
-            </td>
-            <td>
-              ${hasDevis
-                ? `<a href="${req.quotation_url}" target="_blank" class="quotation-badge available">
-                    <i class="fas fa-file-pdf"></i> Voir PDF
-                  </a>
-                  <button class="btn-upload" style="margin-left:8px;" onclick="uploadQuotation('${req.id}')" title="Modifier le devis">
-                    <i class="fas fa-upload"></i>
-                  </button>`
-                : `<button class="btn-upload" onclick="uploadQuotation('${req.id}')">
-                    <i class="fas fa-upload"></i> Ajouter
-                  </button>`
-              }
-            </td>
-            <td>
-              <div class="action-btns">
-                <button class="btn-icon btn-view" title="Détails" onclick="viewRequestDetails('${req.id}')">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteRequest('${req.id}')">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    // ===== SEARCH REQUESTS =====
-    function searchRequests(query) {
-      const filtered = allRequests.filter(req => 
-        (req.service_name || '').toLowerCase().includes(query.toLowerCase()) ||
-        (req.school_name || '').toLowerCase().includes(query.toLowerCase()) ||
-        (req.city || '').toLowerCase().includes(query.toLowerCase()) ||
-        (req.contact_name || '').toLowerCase().includes(query.toLowerCase()) ||
-        (req.contact_email || '').toLowerCase().includes(query.toLowerCase())
-      );
+    function filterRequests() {
+      const search = document.getElementById('requestSearch').value.toLowerCase();
+      const status = document.getElementById('requestStatusFilter').value;
+      const priority = document.getElementById('requestPriorityFilter').value;
+      const service = document.getElementById('requestServiceFilter').value;
+      let filtered = allRequests.filter(r => {
+        if (search && !(r.service_name||'').toLowerCase().includes(search) && !(r.school_name||'').toLowerCase().includes(search) && !(r.city||'').toLowerCase().includes(search) && !(r.contact_name||'').toLowerCase().includes(search)) return false;
+        if (status && r.status !== status) return false;
+        if (priority && r.priority !== priority) return false;
+        if (service && (r.service_name !== service && r.service_key !== service)) return false;
+        return true;
+      });
       renderRequestsTable(filtered);
     }
 
-    // ===== UPDATE DASHBOARD STATS =====
-    function updateDashboardStats() {
-      document.getElementById('totalUsers').textContent = allUsers.length;
-      document.getElementById('totalRequests').textContent = allRequests.length;
-      document.getElementById('pendingRequests').textContent = allRequests.filter(r => r.status === 'pending' || r.status === 'review').length;
-      document.getElementById('completedRequests').textContent = allRequests.filter(r => r.status === 'completed').length;
-
-      // Render recent requests
-      renderRecentRequests(allRequests.slice(0, 5));
-    }
-
-    // ===== RENDER RECENT REQUESTS =====
-    function renderRecentRequests(requests) {
-      const tbody = document.getElementById('recentRequestsTableBody');
-      if (!requests || requests.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center">Aucune demande récente</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = requests.map((req, index) => {
-        const statusClass = req.status || 'pending';
-        const statusLabel = getStatusLabel(req.status);
-
-        return `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${req.contact_name || req.contact_email || 'N/A'}</td>
-            <td>${req.school_name || '-'}</td>
-            <td>${req.service_name || req.service_key}</td>
-            <td>${req.created_at ? new Date(req.created_at).toLocaleDateString('fr-FR') : '-'}</td>
-            <td><span class="status-badge status-${statusClass}">${statusLabel}</span></td>
-            <td>
-              ${req.quotation_url ? `<a href="${req.quotation_url}" target="_blank" class="quotation-badge available"><i class="fas fa-file-pdf"></i> Voir</a>` : '<span class="quotation-badge unavailable">Aucun</span>'}
-            </td>
-          </tr>
-        `;
+    function renderRequestsTable(requests) {
+      const tbody = document.getElementById('requestsTableBody');
+      if (!requests || requests.length === 0) { tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;">Aucune demande trouvée</td></tr>'; return; }
+      tbody.innerHTML = requests.map((r, i) => {
+        const hasDevis = r.quotation_url && r.quotation_url.trim() !== '';
+        const priorityClass = r.priority === 'critical' ? 'priority-critical' : r.priority === 'urgent' ? 'priority-urgent' : r.priority === 'high' ? 'priority-high' : r.priority === 'low' ? 'priority-low' : 'priority-normal';
+        return `<tr>
+          <td>${i+1}</td>
+          <td>${r.contact_name || r.contact_email || 'N/A'}</td>
+          <td>${r.service_name || r.service_key}</td>
+          <td>${r.school_name || '-'}</td>
+          <td>${r.city || '-'}</td>
+          <td>${r.created_at ? new Date(r.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+          <td><span class="priority-badge ${priorityClass}">${r.priority || 'normal'}</span></td>
+          <td><span class="status-badge status-${r.status}">${getStatusLabel(r.status)}</span></td>
+          <td>${hasDevis ? `<a href="${r.quotation_url}" target="_blank" style="color:var(--primary);font-weight:600;"><i class="fas fa-file-pdf"></i></a>` : '<span style="color:#94a3b8;">-</span>'}</td>
+          <td><div class="action-btns">
+            <button class="btn-icon btn-view" title="Détails" onclick="viewRequestDetails('${r.id}')"><i class="fas fa-eye"></i></button>
+            <button class="btn-icon btn-edit" title="Modifier" onclick="editRequest('${r.id}')"><i class="fas fa-edit"></i></button>
+            <button class="btn-icon btn-success" title="Devis" onclick="createQuote('${r.id}')"><i class="fas fa-file-invoice-dollar"></i></button>
+            <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteRequest('${r.id}')"><i class="fas fa-trash"></i></button>
+          </div></td>
+        </tr>`;
       }).join('');
     }
 
-    // ===== HELPER FUNCTIONS =====
     function getStatusLabel(status) {
       const labels = {
-        'pending': 'En attente',
-        'review': 'En révision',
-        'in_progress': 'En cours',
-        'completed': 'Terminée',
-        'cancelled': 'Annulée'
+        'pending': 'En attente', 'review': 'En révision', 'in_progress': 'En cours', 'completed': 'Terminée', 'cancelled': 'Annulée',
+        'nouvelle_demande': 'Nouvelle', 'en_attente': 'En attente', 'devis_envoye': 'Devis envoyé', 'devis_accepte': 'Devis accepté',
+        'devis_refuse': 'Devis refusé', 'en_preparation': 'En préparation', 'prestataire_assigne': 'Prestataire assigné',
+        'en_cours': 'En cours', 'livre': 'Livré', 'termine': 'Terminé', 'annule': 'Annulé'
       };
       return labels[status] || status;
     }
 
-    // ===== ACTION FUNCTIONS =====
-    async function updateRequestStatus(requestId, newStatus) {
-      try {
-        const supabase = window.__supabase.getClient();
-        const { error } = await supabase
-          .from('requests')
-          .update({ status: newStatus })
-          .eq('id', requestId);
-
-        if (error) throw error;
-
-        // Update local data
-        const req = allRequests.find(r => r.id === requestId);
-        if (req) req.status = newStatus;
-        
-        // Refresh stats
-        updateDashboardStats();
-        
-        showNotification('Statut mis à jour avec succès!', 'success');
-
-      } catch (error) {
-        console.error('Error updating status:', error);
-        showNotification('Erreur lors de la mise à jour du statut', 'error');
-      }
-    }
-
-    function uploadQuotation(requestId) {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.pdf';
-      input.onchange = async function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const fileName = 'quotation-' + requestId + '-' + Date.now() + '.pdf';
-        
-        try {
-          const supabase = window.__supabase.getClient();
-          
-          // Check if bucket exists, if not show error
-          let uploadResult;
-          try {
-            uploadResult = await supabase.storage.from('quotations').upload(fileName, file);
-          } catch (bucketErr) {
-            throw new Error('Le bucket de stockage "quotations" n\'existe pas. Veuillez le créer dans Supabase Dashboard > Storage.');
-          }
-
-          if (uploadResult.error) throw uploadResult.error;
-
-          // Get public URL
-          const { data: urlData } = supabase.storage
-            .from('quotations')
-            .getPublicUrl(fileName);
-
-          // Update request with quotation URL
-          const { error } = await supabase
-            .from('requests')
-            .update({ quotation_url: urlData.publicUrl })
-            .eq('id', requestId);
-
-          if (error) throw error;
-
-          // Update local data and refresh table
-          const req = allRequests.find(r => r.id === requestId);
-          if (req) req.quotation_url = urlData.publicUrl;
-          
-          renderRequestsTable(allRequests);
-          renderRecentRequests(allRequests.slice(0, 5));
-          
-          showNotification('Devis téléchargé avec succès!', 'success');
-
-        } catch (error) {
-          console.error('Error uploading quotation:', error);
-          showNotification(error.message || 'Erreur lors du téléchargement du devis', 'error');
-        }
-      };
-      input.click();
-    }
-
-    async function deleteRequest(requestId) {
-      if (!confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')) return;
-
-      try {
-        const supabase = window.__supabase.getClient();
-        const { error } = await supabase
-          .from('requests')
-          .delete()
-          .eq('id', requestId);
-
-        if (error) throw error;
-
-        // Remove from local data
-        allRequests = allRequests.filter(r => r.id !== requestId);
-        renderRequestsTable(allRequests);
-        updateDashboardStats();
-
-        showNotification('Demande supprimée avec succès!', 'success');
-
-      } catch (error) {
-        console.error('Error deleting request:', error);
-        showNotification('Erreur lors de la suppression de la demande', 'error');
-      }
-    }
-
-    function viewRequestDetails(requestId) {
-      const req = allRequests.find(r => r.id === requestId);
-      if (!req) return;
-      
+    async function viewRequestDetails(id) {
+      const r = allRequests.find(x => x.id === id);
+      if (!r) return;
       const content = `
-        <div class="detail-row">
-          <span class="detail-label">Utilisateur:</span>
-          <span class="detail-value">${req.contact_name || 'N/A'}</span>
+        <div class="detail-row"><span class="detail-label">N° Demande:</span><span class="detail-value">${r.request_number || '#'+r.id}</span></div>
+        <div class="detail-row"><span class="detail-label">Service:</span><span class="detail-value">${r.service_name || r.service_key}</span></div>
+        <div class="detail-row"><span class="detail-label">Établissement:</span><span class="detail-value">${r.school_name || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Ville:</span><span class="detail-value">${r.city || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Contact:</span><span class="detail-value">${r.contact_name || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Email:</span><span class="detail-value">${r.contact_email || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Téléphone:</span><span class="detail-value">${r.contact_phone || 'N/A'}</span></div>
+        <div class="detail-row"><span class="detail-label">Statut:</span><span class="detail-value"><span class="status-badge status-${r.status}">${getStatusLabel(r.status)}</span></span></div>
+        <div class="detail-row"><span class="detail-label">Priorité:</span><span class="detail-value"><span class="priority-badge priority-${r.priority||'normal'}">${r.priority||'normal'}</span></span></div>
+        <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value">${r.created_at ? new Date(r.created_at).toLocaleDateString('fr-FR') : '-'}</span></div>
+        <div class="detail-row"><span class="detail-label">Date souhaitée:</span><span class="detail-value">${r.requested_date || '-'}</span></div>
+        <div class="detail-row"><span class="detail-label">Montant devis:</span><span class="detail-value">${r.quote_amount ? r.quote_amount + ' MAD' : '-'}</span></div>
+        <div class="detail-row"><span class="detail-label">Paiement:</span><span class="detail-value">${r.payment_status || '-'}</span></div>
+        ${r.description ? `<div class="detail-row"><span class="detail-label">Description:</span><span class="detail-value">${r.description}</span></div>` : ''}
+        ${r.notes ? `<div class="detail-row"><span class="detail-label">Notes internes:</span><span class="detail-value">${r.notes}</span></div>` : ''}
+        <div class="mt-4">
+          <button class="btn btn-sm btn-outline" onclick="closeModal('detailsModal');openNoteModal('request','${id}')"><i class="fas fa-sticky-note"></i> Notes</button>
+          <button class="btn btn-sm btn-outline" onclick="closeModal('detailsModal');createQuote('${id}')"><i class="fas fa-file-invoice-dollar"></i> Créer devis</button>
         </div>
-        <div class="detail-row">
-          <span class="detail-label">Email:</span>
-          <span class="detail-value">${req.contact_email || 'N/A'}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Établissement:</span>
-          <span class="detail-value">${req.school_name || 'N/A'}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Ville:</span>
-          <span class="detail-value">${req.city || 'N/A'}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Service:</span>
-          <span class="detail-value">${req.service_name || 'N/A'}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Téléphone:</span>
-          <span class="detail-value">${req.contact_phone || 'N/A'}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Statut:</span>
-          <span class="detail-value">${getStatusLabel(req.status)}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Date:</span>
-          <span class="detail-value">${req.created_at ? new Date(req.created_at).toLocaleDateString('fr-FR') : 'N/A'}</span>
-        </div>
-        ${req.quotation_url ? `
-        <div class="detail-row">
-          <span class="detail-label">Devis:</span>
-          <span class="detail-value"><a href="${req.quotation_url}" target="_blank">Voir le PDF</a></span>
-        </div>
-        ` : ''}
-        ${req.description ? `
-        <div class="detail-row">
-          <span class="detail-label">Description:</span>
-          <span class="detail-value">${req.description}</span>
-        </div>
-        ` : ''}
-        ${req.requested_date ? `
-        <div class="detail-row">
-          <span class="detail-label">Date souhaitée:</span>
-          <span class="detail-value">${req.requested_date}</span>
-        </div>
-        ` : ''}
-        ${req.budget ? `
-        <div class="detail-row">
-          <span class="detail-label">Budget:</span>
-          <span class="detail-value">${req.budget} MAD</span>
-        </div>
-        ` : ''}
       `;
+      document.getElementById('modalTitle').textContent = `Demande: ${r.service_name || r.service_key}`;
+      document.getElementById('modalBody').innerHTML = content;
+      openModal('detailsModal');
+    }
+
+    function editRequest(id) {
+      const r = allRequests.find(x => x.id === id);
+      if (!r) return;
+      const statusOptions = ['nouvelle_demande','en_attente','devis_envoye','devis_accepte','devis_refuse','en_preparation','prestataire_assigne','en_cours','livre','termine','annule'];
+      const priorityOptions = ['low','normal','high','urgent','critical'];
+      const body = document.getElementById('requestEditBody');
+      body.innerHTML = `
+        <form onsubmit="saveRequest(event, '${id}')">
+          <div class="form-row"><div class="form-group"><label>Statut</label><select id="editReqStatus">${statusOptions.map(s => `<option value="${s}" ${r.status===s?'selected':''}>${getStatusLabel(s)}</option>`).join('')}</select></div>
+          <div class="form-group"><label>Priorité</label><select id="editReqPriority">${priorityOptions.map(p => `<option value="${p}" ${r.priority===p?'selected':''}>${p}</option>`).join('')}</select></div></div>
+          <div class="form-row"><div class="form-group"><label>Contact</label><input type="text" id="editReqContact" value="${r.contact_name||''}"></div>
+          <div class="form-group"><label>Téléphone</label><input type="text" id="editReqPhone" value="${r.contact_phone||''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="editReqEmail" value="${r.contact_email||''}"></div>
+          <div class="form-group"><label>Établissement</label><input type="text" id="editReqSchool" value="${r.school_name||''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Ville</label><input type="text" id="editReqCity" value="${r.city||''}"></div>
+          <div class="form-group"><label>Date estimée</label><input type="date" id="editReqDate" value="${r.estimated_completion_date||''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Montant devis (MAD)</label><input type="number" id="editReqAmount" value="${r.quote_amount||''}"></div>
+          <div class="form-group"><label>Paiement</label><select id="editReqPayment"><option value="unpaid" ${r.payment_status==='unpaid'?'selected':''}>Impayé</option><option value="partially_paid" ${r.payment_status==='partially_paid'?'selected':''}>Partiellement payé</option><option value="paid" ${r.payment_status==='paid'?'selected':''}>Payé</option><option value="refunded" ${r.payment_status==='refunded'?'selected':''}>Remboursé</option></select></div></div>
+          <div class="form-group"><label>Notes internes</label><textarea id="editReqNotes">${r.notes||''}</textarea></div>
+          <button type="submit" class="btn btn-primary w-full"><i class="fas fa-save"></i> Enregistrer</button>
+        </form>
+      `;
+      openModal('requestEditModal');
+    }
+
+    async function saveRequest(e, id) {
+      e.preventDefault();
+      const updates = {
+        status: document.getElementById('editReqStatus').value,
+        priority: document.getElementById('editReqPriority').value,
+        contact_name: document.getElementById('editReqContact').value,
+        contact_phone: document.getElementById('editReqPhone').value,
+        contact_email: document.getElementById('editReqEmail').value,
+        school_name: document.getElementById('editReqSchool').value,
+        city: document.getElementById('editReqCity').value,
+        estimated_completion_date: document.getElementById('editReqDate').value || null,
+        quote_amount: document.getElementById('editReqAmount').value ? Number(document.getElementById('editReqAmount').value) : null,
+        payment_status: document.getElementById('editReqPayment').value,
+        notes: document.getElementById('editReqNotes').value
+      };
+      try {
+        const supabase = window.__supabase.getClient();
+        const { error } = await supabase.from('requests').update(updates).eq('id', id);
+        if (error) throw error;
+        showNotification('Demande mise à jour', 'success');
+        closeModal('requestEditModal');
+        loadRequests();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function deleteRequest(id) {
+      if (!confirm('Supprimer cette demande ?')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('requests').delete().eq('id', id);
+        showNotification('Demande supprimée', 'success');
+        loadRequests();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    // ===== QUOTES =====
+    async function loadQuotes() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('quotes').select('*, request:request_id(service_name, school_name, contact_name)').order('created_at', { ascending: false });
+        if (error) throw error;
+        allQuotes = data || [];
+        renderQuotesTable(allQuotes);
+      } catch(e) { console.error('Quotes error:', e); document.getElementById('quotesTableBody').innerHTML = '<tr><td colspan="8" style="text-align:center;color:#dc2626;">Erreur</td></tr>'; }
+    }
+
+    function renderQuotesTable(quotes) {
+      const tbody = document.getElementById('quotesTableBody');
+      if (!quotes || quotes.length === 0) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;">Aucun devis</td></tr>'; return; }
+      tbody.innerHTML = quotes.map((q, i) => `<tr>
+        <td><strong>${q.quote_number || '#'+q.id}</strong></td>
+        <td>${q.request?.service_name || 'N/A'}</td>
+        <td>${q.request?.contact_name || q.request?.school_name || 'N/A'}</td>
+        <td>${Number(q.total || 0).toLocaleString()} MAD</td>
+        <td>v${q.version}</td>
+        <td><span class="status-badge status-${q.status === 'accepted' ? 'completed' : q.status === 'rejected' ? 'cancelled' : q.status === 'sent' ? 'review' : 'pending'}">${q.status}</span></td>
+        <td>${q.created_at ? new Date(q.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+        <td><div class="action-btns">
+          ${q.status === 'draft' ? `<button class="btn-icon btn-success" title="Envoyer" onclick="sendQuote('${q.id}')"><i class="fas fa-paper-plane"></i></button>` : ''}
+          ${q.status === 'sent' ? `<button class="btn-icon btn-success" title="Accepter" onclick="acceptQuote('${q.id}')"><i class="fas fa-check"></i></button><button class="btn-icon btn-delete" title="Refuser" onclick="rejectQuote('${q.id}')"><i class="fas fa-times"></i></button>` : ''}
+          <button class="btn-icon btn-view" title="Voir" onclick="viewQuoteDetails('${q.id}')"><i class="fas fa-eye"></i></button>
+        </div></td>
+      </tr>`).join('');
+    }
+
+    function createQuote(requestId) {
+      const r = allRequests.find(x => x.id === requestId);
+      const body = document.getElementById('quoteModalBody');
+      body.innerHTML = `
+        <form onsubmit="saveQuote(event, '${requestId}')">
+          <div class="form-row"><div class="form-group"><label>Service</label><input type="text" value="${r?.service_name || ''}" disabled></div>
+          <div class="form-group"><label>Client</label><input type="text" value="${r?.contact_name || r?.school_name || ''}" disabled></div></div>
+          <div class="form-group">
+            <label>Fichier PDF du devis</label>
+            <div class="upload-area" style="border:2px dashed #e5e7eb;border-radius:8px;padding:30px;text-align:center;cursor:pointer;transition:var(--transition);" id="quoteUploadArea" onclick="document.getElementById('quoteFileInput').click()">
+              <input type="file" id="quoteFileInput" accept=".pdf" style="display:none;" onchange="handleQuoteFileSelect(event)">
+              <i class="fas fa-cloud-upload-alt" style="font-size:2.5rem;color:var(--primary);margin-bottom:12px;display:block;"></i>
+              <p style="font-weight:600;color:var(--secondary);margin-bottom:4px;" id="quoteUploadText">Cliquez pour sélectionner le fichier PDF du devis</p>
+              <p style="font-size:0.85rem;color:var(--text-light);">Format accepté : PDF uniquement</p>
+              <p style="font-size:0.85rem;color:var(--text-light);font-weight:600;display:none;" id="quoteFileName"></p>
+            </div>
+            <div id="quoteUploadProgress" style="display:none;margin-top:8px;">
+              <div style="height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;">
+                <div id="quoteProgressBar" style="height:100%;width:0%;background:var(--primary);transition:width 0.3s;"></div>
+              </div>
+              <p style="font-size:0.8rem;color:var(--text-light);margin-top:4px;" id="quoteProgressText">Téléchargement en cours...</p>
+            </div>
+          </div>
+          <div class="form-row"><div class="form-group"><label>Montant (MAD)</label><input type="number" id="quoteAmount" step="0.01" placeholder="Montant total du devis" required></div>
+          <div class="form-group"><label>Valide jusqu'au</label><input type="date" id="quoteValidUntil"></div></div>
+          <div class="form-group"><label>Notes</label><textarea id="quoteNotes" placeholder="Informations complémentaires sur le devis..."></textarea></div>
+          <button type="submit" class="btn btn-primary w-full" id="quoteSubmitBtn"><i class="fas fa-upload"></i> Télécharger et créer le devis</button>
+        </form>
+      `;
+      openModal('quoteModal');
+    }
+
+    let selectedQuoteFile = null;
+
+    function handleQuoteFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.type !== 'application/pdf') {
+        showNotification('Seuls les fichiers PDF sont acceptés', 'error');
+        return;
+      }
+      selectedQuoteFile = file;
+      document.getElementById('quoteUploadText').textContent = 'Fichier sélectionné';
+      document.getElementById('quoteFileName').textContent = '📄 ' + file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+      document.getElementById('quoteFileName').style.display = 'block';
+      document.getElementById('quoteUploadArea').style.borderColor = '#10b981';
+    }
+
+    async function saveQuote(e, requestId) {
+      e.preventDefault();
       
-      showModal(`Demande #${requestId}`, content);
+      if (!selectedQuoteFile) {
+        showNotification('Veuillez sélectionner un fichier PDF', 'error');
+        return;
+      }
+
+      const amount = Number(document.getElementById('quoteAmount').value);
+      if (!amount || amount <= 0) {
+        showNotification('Veuillez entrer un montant valide', 'error');
+        return;
+      }
+
+      const submitBtn = document.getElementById('quoteSubmitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Téléchargement...';
+
+      try {
+        const supabase = window.__supabase.getClient();
+        
+        // Show progress
+        document.getElementById('quoteUploadProgress').style.display = 'block';
+
+        // Upload file to quotations bucket
+        const fileName = 'quote-' + requestId + '-' + Date.now() + '.pdf';
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('quotations')
+          .upload(fileName, selectedQuoteFile, {
+            cacheControl: '3600',
+            upsert: true
+          });
+
+        if (uploadError) {
+          console.error('Upload error details:', uploadError);
+          if (uploadError.message?.includes('bucket') || uploadError.statusCode === 400) {
+            throw new Error('Erreur: Le bucket "quotations" n\'existe pas ou n\'est pas accessible. Vérifiez dans Supabase Dashboard > Storage que le bucket existe et est public.');
+          }
+          throw uploadError;
+        }
+
+        // Update progress
+        document.getElementById('quoteProgressBar').style.width = '70%';
+        document.getElementById('quoteProgressText').textContent = 'Génération du lien...';
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('quotations')
+          .getPublicUrl(fileName);
+
+        const publicUrl = urlData.publicUrl;
+
+        document.getElementById('quoteProgressBar').style.width = '90%';
+        document.getElementById('quoteProgressText').textContent = 'Enregistrement...';
+
+        // Check for existing versions
+        const { data: existingQuotes } = await supabase
+          .from('quotes')
+          .select('version')
+          .eq('request_id', requestId)
+          .order('version', { ascending: false })
+          .limit(1);
+
+        const version = (existingQuotes && existingQuotes.length > 0) ? existingQuotes[0].version + 1 : 1;
+
+        // Create quote record in DB
+        const { error: insertError } = await supabase
+          .from('quotes')
+          .insert({
+            request_id: requestId,
+            version,
+            subtotal: amount,
+            tax: 0,
+            discount: 0,
+            delivery_fee: 0,
+            total: amount,
+            pdf_url: publicUrl,
+            status: 'draft',
+          created_by: adminUser?.id || null
+          });
+
+        if (insertError) throw insertError;
+
+        // Update the request with quotation URL and amount
+        await supabase
+          .from('requests')
+          .update({ 
+            quotation_url: publicUrl, 
+            quote_amount: amount,
+            status: 'devis_envoye' 
+          })
+          .eq('id', requestId);
+
+        document.getElementById('quoteProgressBar').style.width = '100%';
+        document.getElementById('quoteProgressText').textContent = 'Terminé !';
+
+        setTimeout(() => {
+          showNotification('Devis téléchargé et créé avec succès !', 'success');
+          closeModal('quoteModal');
+          selectedQuoteFile = null;
+          loadQuotes();
+          loadRequests();
+        }, 500);
+
+      } catch(e) {
+        document.getElementById('quoteUploadProgress').style.display = 'none';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-upload"></i> Télécharger et créer le devis';
+        showNotification('Erreur: ' + e.message, 'error');
+      }
     }
 
-    function viewUserRequests(userId) {
-      showTab('requests', document.querySelector('[onclick="showTab(\'requests\', this)"]'));
-      document.getElementById('requestSearchInput').focus();
+    async function sendQuote(id) {
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('quotes').update({ status: 'sent' }).eq('id', id);
+        showNotification('Devis envoyé', 'success');
+        loadQuotes();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
     }
 
+    async function acceptQuote(id) {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data: q } = await supabase.from('quotes').select('request_id').eq('id', id).single();
+        await supabase.from('quotes').update({ status: 'accepted' }).eq('id', id);
+        if (q) await supabase.from('requests').update({ status: 'devis_accepte' }).eq('id', q.request_id);
+        showNotification('Devis accepté', 'success');
+        loadQuotes();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function rejectQuote(id) {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data: q } = await supabase.from('quotes').select('request_id').eq('id', id).single();
+        await supabase.from('quotes').update({ status: 'rejected' }).eq('id', id);
+        if (q) await supabase.from('requests').update({ status: 'devis_refuse' }).eq('id', q.request_id);
+        showNotification('Devis refusé', 'success');
+        loadQuotes();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    function viewQuoteDetails(id) {
+      const q = allQuotes.find(x => x.id === id);
+      if (!q) return;
+      const content = `
+        <div class="detail-row"><span class="detail-label">N° Devis:</span><span class="detail-value">${q.quote_number || '#'+q.id}</span></div>
+        <div class="detail-row"><span class="detail-label">Version:</span><span class="detail-value">${q.version}</span></div>
+        <div class="detail-row"><span class="detail-label">Sous-total:</span><span class="detail-value">${Number(q.subtotal||0).toLocaleString()} MAD</span></div>
+        <div class="detail-row"><span class="detail-label">TVA:</span><span class="detail-value">${Number(q.tax||0).toLocaleString()} MAD</span></div>
+        <div class="detail-row"><span class="detail-label">Remise:</span><span class="detail-value">-${Number(q.discount||0).toLocaleString()} MAD</span></div>
+        <div class="detail-row"><span class="detail-label">Frais livraison:</span><span class="detail-value">${Number(q.delivery_fee||0).toLocaleString()} MAD</span></div>
+        <div class="detail-row"><span class="detail-label"><strong>Total:</strong></span><span class="detail-value"><strong>${Number(q.total||0).toLocaleString()} MAD</strong></span></div>
+        <div class="detail-row"><span class="detail-label">Statut:</span><span class="detail-value">${q.status}</span></div>
+        <div class="detail-row"><span class="detail-label">Valide jusqu'au:</span><span class="detail-value">${q.valid_until || '-'}</span></div>
+        <div class="detail-row"><span class="detail-label">Conditions:</span><span class="detail-value">${q.payment_terms || '-'}</span></div>
+        ${q.notes ? `<div class="detail-row"><span class="detail-label">Notes:</span><span class="detail-value">${q.notes}</span></div>` : ''}
+      `;
+      document.getElementById('modalTitle').textContent = `Devis: ${q.quote_number || '#'+q.id}`;
+      document.getElementById('modalBody').innerHTML = content;
+      openModal('detailsModal');
+    }
+
+    // ===== INVOICES =====
+    async function loadInvoices() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('invoices').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        allInvoices = data || [];
+        renderInvoicesTable(allInvoices);
+      } catch(e) { console.error('Invoices error:', e); }
+    }
+
+    function renderInvoicesTable(invoices) {
+      const tbody = document.getElementById('invoicesTableBody');
+      if (!invoices || invoices.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;">Aucune facture</td></tr>'; return; }
+      tbody.innerHTML = invoices.map((inv, i) => `<tr>
+        <td><strong>${inv.reference || inv.invoice_number || '#'+inv.id}</strong></td>
+        <td>${inv.service_name || '-'}</td>
+        <td>${inv.contact_name || inv.user_email || '-'}</td>
+        <td>${Number(inv.total_amount || inv.amount || 0).toLocaleString()} MAD</td>
+        <td><span class="status-badge ${inv.payment_status === 'paid' ? 'status-completed' : inv.payment_status === 'overdue' ? 'status-cancelled' : 'status-pending'}">${inv.payment_status === 'paid' ? 'Payé' : inv.payment_status === 'overdue' ? 'En retard' : inv.payment_status === 'refunded' ? 'Remboursé' : 'Impayé'}</span></td>
+        <td>${inv.created_at ? new Date(inv.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+        <td><button class="btn-icon btn-view" title="Voir"><i class="fas fa-eye"></i></button></td>
+      </tr>`).join('');
+    }
+
+    // ===== SUPPLIERS =====
+    async function loadSuppliers() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('suppliers').select('*').order('name', { ascending: true });
+        if (error) throw error;
+        allSuppliers = data || [];
+        renderSuppliersTable(allSuppliers);
+      } catch(e) { console.error('Suppliers error:', e); }
+    }
+
+    function renderSuppliersTable(suppliers) {
+      const tbody = document.getElementById('suppliersTableBody');
+      if (!suppliers || suppliers.length === 0) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;">Aucun fournisseur</td></tr>'; return; }
+      tbody.innerHTML = suppliers.map((s, i) => `<tr>
+        <td><strong>${s.name}</strong></td>
+        <td>${s.contact_person || '-'}</td>
+        <td>${s.email || '-'}</td>
+        <td>${s.phone || '-'}</td>
+        <td>${s.city || '-'}</td>
+        <td>${s.rating ? '⭐'.repeat(Math.round(s.rating)) : '-'}</td>
+        <td><span class="status-badge ${s.status === 'active' ? 'status-completed' : s.status === 'inactive' ? 'status-pending' : 'status-cancelled'}">${s.status}</span></td>
+        <td><div class="action-btns">
+          <button class="btn-icon btn-edit" title="Modifier" onclick="editSupplier('${s.id}')"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteSupplier('${s.id}')"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`).join('');
+    }
+
+    function openSupplierModal() {
+      const body = document.getElementById('supplierModalBody');
+      body.innerHTML = `
+        <form onsubmit="saveSupplier(event)">
+          <div class="form-row"><div class="form-group"><label>Nom *</label><input type="text" id="supName" required></div>
+          <div class="form-group"><label>Contact</label><input type="text" id="supContact"></div></div>
+          <div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="supEmail"></div>
+          <div class="form-group"><label>Téléphone</label><input type="text" id="supPhone"></div></div>
+          <div class="form-row"><div class="form-group"><label>Adresse</label><input type="text" id="supAddress"></div>
+          <div class="form-group"><label>Ville</label><input type="text" id="supCity"></div></div>
+          <div class="form-group"><label>Notes</label><textarea id="supNotes"></textarea></div>
+          <button type="submit" class="btn btn-primary w-full"><i class="fas fa-save"></i> Ajouter</button>
+        </form>
+      `;
+      document.getElementById('supplierModalTitle').textContent = 'Ajouter un fournisseur';
+      openModal('supplierModal');
+    }
+
+    async function saveSupplier(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('supName').value,
+        contact_person: document.getElementById('supContact').value,
+        email: document.getElementById('supEmail').value,
+        phone: document.getElementById('supPhone').value,
+        address: document.getElementById('supAddress').value,
+        city: document.getElementById('supCity').value,
+        notes: document.getElementById('supNotes').value
+      };
+      try {
+        const supabase = window.__supabase.getClient();
+        const { error } = await supabase.from('suppliers').insert(data);
+        if (error) throw error;
+        showNotification('Fournisseur ajouté', 'success');
+        closeModal('supplierModal');
+        loadSuppliers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function deleteSupplier(id) {
+      if (!confirm('Supprimer ce fournisseur ?')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('suppliers').delete().eq('id', id);
+        showNotification('Fournisseur supprimé', 'success');
+        loadSuppliers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    function editSupplier(id) {
+      const s = allSuppliers.find(x => x.id === id);
+      if (!s) return;
+      const body = document.getElementById('supplierModalBody');
+      body.innerHTML = `
+        <form onsubmit="updateSupplier(event, '${id}')">
+          <div class="form-row"><div class="form-group"><label>Nom *</label><input type="text" id="supName" value="${s.name}" required></div>
+          <div class="form-group"><label>Contact</label><input type="text" id="supContact" value="${s.contact_person||''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="supEmail" value="${s.email||''}"></div>
+          <div class="form-group"><label>Téléphone</label><input type="text" id="supPhone" value="${s.phone||''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Adresse</label><input type="text" id="supAddress" value="${s.address||''}"></div>
+          <div class="form-group"><label>Ville</label><input type="text" id="supCity" value="${s.city||''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Note</label><input type="number" id="supRating" step="0.1" min="0" max="5" value="${s.rating||0}"></div>
+          <div class="form-group"><label>Statut</label><select id="supStatus"><option value="active" ${s.status==='active'?'selected':''}>Actif</option><option value="inactive" ${s.status==='inactive'?'selected':''}>Inactif</option><option value="blacklisted" ${s.status==='blacklisted'?'selected':''}>Blacklisté</option></select></div></div>
+          <div class="form-group"><label>Notes</label><textarea id="supNotes">${s.notes||''}</textarea></div>
+          <button type="submit" class="btn btn-primary w-full"><i class="fas fa-save"></i> Enregistrer</button>
+        </form>
+      `;
+      document.getElementById('supplierModalTitle').textContent = 'Modifier le fournisseur';
+      openModal('supplierModal');
+    }
+
+    async function updateSupplier(e, id) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('supName').value,
+        contact_person: document.getElementById('supContact').value,
+        email: document.getElementById('supEmail').value,
+        phone: document.getElementById('supPhone').value,
+        address: document.getElementById('supAddress').value,
+        city: document.getElementById('supCity').value,
+        rating: Number(document.getElementById('supRating').value) || 0,
+        status: document.getElementById('supStatus').value,
+        notes: document.getElementById('supNotes').value
+      };
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('suppliers').update(data).eq('id', id);
+        showNotification('Fournisseur mis à jour', 'success');
+        closeModal('supplierModal');
+        loadSuppliers();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    // ===== ANALYTICS =====
+    async function loadAnalytics() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const year = new Date().getFullYear();
+        const yearStart = `${year}-01-01`;
+        const yearEnd = `${year}-12-31`;
+
+        const [revenueRes, requestsRes, servicesRes, citiesRes] = await Promise.all([
+          supabase.from('invoices').select('total_amount, created_at').gte('created_at', yearStart).lte('created_at', yearEnd),
+          supabase.from('requests').select('created_at, status').gte('created_at', yearStart).lte('created_at', yearEnd),
+          supabase.from('requests').select('service_key, service_name'),
+          supabase.from('requests').select('city')
+        ]);
+
+        // Revenue by month
+        const revenueByMonth = {};
+        (revenueRes.data || []).forEach(inv => {
+          const d = new Date(inv.created_at);
+          const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+          revenueByMonth[key] = (revenueByMonth[key]||0) + Number(inv.total_amount||0);
+        });
+
+        // Requests by month
+        const requestsByMonth = {};
+        (requestsRes.data || []).forEach(r => {
+          const d = new Date(r.created_at);
+          const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+          requestsByMonth[key] = (requestsByMonth[key]||0) + 1;
+        });
+
+        // Top services
+        const svcCounts = {};
+        (servicesRes.data || []).forEach(r => {
+          const k = r.service_name || r.service_key || 'N/A';
+          svcCounts[k] = (svcCounts[k]||0) + 1;
+        });
+        const topServices = Object.entries(svcCounts).sort((a,b) => b[1]-a[1]).slice(0, 10);
+
+        // Top cities
+        const cityCounts = {};
+        (citiesRes.data || []).forEach(r => {
+          const c = r.city || 'Inconnue';
+          cityCounts[c] = (cityCounts[c]||0) + 1;
+        });
+        const topCities = Object.entries(cityCounts).sort((a,b) => b[1]-a[1]).slice(0, 10);
+
+        // Conversion rate
+        const totalReqs = (requestsRes.data || []).length;
+        const completedReqs = (requestsRes.data || []).filter(r => ['completed','termine','livre'].includes(r.status)).length;
+        const conversionRate = totalReqs > 0 ? ((completedReqs/totalReqs)*100).toFixed(1) : 0;
+
+        // Average value
+        let totalAmt = 0, invCount = 0;
+        (revenueRes.data || []).forEach(inv => { totalAmt += Number(inv.total_amount||0); invCount++; });
+        const avgValue = invCount > 0 ? (totalAmt/invCount).toFixed(2) : 0;
+
+        document.getElementById('analyticsConversion').textContent = conversionRate + '%';
+        document.getElementById('analyticsAvgValue').textContent = Number(avgValue).toLocaleString() + ' MAD';
+        document.getElementById('analyticsTotalRevenue').textContent = totalAmt.toLocaleString() + ' MAD';
+        document.getElementById('analyticsTotalRequests').textContent = totalReqs;
+
+        // Render charts
+        renderBarChart('revenueChart', revenueByMonth, 'MAD');
+        renderBarChart('analyticsRequestsChart', requestsByMonth, 'demandes');
+        renderSimpleChart('topServicesChart', topServices);
+        renderSimpleChart('topCitiesChart', topCities);
+      } catch(e) { console.error('Analytics error:', e); }
+    }
+
+    function renderBarChart(containerId, data, unit) {
+      const container = document.getElementById(containerId);
+      const entries = Object.entries(data).sort((a,b) => a[0].localeCompare(b[0]));
+      if (entries.length === 0) { container.innerHTML = '<p style="color:var(--text-light);text-align:center;">Aucune donnée</p>'; return; }
+      const max = Math.max(...entries.map(([,v]) => v));
+      container.innerHTML = entries.map(([k,v]) => `
+        <div class="chart-bar">
+          <span class="label">${k}</span>
+          <div class="bar" style="width:${(v/max)*100}%"></div>
+          <span class="value">${Number(v).toLocaleString()} ${unit}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderSimpleChart(containerId, data) {
+      const container = document.getElementById(containerId);
+      if (data.length === 0) { container.innerHTML = '<p style="color:var(--text-light);text-align:center;">Aucune donnée</p>'; return; }
+      const max = Math.max(...data.map(([,v]) => v));
+      container.innerHTML = data.map(([k,v]) => `
+        <div class="chart-bar">
+          <span class="label">${k}</span>
+          <div class="bar" style="width:${(v/max)*100}%"></div>
+          <span class="value">${v}</span>
+        </div>
+      `).join('');
+    }
+
+    // ===== NOTIFICATIONS LIST =====
+    async function loadNotificationsList() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('notifications').select('*').order('created_at', { ascending: false }).limit(100);
+        if (error) throw error;
+        const container = document.getElementById('notificationsList');
+        if (!data || data.length === 0) {
+          container.innerHTML = '<div class="empty-state"><i class="fas fa-bell"></i><h3>Aucune notification</h3></div>';
+        } else {
+          container.innerHTML = data.map(n => `
+            <div class="notification-item ${n.is_read ? '' : 'unread'}" onclick="markNotifRead('${n.id}')">
+              <div class="notif-title">${n.title}</div>
+              <div class="notif-msg">${n.message || ''}</div>
+              <div class="notif-time">${new Date(n.created_at).toLocaleString('fr-FR')}</div>
+            </div>
+          `).join('');
+        }
+      } catch(e) { console.error(e); }
+    }
+
+    // ===== ACTIVITY LOGS =====
+    async function loadActivityLogs() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const actionType = document.getElementById('activityFilter').value;
+        let query = supabase.from('activity_logs').select('*').order('created_at', { ascending: false }).limit(100);
+        if (actionType) query = query.eq('action_type', actionType);
+        const { data, error } = await query;
+        if (error) throw error;
+        const tbody = document.getElementById('activityTableBody');
+        if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;">Aucune activité</td></tr>'; return; }
+        tbody.innerHTML = data.map(a => `<tr>
+          <td>${new Date(a.created_at).toLocaleString('fr-FR')}</td>
+          <td><span class="status-badge status-review">${a.action_type}</span></td>
+          <td>${a.description || '-'}</td>
+          <td>${a.admin_id ? a.admin_id.slice(0,8) : 'Système'}</td>
+        </tr>`).join('');
+      } catch(e) { console.error(e); }
+    }
+
+    // ===== CALENDAR =====
+    async function loadCalendarEvents() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('calendar_events').select('*, request:request_id(service_name, school_name)').order('start_date', { ascending: true });
+        if (error) throw error;
+        const tbody = document.getElementById('calendarTableBody');
+        if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;">Aucun événement</td></tr>'; return; }
+        tbody.innerHTML = data.map(e => `<tr>
+          <td><strong>${e.title}</strong></td>
+          <td><span class="status-badge status-review">${e.event_type || '-'}</span></td>
+          <td>${new Date(e.start_date).toLocaleDateString('fr-FR')}</td>
+          <td>${e.end_date ? new Date(e.end_date).toLocaleDateString('fr-FR') : '-'}</td>
+          <td>${e.location || '-'}</td>
+          <td>${e.assigned_to ? e.assigned_to.slice(0,8) : '-'}</td>
+          <td><button class="btn-icon btn-delete" title="Supprimer" onclick="deleteCalendarEvent('${e.id}')"><i class="fas fa-trash"></i></button></td>
+        </tr>`).join('');
+      } catch(e) { console.error(e); }
+    }
+
+    function openCalendarEventModal() {
+      const body = document.getElementById('calendarModalBody');
+      body.innerHTML = `
+        <form onsubmit="saveCalendarEvent(event)">
+          <div class="form-row"><div class="form-group"><label>Titre *</label><input type="text" id="calTitle" required></div>
+          <div class="form-group"><label>Type</label><select id="calType"><option value="delivery">Livraison</option><option value="event">Événement</option><option value="installation">Installation</option><option value="maintenance">Maintenance</option><option value="deadline">Échéance</option><option value="meeting">Réunion</option></select></div></div>
+          <div class="form-row"><div class="form-group"><label>Date début *</label><input type="datetime-local" id="calStart" required></div>
+          <div class="form-group"><label>Date fin</label><input type="datetime-local" id="calEnd"></div></div>
+          <div class="form-row"><div class="form-group"><label>Lieu</label><input type="text" id="calLocation"></div>
+          <div class="form-group"><label>Couleur</label><input type="color" id="calColor" value="#ff6b00"></div></div>
+          <div class="form-group"><label>Description</label><textarea id="calDescription"></textarea></div>
+          <button type="submit" class="btn btn-primary w-full"><i class="fas fa-save"></i> Ajouter</button>
+        </form>
+      `;
+      openModal('calendarEventModal');
+    }
+
+    async function saveCalendarEvent(e) {
+      e.preventDefault();
+      const data = {
+        title: document.getElementById('calTitle').value,
+        event_type: document.getElementById('calType').value,
+        start_date: new Date(document.getElementById('calStart').value).toISOString(),
+        end_date: document.getElementById('calEnd').value ? new Date(document.getElementById('calEnd').value).toISOString() : null,
+        location: document.getElementById('calLocation').value,
+        color: document.getElementById('calColor').value,
+        description: document.getElementById('calDescription').value
+      };
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('calendar_events').insert(data);
+        showNotification('Événement ajouté', 'success');
+        closeModal('calendarEventModal');
+        loadCalendarEvents();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    async function deleteCalendarEvent(id) {
+      if (!confirm('Supprimer cet événement ?')) return;
+      try {
+        const supabase = window.__supabase.getClient();
+        await supabase.from('calendar_events').delete().eq('id', id);
+        showNotification('Événement supprimé', 'success');
+        loadCalendarEvents();
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    // ===== NOTES =====
+    function openNoteModal(entityType, entityId) {
+      const body = document.getElementById('noteModalBody');
+      body.innerHTML = `
+        <form onsubmit="saveNote(event, '${entityType}', '${entityId}')">
+          <div class="form-group"><label>Note interne</label><textarea id="noteText" rows="4" required></textarea></div>
+          <button type="submit" class="btn btn-primary w-full"><i class="fas fa-save"></i> Ajouter la note</button>
+        </form>
+        <div class="mt-4" id="existingNotes"></div>
+      `;
+      openModal('noteModal');
+      loadExistingNotes(entityType, entityId);
+    }
+
+    async function loadExistingNotes(entityType, entityId) {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('internal_notes').select('*, author:author_id(full_name, email)').eq('entity_type', entityType).eq('entity_id', entityId).order('created_at', { ascending: false });
+        if (error) throw error;
+        const container = document.getElementById('existingNotes');
+        if (!data || data.length === 0) { container.innerHTML = '<p style="color:var(--text-light);">Aucune note</p>'; return; }
+        container.innerHTML = '<h4 style="margin-bottom:12px;">Notes existantes</h4>' + data.map(n => `
+          <div class="note-card">
+            <div class="note-meta">${n.author?.full_name || 'Admin'} - ${new Date(n.created_at).toLocaleString('fr-FR')}</div>
+            <div class="note-text">${n.note}</div>
+          </div>
+        `).join('');
+      } catch(e) { console.error(e); }
+    }
+
+    async function saveNote(e, entityType, entityId) {
+      e.preventDefault();
+      const note = document.getElementById('noteText').value;
+      try {
+        const supabase = window.__supabase.getClient();
+        const { error } = await supabase.from('internal_notes').insert({
+          entity_type: entityType,
+          entity_id: entityId,
+          note,
+          author_id: adminUser?.id || null,
+          is_private: true
+        });
+        if (error) throw error;
+        document.getElementById('noteText').value = '';
+        showNotification('Note ajoutée', 'success');
+        loadExistingNotes(entityType, entityId);
+      } catch(e) { showNotification('Erreur: ' + e.message, 'error'); }
+    }
+
+    // ===== ROLES =====
+    async function loadRoles() {
+      try {
+        const supabase = window.__supabase.getClient();
+        const { data, error } = await supabase.from('roles').select('*').order('name', { ascending: true });
+        if (error) throw error;
+        const container = document.getElementById('rolesList');
+        if (!data || data.length === 0) { container.innerHTML = '<p style="color:var(--text-light);">Aucun rôle défini</p>'; return; }
+        container.innerHTML = data.map(r => `
+          <div class="note-card">
+            <div class="flex-between">
+              <div><strong>${r.name}</strong></div>
+              <span class="status-badge status-completed">${Object.keys(r.permissions||{}).length} permissions</span>
+            </div>
+            <div class="note-meta">${r.description || ''}</div>
+            <div style="margin-top:8px;font-size:0.85rem;color:var(--text-light);">${JSON.stringify(r.permissions).slice(0,100)}</div>
+          </div>
+        `).join('');
+      } catch(e) { console.error(e); }
+    }
+
+    // ===== EXPORT =====
+    async function exportData(type) {
+      try {
+        const supabase = window.__supabase.getClient();
+        let data;
+        switch(type) {
+          case 'users': data = allUsers; break;
+          case 'requests': data = allRequests; break;
+          case 'invoices': data = allInvoices; break;
+          case 'quotes': data = allQuotes; break;
+          default: return;
+        }
+        if (!data || data.length === 0) { showNotification('Aucune donnée à exporter', 'error'); return; }
+        const headers = Object.keys(data[0]);
+        const csv = [headers.join(',')];
+        data.forEach(row => {
+          csv.push(headers.map(h => {
+            const val = row[h];
+            if (val === null || val === undefined) return '';
+            const str = String(val).replace(/"/g, '""');
+            return str.includes(',') || str.includes('"') || str.includes('\n') ? `"${str}"` : str;
+          }).join(','));
+        });
+        const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${type}_${new Date().toISOString().slice(0,10)}.csv`;
+        link.click();
+        showNotification('Export CSV téléchargé', 'success');
+      } catch(e) { showNotification('Erreur export: ' + e.message, 'error'); }
+    }
+
+    // ===== NOTIFICATION SYSTEM =====
+    function showNotification(message, type) {
+      const notif = document.createElement('div');
+      notif.style.cssText = `position:fixed;top:20px;right:20px;padding:16px 24px;background:${type === 'success' ? '#10b981' : '#ef4444'};color:white;border-radius:8px;z-index:2000;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);`;
+      notif.textContent = message;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 3000);
+    }
+
+    // ===== LOGOUT =====
     function handleLogout(e) {
       e.preventDefault();
       localStorage.removeItem('adminSession');
-    }
-
-    // Simple notification system
-    function showNotification(message, type) {
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 16px 24px;
-        background: ${type === 'success' ? '#10b981' : '#ef4444'};
-        color: white;
-        border-radius: 8px;
-        z-index: 2000;
-        font-weight: 600;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      `;
-      notification.textContent = message;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
+      window.location.href = 'admin-login.html';
     }
   </script>
 </body>
