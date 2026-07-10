@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -326,6 +326,7 @@
     function openServiceModal(service) {
       document.getElementById('modalTitle').textContent = 'Demande : ' + (modalServiceNames[service] || 'Service');
       document.getElementById('modalServiceSpecificFields').innerHTML = modalServiceFields[service] || '';
+      if (window.I18n) window.I18n.applyTranslations();
       document.getElementById('serviceModal').classList.add('open');
       document.body.style.overflow = 'hidden';
     }

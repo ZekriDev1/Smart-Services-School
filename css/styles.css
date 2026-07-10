@@ -15,6 +15,150 @@
   object-fit: cover;
   margin: 0 auto 24px;
 }
+/* ===== FILE UPLOAD ===== */
+.upload-area input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  z-index: -1;
+}
+
+.upload-area {
+  position: relative;
+  border: 2px dashed #ddd;
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: #fafafa;
+}
+
+.upload-area:hover {
+  border-color: var(--primary);
+  background: #fff8f0;
+}
+
+.upload-area.dragover {
+  border-color: var(--primary);
+  background: #fff8f0;
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+  color: var(--primary-light);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.upload-text {
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.upload-hint {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.upload-message {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: none;
+}
+
+.upload-message.success {
+  display: block;
+  color: #10b981;
+}
+
+.upload-message.error {
+  display: block;
+  color: #ef4444;
+}
+
+.file-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.file-preview-item {
+  position: relative;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--white);
+}
+
+.file-preview-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.file-preview-pdf {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  color: var(--text-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.file-preview-pdf i {
+  font-size: 2rem;
+  color: #ef4444;
+  margin-bottom: 4px;
+}
+
+.file-preview-info {
+  padding: 8px;
+}
+
+.file-preview-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-dark);
+}
+
+.file-preview-size {
+  font-size: 0.7rem;
+  color: var(--text-light);
+}
+
+.file-remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.file-remove-btn:hover {
+  background: #ef4444;
+}
+
 /* ===== CSS VARIABLES ===== */
 :root {
   --primary: #ff6b00;
@@ -97,7 +241,7 @@ img {
 }
 
 .top-bar i {
-  margin-right: 6px;
+  margin-inline-end: 6px;
 }
 
 /* ===== MAIN HEADER ===== */
@@ -183,7 +327,7 @@ img {
 }
 
 .top-bar .lang-selector i {
-  margin-right: 0;
+  margin-inline-end: 0;
   opacity: 0.9;
 }
 
@@ -221,8 +365,8 @@ html[lang="en"] body {
 /* RTL (Arabic) */
 [dir="rtl"] .top-bar i,
 body.rtl .top-bar i {
-  margin-right: 0;
-  margin-left: 6px;
+  margin-inline-end: 0;
+  margin-inline-start: 6px;
 }
 
 [dir="rtl"] .nav-links a.active::after,
@@ -269,13 +413,13 @@ body.rtl .modal-header {
 
 [dir="rtl"] .dropdown-arrow,
 body.rtl .dropdown-arrow {
-  margin-left: 0;
-  margin-right: 4px;
+  margin-inline-start: 0;
+  margin-inline-end: 4px;
 }
 
 .dropdown-arrow {
   font-size: 0.7rem;
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 /* ===== BUTTONS ===== */
@@ -808,7 +952,7 @@ html[lang="en"] .service-image::after {
 
 .footer-col a:hover {
   color: var(--primary);
-  padding-left: 4px;
+  padding-inline-start: 4px;
 }
 
 .footer-bottom {
@@ -962,13 +1106,25 @@ html[lang="en"] .service-image::after {
   font-size: 0.95rem;
 }
 
-.auth-switch a {
+.auth-switch a,
+.auth-switch .link-btn {
   color: var(--primary);
   font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  padding: 8px 20px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  display: inline-block;
 }
 
-.auth-switch a:hover {
-  text-decoration: underline;
+.auth-switch a:hover,
+.auth-switch .link-btn:hover {
+  background: #fafafa;
+  text-decoration: none;
 }
 
 .auth-message-content {
@@ -1162,7 +1318,7 @@ html[lang="en"] .service-image::after {
   }
 
   .footer-col a:hover {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   /* Modals */
@@ -1731,4 +1887,12 @@ html[lang="en"] .service-image::after {
   .section {
     padding: 48px 0;
   }
+}
+
+/* RTL specific overrides for icons */
+html[dir="rtl"] .fa-arrow-right,
+html[dir="rtl"] .fa-chevron-right,
+html[dir="rtl"] .fa-sign-in-alt,
+html[dir="rtl"] .fa-sign-out-alt {
+    transform: scaleX(-1);
 }

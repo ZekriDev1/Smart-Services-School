@@ -1,0 +1,107 @@
+{
+  "hero": {
+    "indexDesc": "A B2B platform dedicated to public and private schools, and educational institutions in Morocco. Centralize all your operational service requests and simplify your management.",
+    "quickRequest": "Quick request",
+    "signIn": "Sign in",
+    "createAccount": "Create an account"
+  },
+  "services": {
+    "sectionSubtitle": "All the operational services your institution needs, gathered in a single platform.",
+    "events": {
+      "title": "Event Organization",
+      "desc": "Award ceremonies, open days, conferences, school trips, year-end parties."
+    },
+    "printing": {
+      "title": "Printing Services",
+      "desc": "Certificates, banners, signage, flyers, business cards, books, custom prints."
+    },
+    "supplies": {
+      "title": "Office Supplies",
+      "desc": "Stationery, ink cartridges, binders, administrative supplies, office furniture."
+    },
+    "repair": {
+      "title": "Computer Repair & CCTV",
+      "desc": "Computer repair, surveillance camera installation, equipment maintenance."
+    },
+    "giveaways": {
+      "title": "School Giveaways",
+      "desc": "Custom items: notebooks, pens, bags, uniforms, clothing in the institution's colors."
+    },
+    "gifts": {
+      "title": "Gifts & School Awards",
+      "desc": "Trophies, medals, cups, certificates, year-end gifts, prize packs."
+    },
+    "printer": {
+      "title": "Printer Maintenance",
+      "desc": "Repair, maintenance, spare parts and cartridges for all types of printers."
+    },
+    "photo": {
+      "title": "Photography & Documentation",
+      "desc": "School photos, event coverage, institutional videos, educational documentation."
+    },
+    "wifi": {
+      "title": "Wi-Fi Network Repair",
+      "desc": "Installation, troubleshooting and optimization of the Wi-Fi network throughout the institution."
+    },
+    "custom": {
+      "title": "Request a Custom Service",
+      "desc": "Can't find what you're looking for? Describe your needs and we'll find you the solution."
+    },
+    "consulting": {
+      "title": "Consulting",
+      "desc": "School management consulting, process audits, digital transformation support."
+    },
+    "programming": {
+      "title": "Programming & Development",
+      "desc": "Website development, mobile apps, management software, e-learning solutions and custom platforms."
+    }
+  },
+  "steps": {
+    "step1Title": "You submit a request",
+    "step1Desc": "Choose the service you need and fill out a simple, quick form.",
+    "step2Title": "We handle the execution",
+    "step2Desc": "Our team takes charge of your request and coordinates with the best providers.",
+    "step3Title": "You receive your service",
+    "step3Desc": "Track the progress of your request and receive your service within the agreed timeframe."
+  },
+  "benefits": {
+    "supportTitle": "Dedicated Support",
+    "supportDesc": "A dedicated account manager to accompany you at every step.",
+    "trackingTitle": "Transparent Tracking",
+    "trackingDesc": "Track the status of all your requests in real time from your dashboard.",
+    "costTitle": "Cost Optimization",
+    "costDesc": "Negotiated rates thanks to our partner network and group purchasing volume.",
+    "timeTitle": "Time Savings",
+    "timeDesc": "No more contacting multiple suppliers. One platform for all your needs."
+  },
+  "cta": {
+    "subtitle": "Join the schools that already trust us in Morocco."
+  },
+  "form": {
+    "city": "City",
+    "cityPlaceholder": "Ex: Casablanca",
+    "schoolName": "Institution Name",
+    "schoolPlaceholder": "Ex: L'Univers School Group",
+    "contactName": "Contact Name",
+    "emailPlaceholder": "contact@institution.ma",
+    "description": "Detailed Description of Your Needs",
+    "descPlaceholder": "Describe precisely what you need...",
+    "attachFiles": "Attach Documents (PDF, Images)",
+    "uploadText": "Drag your files here or click to browse",
+    "uploadHint": "PDF, PNG, JPG, JPEG, GIF, WEBP (max 10MB per file)",
+    "desiredDate": "Desired Date"
+  },
+  "auth": {
+    "phone": "Phone",
+    "phonePlaceholder": "+212 6XX XX XX XX",
+    "namePlaceholder": "Your name"
+  },
+  "footer": {
+    "about": "About",
+    "howItWorks": "How it works",
+    "faq": "FAQ",
+    "location": "Tangier, Morocco",
+    "desc": "The B2B platform that centralizes all operational services for educational institutions in Morocco.",
+    "copyright": "WEB DEVELOPMENT & WEB HOSTING BY Akram Zekri"
+  }
+}

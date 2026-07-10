@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,11 +30,18 @@
   </style>
 </head>
 <body>
+  <div style="position: absolute; top: 15px; right: 15px;">
+    <select id="langSelect" aria-label="Language" style="padding: 5px 10px; border-radius: 5px; border: 1px solid #e2e8f0; font-family: inherit; font-size: 0.9rem; background: white; cursor: pointer;">
+      <option value="fr">Français</option>
+      <option value="ar">العربية</option>
+      <option value="en">English</option>
+    </select>
+  </div>
   <div class="admin-login-container">
     <div class="admin-login-logo">
       <img src="images/Assets/logo2.png" alt="SMARTSERVICES Schools">
       <h1>SMARTSERVICES Schools</h1>
-      <p>Espace Administration</p>
+      <p data-i18n="adminLogin.subtitle">Espace Administration</p>
     </div>
 
     <div class="error-message" id="errorMessage">
@@ -43,21 +50,22 @@
 
     <form id="adminLoginForm" class="auth-form" novalidate>
       <div class="form-group">
-        <label for="adminEmail">Email</label>
-        <input type="email" id="adminEmail" placeholder="votre@email.com" required>
+        <label for="adminEmail" data-i18n="adminLogin.emailLabel">Email</label>
+        <input type="email" id="adminEmail" placeholder="votre@email.com" data-i18n-placeholder="adminLogin.emailLabel" required>
       </div>
       <div class="form-group">
-        <label for="adminPassword">Mot de passe</label>
-        <input type="password" id="adminPassword" placeholder="Mot de passe" required>
+        <label for="adminPassword" data-i18n="adminLogin.passwordLabel">Mot de passe</label>
+        <input type="password" id="adminPassword" placeholder="Mot de passe" data-i18n-placeholder="adminLogin.passwordLabel" required>
       </div>
       <button type="submit" class="btn-admin-login">
         <span class="loading-spinner" id="loadingSpinner"><i class="fas fa-spinner fa-spin"></i></span>
-        <span id="buttonText"><i class="fas fa-sign-in-alt"></i> Se connecter</span>
+        <span id="buttonText"><i class="fas fa-sign-in-alt"></i> <span data-i18n="adminLogin.loginBtn">Se connecter</span></span>
       </button>
     </form>
-    <p class="info-text"><i class="fas fa-shield-alt"></i> Accès réservé aux administrateurs</p>
+    <p class="info-text"><i class="fas fa-shield-alt"></i> <span data-i18n="adminLogin.accessRestricted">Accès réservé aux administrateurs</span></p>
   </div>
 
+  <script src="js/i18n.js"></script>
   <script src="js/config-loader.js"></script>
   <script src="js/supabase.js"></script>
   <script>
@@ -112,7 +120,7 @@
       try {
         const supabase = window.__supabase.getClient();
         if (!supabase) {
-          showError('Service de connexion non disponible. Vérifiez la configuration Supabase.');
+          showError(window.I18n ? window.I18n.t('adminLogin.errorUnavailable') : 'Service de connexion non disponible. Vérifiez la configuration Supabase.');
           return;
         }
 
@@ -123,7 +131,7 @@
         });
 
         if (authError) throw authError;
-        if (!authData?.user) throw new Error('Échec de l\'authentification');
+        if (!authData?.user) throw new Error(window.I18n ? window.I18n.t('adminLogin.errorAuthFail') : 'Échec de l\'authentification');
 
         // Verify admin role in database
         const { data: userProfile, error: profileError } = await supabase
@@ -155,17 +163,17 @@
               return;
             }
           }
-          throw new Error('Profil administrateur introuvable');
+          throw new Error(window.I18n ? window.I18n.t('adminLogin.errorNoProfile') : 'Profil administrateur introuvable');
         }
 
         if (!ADMIN_ROLES.includes(userProfile.role)) {
           await supabase.auth.signOut();
-          throw new Error('Accès refusé. Vous n\'avez pas les droits d\'administration.');
+          throw new Error(window.I18n ? window.I18n.t('adminLogin.errorNoAccess') : 'Accès refusé. Vous n\'avez pas les droits d\'administration.');
         }
 
         if (userProfile.account_status !== 'active') {
           await supabase.auth.signOut();
-          throw new Error('Compte désactivé. Contactez un super administrateur.');
+          throw new Error(window.I18n ? window.I18n.t('adminLogin.errorDisabled') : 'Compte désactivé. Contactez un super administrateur.');
         }
 
         // Store admin session
@@ -182,7 +190,11 @@
       } catch (error) {
         document.getElementById('loadingSpinner').classList.remove('show');
         document.getElementById('buttonText').style.opacity = '1';
-        showError(error.message || 'Erreur de connexion.');
+        let msg = error.message;
+        if (msg && msg.includes('Invalid login credentials')) {
+            msg = window.I18n ? window.I18n.t('adminLogin.errorLogin') : 'Erreur de connexion.';
+        }
+        showError(msg || (window.I18n ? window.I18n.t('adminLogin.errorLogin') : 'Erreur de connexion.'));
       }
     });
 

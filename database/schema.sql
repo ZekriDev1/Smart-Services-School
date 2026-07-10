@@ -238,16 +238,19 @@ GRANT SELECT ON public.invoice_details TO anon;
 -- 7. DEFAULT SEED DATA
 -- ============================================
 
-INSERT INTO public.service_categories (key, name_fr, name_ar, icon, sort_order) VALUES
-  ('supplies', 'Fournitures de bureau', 'لوازم مكتبية', 'fa-boxes', 1),
-  ('printing', 'Services d impression', 'خدمات الطباعة', 'fa-print', 2),
-  ('events', 'Organisation d evenements', 'تنظيم الفعاليات', 'fa-calendar-alt', 3),
-  ('gifts', 'Cadeaux & Recompenses scolaires', 'الهدايا والجوائز المدرسية', 'fa-gift', 4),
-  ('giveaways', 'Goodies sccolaires', 'الهدايا التذكارية المدرسية', 'fa-tags', 5),
-  ('repair', 'Reparation informatique & CCTV', 'إصلاح الكمبيوتر والكاميرات', 'fa-laptop', 6),
-  ('wifi', 'Reparation reseau Wi-Fi', 'إصلاح شبكة Wi-Fi', 'fa-wifi', 7),
-  ('photo', 'Photographie & Documentation', 'التصوير والتوثيق', 'fa-camera', 8),
-  ('printer', 'Maintenance d imprimantes', 'صيانة الطابعات', 'fa-tools', 9),
-  ('consulting', 'Consulting', 'استشارات', 'fa-chart-line', 10),
-  ('custom', 'Service personnalise', 'خدمة مخصصة', 'fa-plus-circle', 11)
-ON CONFLICT (key) DO NOTHING;
+INSERT INTO public.service_categories (key, name_fr, name_ar, name_en, icon, sort_order) VALUES
+  ('printing', 'Services d''impression', 'خدمات الطباعة', 'Printing Services', 'fa-print', 1),
+  ('events', 'Organisation d''événements', 'تنظيم الفعاليات', 'Event Organization', 'fa-calendar-alt', 2),
+  ('repair', 'Réparation d''ordinateurs et de caméras', 'إصلاح أجهزة الكمبيوتر والكاميرات', 'Computer & Camera Repair', 'fa-laptop', 3),
+  ('wifi', 'Installation et réparation de réseaux Wi-Fi', 'تركيب وإصلاح شبكات الواي فاي', 'Wi-Fi Network Installation & Repair', 'fa-wifi', 4),
+  ('printer', 'Maintenance des imprimantes', 'صيانة الطابعات', 'Printer Maintenance', 'fa-tools', 5),
+  ('gifts', 'Récompenses et cadeaux', 'الجوائز والهدايا', 'Awards & Gifts', 'fa-gift', 6),
+  ('supplies', 'Fournitures scolaires et de bureau', 'المستلزمات المدرسية والمكتبية', 'School & Office Supplies', 'fa-boxes', 7),
+  ('giveaways', 'Produits promotionnels personnalisés', 'المنتجات الترويجية والمخصصة', 'Promotional & Personalized Products', 'fa-tags', 8),
+  ('programming', 'Développement logiciel', 'تطوير البرمجيات', 'Software Development', 'fa-code', 9)
+ON CONFLICT (key) DO UPDATE SET
+  name_fr = EXCLUDED.name_fr,
+  name_ar = EXCLUDED.name_ar,
+  name_en = EXCLUDED.name_en,
+  icon = EXCLUDED.icon,
+  sort_order = EXCLUDED.sort_order;

@@ -69,14 +69,16 @@ class FileUpload {
   validateFile(file) {
     // Check file size
     if (file.size > this.maxSize) {
-      this.showError(`Le fichier "${file.name}" dépasse la taille limite de 10MB`);
+      const msg = window.I18n ? window.I18n.t("authMessages.fileTooLarge") + ` (10MB)` : `Le fichier "${file.name}" dépasse la taille limite de 10MB`;
+      this.showError(msg);
       return false;
     }
 
     // Check file type
     const extension = file.name.split('.').pop().toLowerCase();
     if (!this.allowedTypes.includes(extension)) {
-      this.showError(`Le type de fichier "${extension}" n'est pas autorisé`);
+      const msg = window.I18n ? window.I18n.t("authMessages.fileNotAllowed") + ` (${extension})` : `Le type de fichier "${extension}" n'est pas autorisé`;
+      this.showError(msg);
       return false;
     }
 

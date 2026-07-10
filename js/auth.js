@@ -197,7 +197,7 @@ async function signIn(email, password) {
   try {
     const supabase = await ensureSupabaseClient();
     if (!supabase) {
-      return { success: false, error: 'Supabase n\'est pas configuré.' };
+      return { success: false, error: window.I18n ? window.I18n.t('authMessages.supabaseNotConfigured') : 'Supabase n\'est pas configuré.' };
     }
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -220,7 +220,7 @@ async function signIn(email, password) {
       return { success: true, user: currentUser };
     }
 
-    return { success: false, error: 'Erreur de connexion inconnue.' };
+    return { success: false, error: window.I18n ? window.I18n.t('authMessages.unknownError') : 'Erreur de connexion inconnue.' };
   } catch (error) {
     return { success: false, error: error.message };
   }
@@ -233,7 +233,7 @@ async function signUp(email, password, userData = {}) {
   try {
     const supabase = await ensureSupabaseClient();
     if (!supabase) {
-      return { success: false, error: 'Supabase n\'est pas configuré.' };
+      return { success: false, error: window.I18n ? window.I18n.t('authMessages.supabaseNotConfigured') : 'Supabase n\'est pas configuré.' };
     }
 
     // First check if user exists by trying to sign in
@@ -247,7 +247,7 @@ async function signUp(email, password, userData = {}) {
     const userExists = users?.some(u => u.email === email);
 
     if (userExists) {
-      return { success: false, error: 'Un compte avec cet email existe déjà.' };
+      return { success: false, error: window.I18n ? window.I18n.t('authMessages.emailExists') : 'Un compte avec cet email existe déjà.' };
     }
 
     // Check if sign-up is enabled
@@ -266,7 +266,7 @@ async function signUp(email, password, userData = {}) {
     if (error) {
       // Check if error is about user already existing
       if (error.message?.includes('already registered') || error.message?.includes('already exists')) {
-        return { success: false, error: 'Un compte avec cet email existe déjà. Veuillez vous connecter.' };
+        return { success: false, error: window.I18n ? window.I18n.t('authMessages.emailExists') : 'Un compte avec cet email existe déjà.' };
       }
       throw error;
     }
@@ -274,8 +274,8 @@ async function signUp(email, password, userData = {}) {
     return {
       success: true,
       message: data?.user?.identities?.length === 0
-        ? 'Un compte avec cet email existe déjà. Veuillez vous connecter.'
-        : 'Inscription réussie ! Vérifiez votre email pour confirmer votre compte avant de vous connecter.'
+        ? window.I18n ? window.I18n.t('authMessages.emailExists') : 'Un compte avec cet email existe déjà.'
+        : window.I18n ? window.I18n.t('authMessages.signupSuccess') : 'Inscription réussie ! Vérifiez votre email pour confirmer votre compte avant de vous connecter.'
     };
   } catch (error) {
     return { success: false, error: error.message };
@@ -363,13 +363,13 @@ function buildAuthNav(container) {
           <span style="font-size:0.75rem; color:var(--text-light);">${email}</span>
         </div>
       </div>
-      <a href="app.html" class="btn btn-primary btn-sm auth-dashboard-btn"><i class="fas fa-th-large"></i> Tableau de bord</a>
-      <a href="#" class="btn btn-outline btn-sm auth-logout-btn" onclick="event.preventDefault(); handleLogout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <a href="app.html" class="btn btn-primary btn-sm auth-dashboard-btn"><i class="fas fa-th-large"></i> ${window.I18n ? window.I18n.t('app.ourServices') : 'Tableau de bord'}</a>
+      <a href="#" class="btn btn-outline btn-sm auth-logout-btn" onclick="event.preventDefault(); handleLogout()"><i class="fas fa-sign-out-alt"></i> ${window.I18n ? window.I18n.t('nav.logout') : 'Déconnexion'}</a>
     `;
   } else {
     container.innerHTML = `
-      <a href="#" class="btn btn-outline btn-sm auth-login-btn" onclick="event.preventDefault(); openLoginModal()">Connexion</a>
-      <a href="#" class="btn btn-primary btn-sm auth-signup-btn" onclick="event.preventDefault(); openSignupModal()">Créer un compte</a>
+      <a href="#" class="btn btn-outline btn-sm auth-login-btn" onclick="event.preventDefault(); openLoginModal()">${window.I18n ? window.I18n.t('nav.login') : 'Connexion'}</a>
+      <a href="#" class="btn btn-primary btn-sm auth-signup-btn" onclick="event.preventDefault(); openSignupModal()">${window.I18n ? window.I18n.t('nav.signup') : 'Créer un compte'}</a>
     `;
   }
 }
@@ -495,12 +495,12 @@ async function handleSignup(event) {
   const originalText = btn.innerHTML;
 
   if (password !== confirmPassword) {
-    showAuthError('Les mots de passe ne correspondent pas.');
+    showAuthError(window.I18n ? window.I18n.t('authMessages.passMismatch') : 'Les mots de passe ne correspondent pas.');
     return;
   }
 
   if (password.length < 6) {
-    showAuthError('Le mot de passe doit contenir au moins 6 caractères.');
+    showAuthError(window.I18n ? window.I18n.t('authMessages.passLength') : 'Le mot de passe doit contenir au moins 6 caractères.');
     return;
   }
 
@@ -596,10 +596,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Auto-initialize auth
   initAuth();
   
-  // Rebuild nav whenever auth state changes
   if (window.__auth?.onAuthChange) {
     window.__auth.onAuthChange((event) => {
       if (event === 'login' || event === 'logout') {

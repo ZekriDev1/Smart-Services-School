@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -776,7 +776,7 @@
           <option>Logiciel de gestion</option>
           <option>Solution e-learning</option>
           <option>Plateforme sur mesure</option>
-          <option>Autre</option>
+          <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
         <input type="number" placeholder="Budget estimé">
@@ -825,6 +825,7 @@
       document.getElementById('formView').style.display = 'block';
       document.getElementById('formTitle').textContent = (window.I18n ? I18n.t('form.requestPrefix') : 'Demande : ') + serviceNames[service];
       document.getElementById('serviceSpecificFields').innerHTML = serviceFields[service] || '';
+      if (window.I18n) I18n.applyTranslations();
 
       // Store current service being requested
       window.currentServiceKey = service;

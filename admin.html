@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -166,12 +166,19 @@
         <span class="logo-text">Smart Services<br>Schools</span>
       </a>
       <div class="admin-user-info">
+        <div class="lang-selector-admin" style="margin-right: 15px;">
+          <select id="langSelect" aria-label="Language" style="padding: 5px; border-radius: 5px; border: 1px solid #e2e8f0; cursor: pointer;">
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+        </div>
         <div class="notification-bell" onclick="toggleNotifications()">
           <i class="fas fa-bell" style="font-size:1.2rem;color:var(--secondary);"></i>
           <span class="badge" id="notifBadge" style="display:none;">0</span>
         </div>
         <div class="admin-details">
-          <div class="role" id="adminRole">Administrateur</div>
+          <div class="role" id="adminRole" data-i18n="admin.role">Administrateur</div>
           <div class="email" id="adminEmail">admin@smartservices.ma</div>
         </div>
         <div class="admin-avatar"><i class="fas fa-user-shield"></i></div>
@@ -182,22 +189,22 @@
   <!-- Notification Panel -->
   <div class="notification-panel" id="notificationPanel">
     <div class="panel-header">
-      <h4>Notifications</h4>
-      <button class="btn btn-sm btn-outline" onclick="markAllNotifRead()">Tout marquer lu</button>
+      <h4 data-i18n="admin.notifications">Notifications</h4>
+      <button class="btn btn-sm btn-outline" onclick="markAllNotifRead()"><span data-i18n="admin.markAllRead">Tout marquer lu</span></button>
     </div>
     <div class="panel-body" id="notifPanelBody">
-      <div class="empty-state"><i class="fas fa-bell"></i><h3>Aucune notification</h3></div>
+      <div class="empty-state"><i class="fas fa-bell"></i><h3 data-i18n="admin.noNotifications">Aucune notification</h3></div>
     </div>
-    <div class="panel-footer"><a href="#" onclick="showTab('notifications', document.querySelector('[data-tab=notifications]')); closeNotifPanel();">Voir toutes les notifications</a></div>
+    <div class="panel-footer"><a href="#" onclick="showTab('notifications', document.querySelector('[data-tab=notifications]')); closeNotifPanel();"><span data-i18n="admin.viewAllNotifications">Voir toutes les notifications</span></a></div>
   </div>
 
   <div class="app-container">
     <nav class="app-sidebar">
-      <div class="sidebar-header"><h3>Menu Administration</h3></div>
+      <div class="sidebar-header"><h3 data-i18n="admin.menuTitle">Menu Administration</h3></div>
       <div class="sidebar-menu">
-        <a href="#" class="active" data-tab="dashboard" onclick="showTab('dashboard', this)"><i class="fas fa-th-large"></i><span>Tableau de bord</span></a>
-        <a href="#" data-tab="users" onclick="showTab('users', this)"><i class="fas fa-users"></i><span>Utilisateurs</span></a>
-        <a href="#" data-tab="requests" onclick="showTab('requests', this)"><i class="fas fa-clipboard-list"></i><span>Demandes</span></a>
+        <a href="#" class="active" data-tab="dashboard" onclick="showTab('dashboard', this)"><i class="fas fa-th-large"></i><span data-i18n="admin.dashboard">Tableau de bord</span></a>
+        <a href="#" data-tab="users" onclick="showTab('users', this)"><i class="fas fa-users"></i><span data-i18n="admin.users">Utilisateurs</span></a>
+        <a href="#" data-tab="requests" onclick="showTab('requests', this)"><i class="fas fa-clipboard-list"></i><span data-i18n="admin.requests">Demandes</span></a>
         <a href="#" data-tab="quotes" onclick="showTab('quotes', this)"><i class="fas fa-file-invoice-dollar"></i><span>Devis</span></a>
         <a href="#" data-tab="invoices" onclick="showTab('invoices', this)"><i class="fas fa-file-invoice"></i><span>Factures</span></a>
         <a href="#" data-tab="suppliers" onclick="showTab('suppliers', this)"><i class="fas fa-truck"></i><span>Fournisseurs</span></a>
@@ -206,7 +213,7 @@
         <a href="#" data-tab="activity" onclick="showTab('activity', this)"><i class="fas fa-history"></i><span>Journal d'activité</span></a>
         <a href="#" data-tab="calendar" onclick="showTab('calendar', this)"><i class="fas fa-calendar"></i><span>Calendrier</span></a>
         <a href="#" data-tab="settings" onclick="showTab('settings', this)"><i class="fas fa-cog"></i><span>Paramètres</span></a>
-        <a href="admin-login.html" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
+        <a href="admin-login.html" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt"></i><span data-i18n="admin.logout">Déconnexion</span></a>
       </div>
     </nav>
 
@@ -299,7 +306,7 @@
 
       <!-- ===== NOTIFICATIONS TAB ===== -->
       <div id="notificationsTab" class="tab-content" style="display:none;">
-        <div class="flex-between mb-4"><h1><i class="fas fa-bell"></i> Notifications</h1><button class="btn btn-sm btn-outline" onclick="markAllNotifRead()">Tout marquer lu</button></div>
+        <div class="flex-between mb-4"><h1><i class="fas fa-bell"></i> Notifications</h1><button class="btn btn-sm btn-outline" onclick="markAllNotifRead()"><span data-i18n="admin.markAllRead">Tout marquer lu</span></button></div>
         <div id="notificationsList"></div>
       </div>
 
@@ -335,6 +342,7 @@
   <div class="modal-overlay" id="calendarEventModal"><div class="modal-content"><div class="modal-header"><h3 id="calendarModalTitle">Ajouter un événement</h3><button class="modal-close" onclick="closeModal('calendarEventModal')">&times;</button></div><div class="modal-body" id="calendarModalBody"></div></div></div>
   <div class="modal-overlay" id="noteModal"><div class="modal-content"><div class="modal-header"><h3>Ajouter une note interne</h3><button class="modal-close" onclick="closeModal('noteModal')">&times;</button></div><div class="modal-body" id="noteModalBody"></div></div></div>
 
+  <script src="js/i18n.js"></script>
   <script src="js/config-loader.js"></script>
   <script src="js/supabase.js"></script>
   <script>
@@ -402,7 +410,7 @@
         if (unread > 0) { badge.style.display = 'inline'; badge.textContent = unread; } else { badge.style.display = 'none'; }
         const panelBody = document.getElementById('notifPanelBody');
         if (!data || data.length === 0) {
-          panelBody.innerHTML = '<div class="empty-state"><i class="fas fa-bell"></i><h3>Aucune notification</h3></div>';
+          panelBody.innerHTML = '<div class="empty-state"><i class="fas fa-bell"></i><h3 data-i18n="admin.noNotifications">Aucune notification</h3></div>';
         } else {
           panelBody.innerHTML = data.slice(0, 10).map(n => `
             <div class="notification-item ${n.is_read ? '' : 'unread'}" onclick="markNotifRead('${n.id}')">
@@ -1386,7 +1394,7 @@
         if (error) throw error;
         const container = document.getElementById('notificationsList');
         if (!data || data.length === 0) {
-          container.innerHTML = '<div class="empty-state"><i class="fas fa-bell"></i><h3>Aucune notification</h3></div>';
+          container.innerHTML = '<div class="empty-state"><i class="fas fa-bell"></i><h3 data-i18n="admin.noNotifications">Aucune notification</h3></div>';
         } else {
           container.innerHTML = data.map(n => `
             <div class="notification-item ${n.is_read ? '' : 'unread'}" onclick="markNotifRead('${n.id}')">
