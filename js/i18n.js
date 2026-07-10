@@ -784,7 +784,13 @@ const I18n = (function() {
       app: {
         ourServices: 'Our Services',
         myRequests: 'My requests',
-        invoices: 'Invoices'
+        invoices: 'Invoices',
+        sidebarServices: 'Services',
+        sidebarRequests: 'My requests',
+        sidebarInvoices: 'Invoices',
+        sidebarArchives: 'Archives',
+        sidebarProfile: 'My profile',
+        sidebarLogout: 'Logout'
       }
     }
   };
