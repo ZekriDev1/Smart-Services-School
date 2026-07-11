@@ -10,6 +10,36 @@ const { requireAuth } = require('../middlewares/auth');
 const logger = require('../utils/logger');
 
 // ==========================================
+// HARDCODED ADMIN LOGIN (from .env)
+// ==========================================
+router.post('/login', express.json(), (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ success: false, error: 'Email and password are required' });
+  }
+
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@smartservices.ma';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'G1235678';
+  const adminName = process.env.ADMIN_NAME || 'Super Admin';
+
+  if (email === adminEmail && password === adminPassword) {
+    return res.json({
+      success: true,
+      user: {
+        id: 'admin-hardcoded',
+        email: adminEmail,
+        full_name: adminName,
+        role: 'admin',
+        account_status: 'active'
+      }
+    });
+  }
+
+  return res.status(401).json({ success: false, error: 'Invalid email or password' });
+});
+
+// ==========================================
 // MIDDLEWARE: Verify admin role with role-based access
 // ==========================================
 async function requireAdmin(req, res, next) {

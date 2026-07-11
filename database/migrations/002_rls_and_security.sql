@@ -1,16 +1,4 @@
--- ============================================
--- SMARTSERVICES Schools - RLS & Security Migration
--- Version: 2.0.0
--- Description: 
---   - Enable Row Level Security on all tables
---   - Create RLS policies for user data isolation
---   - Create admin role verification via DB
---   - Remove dependency on hardcoded admin emails
--- ============================================
 
--- ============================================
--- 1. ENABLE RLS ON ALL TABLES
--- ============================================
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quotes ENABLE ROW LEVEL SECURITY;

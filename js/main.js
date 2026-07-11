@@ -9,15 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     I18n.init();
   }
 
-  // Sync mobile language selector with main selector
-  const mobileLangSelect = document.getElementById('mobileLangSelect');
+  // Sync language selector
   const langSelect = document.getElementById('langSelect');
-  if (mobileLangSelect && langSelect) {
-    mobileLangSelect.value = langSelect.value;
-    mobileLangSelect.addEventListener('change', function() {
+  if (langSelect) {
+    langSelect.addEventListener('change', function() {
       if (window.I18n) {
         window.I18n.setLanguage(this.value);
-        langSelect.value = this.value;
       }
     });
   }
@@ -46,22 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
     });
 
-    // Close nav when clicking any link inside the nav, but NOT the language selector
+    // Close nav when clicking navigation links (except language selector)
     navLinks.querySelectorAll('a').forEach(function(link) {
       link.addEventListener('click', function(e) {
-        e.preventDefault();
-        closeNav();
-        // Navigate after a short delay to allow the close animation
-        setTimeout(function() {
-          window.location.href = link.getAttribute('href');
-        }, 150);
+        // Let the link navigate naturally (don't prevent default)
+        // The menu will close after a short delay for smooth animation
+        setTimeout(closeNav, 150);
       });
     });
 
-    // Prevent nav from closing when clicking the mobile language selector
-    const mobileLangSelector = navLinks.querySelector('.mobile-lang-selector');
-    if (mobileLangSelector) {
-      mobileLangSelector.addEventListener('click', function(e) {
+    // Prevent nav from closing when clicking the language selector
+    const langSelector = navLinks.querySelector('.lang-selector');
+    if (langSelector) {
+      langSelector.addEventListener('click', function(e) {
         e.stopPropagation();
       });
     }

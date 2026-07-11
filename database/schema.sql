@@ -111,11 +111,11 @@ CREATE TABLE public.invoices (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Disable RLS for admin panel access via anonymous queries
-ALTER TABLE public.service_categories DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.requests DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.request_items DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.invoices DISABLE ROW LEVEL SECURITY;
+-- Enable RLS for data isolation (policies defined in migration 002 and 005)
+ALTER TABLE public.service_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.request_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
 
 -- ============================================
 -- 3. TRIGGERS AND PROCEDURES

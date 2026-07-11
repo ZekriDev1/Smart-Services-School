@@ -511,10 +511,10 @@
            const adminLink = document.createElement('a');
            adminLink.href = '#';
            adminLink.innerHTML = '<i class="fas fa-user-shield"></i> <span>Administration</span>';
-           adminLink.onclick = function(e) {
-             e.preventDefault();
-             window.location.href = 'admin-login.html';
-           };
+            adminLink.onclick = function(e) {
+              e.preventDefault();
+              window.location.href = 'admin/login.html';
+            };
            // Insert after profile link
            profileLink.parentNode.insertBefore(adminLink, profileLink.nextSibling);
          }
@@ -563,7 +563,7 @@
       });
     });
 
-    // ===== LOAD REQUESTS FROM SUPABASE =====
+    // ===== LOAD REQUESTS FROM BACKEND API OR SUPABASE (with user filtering) =====
     async function loadRequests() {
       const tbody = document.getElementById('requestsBody');
       const empty = document.getElementById('requestsEmpty');
@@ -571,15 +571,39 @@
       empty.style.display = 'none';
 
       try {
-        const supabase = window.__supabase?.getClient();
-        if (!supabase) { empty.style.display = 'block'; return; }
-
-        const { data: requests, error } = await supabase
-          .from('requests')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
+        // Try backend API first (preferred - handles user filtering server-side)
+        const token = localStorage.getItem('auth_token');
+        let requests = [];
+        
+        try {
+          const response = await fetch('/api/requests', {
+            headers: {
+              'Authorization': 'Bearer ' + (token || '')
+            }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            requests = result.data || [];
+          } else {
+            throw new Error('API not available');
+          }
+        } catch (apiErr) {
+          // Fallback: Use Supabase client with authenticated user
+          const supabase = window.__supabase?.getClient();
+          if (supabase && currentUser) {
+            const { data, error } = await supabase
+              .from('requests')
+              .select('*')
+              .eq('user_id', currentUser.id)
+              .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            requests = data || [];
+          } else {
+            throw apiErr;
+          }
+        }
 
         if (!requests || requests.length === 0) { empty.style.display = 'block'; return; }
 
@@ -614,7 +638,7 @@
       }
     }
 
-    // ===== LOAD INVOICES FROM SUPABASE =====
+    // ===== LOAD INVOICES FROM BACKEND API OR SUPABASE (with user filtering) =====
     async function loadInvoices() {
       const tbody = document.getElementById('invoicesBody');
       const empty = document.getElementById('invoicesEmpty');
@@ -622,15 +646,40 @@
       empty.style.display = 'none';
 
       try {
-        const supabase = window.__supabase?.getClient();
-        if (!supabase) { empty.style.display = 'block'; return; }
+        // Try backend API first (preferred - handles user filtering server-side)
+        const token = localStorage.getItem('auth_token');
+        let invoices = [];
+        
+        try {
+          const response = await fetch('/api/requests/invoices', {
+            headers: {
+              'Authorization': 'Bearer ' + (token || '')
+            }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            invoices = result.data || [];
+          } else {
+            throw new Error('API not available');
+          }
+        } catch (apiErr) {
+          // Fallback: Use Supabase client with authenticated user
+          const supabase = window.__supabase?.getClient();
+          if (supabase && currentUser) {
+            const { data, error } = await supabase
+              .from('invoices')
+              .select('*')
+              .eq('user_id', currentUser.id)
+              .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            invoices = data || [];
+          } else {
+            throw apiErr;
+          }
+        }
 
-        const { data: invoices, error } = await supabase
-          .from('invoices')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
         if (!invoices || invoices.length === 0) { empty.style.display = 'block'; return; }
 
         empty.style.display = 'none';
@@ -640,10 +689,10 @@
           const lbl = inv.payment_status === 'paid' ? 'Payé' :
                       inv.payment_status === 'overdue' ? 'En retard' : 'En attente';
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td><strong>${inv.reference || '#'+inv.id}</strong></td>
+          tr.innerHTML = `<td><strong>${inv.invoice_number || '#'+inv.id}</strong></td>
             <td>${inv.service_name || '-'}</td>
-            <td>${inv.date ? new Date(inv.date).toLocaleDateString('fr-FR') : '-'}</td>
-            <td>${inv.amount ? Number(inv.amount).toLocaleString('fr-FR',{minimumFractionDigits:2})+' MAD' : '-'}</td>
+            <td>${inv.created_at ? new Date(inv.created_at).toLocaleDateString('fr-FR') : '-'}</td>
+            <td>${inv.total_amount ? Number(inv.total_amount).toLocaleString('fr-FR',{minimumFractionDigits:2})+' MAD' : '-'}</td>
             <td><span class="${cls}">${lbl}</span></td>
             <td><button class="btn-download" onclick="downloadInvoice('${inv.id}')"><i class="fas fa-download"></i> PDF</button></td>`;
           tbody.appendChild(tr);
@@ -827,7 +876,6 @@
       document.getElementById('serviceSpecificFields').innerHTML = serviceFields[service] || '';
       if (window.I18n) I18n.applyTranslations();
 
-      // Store current service being requested
       window.currentServiceKey = service;
 
       if (window.I18n) I18n.applyTranslations();
@@ -864,6 +912,7 @@
       backToServices();
     }
 
+    // ===== SUBMIT REQUEST VIA BACKEND API OR SUPABASE =====
     async function submitRequest() {
       const schoolName = document.getElementById('schoolName').value.trim();
       const city = document.getElementById('schoolCity').value.trim();
@@ -879,27 +928,19 @@
       }
 
       try {
-        const supabase = window.__supabase?.getClient();
-        if (!supabase) {
-          // No Supabase configured — show success anyway (simulated)
-          const modal = document.getElementById('successModalApp');
-          if (modal) modal.classList.add('open');
-          return;
-        }
-
-        // Get current service being requested
         const currentServiceKey = window.currentServiceKey || 'custom';
         const currentServiceName = serviceNames[currentServiceKey] || 'Service personnalisé';
+        const token = localStorage.getItem('auth_token');
 
-        // Get current user
-        const user = window.__auth?.getCurrentUser();
-        const userId = user?.id || null;
-
-        const { data, error } = await supabase
-          .from('requests')
-          .insert([
-            {
-              user_id: userId,
+        // Try backend API first
+        try {
+          const response = await fetch('/api/requests', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + (token || '')
+            },
+            body: JSON.stringify({
               service_key: currentServiceKey,
               service_name: currentServiceName,
               school_name: schoolName,
@@ -908,22 +949,51 @@
               contact_phone: phone,
               contact_email: email,
               description: description,
-              requested_date: desiredDate || null,
-              status: 'pending',
-              created_at: new Date().toISOString()
-            }
-          ])
-          .select();
+              requested_date: desiredDate || null
+            })
+          });
 
-        if (error) throw error;
+          if (response.ok) {
+            // Show success modal
+            const modal = document.getElementById('successModalApp');
+            if (modal) modal.classList.add('open');
+            window.currentServiceKey = null;
+            return;
+          }
+          throw new Error('API not available');
+        } catch (apiErr) {
+          // Fallback: Use Supabase client directly with user_id set
+          const supabase = window.__supabase?.getClient();
+          if (supabase && currentUser) {
+            const { data, error } = await supabase
+              .from('requests')
+              .insert([
+                {
+                  user_id: currentUser.id,
+                  service_key: currentServiceKey,
+                  service_name: currentServiceName,
+                  school_name: schoolName,
+                  city: city,
+                  contact_name: contactName,
+                  contact_phone: phone,
+                  contact_email: email,
+                  description: description,
+                  requested_date: desiredDate || null,
+                  status: 'pending'
+                }
+              ])
+              .select();
 
-        // Show success modal
-        const modal = document.getElementById('successModalApp');
-        if (modal) modal.classList.add('open');
+            if (error) throw error;
 
-        // Clear current service
-        window.currentServiceKey = null;
-
+            // Show success modal
+            const modal = document.getElementById('successModalApp');
+            if (modal) modal.classList.add('open');
+            window.currentServiceKey = null;
+            return;
+          }
+          throw apiErr;
+        }
       } catch (err) {
         console.error('Submit error:', err);
         alert('Erreur lors de la soumission : ' + err.message);

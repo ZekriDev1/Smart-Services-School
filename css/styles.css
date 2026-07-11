@@ -1876,14 +1876,15 @@ html {
     color: var(--primary);
   }
 
-  /* Mobile language selector inside sidebar */
-  .mobile-lang-selector {
+  /* Language selector inside mobile navbar */
+  .nav-links .lang-selector {
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px solid #e5e7eb;
+    width: 100%;
   }
 
-  .mobile-lang-selector select {
+  .nav-links .lang-selector select {
     width: 100%;
     padding: 10px 14px;
     border: 2px solid #e5e7eb;
@@ -1897,10 +1898,14 @@ html {
     transition: var(--transition);
   }
 
-  .mobile-lang-selector select:focus {
+  .nav-links .lang-selector select:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+  }
+
+  .nav-links .lang-selector i {
+    display: none;
   }
 
   /* Simple transparent overlay - just prevents background clicks */

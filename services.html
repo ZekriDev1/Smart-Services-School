@@ -19,26 +19,6 @@
     <i class="fas fa-arrow-up"></i>
   </button>
 
-  <!-- ===== TOP BAR ===== -->
-  <div class="top-bar">
-    <div class="container">
-      <div class="top-bar-left">
-        <div class="lang-selector">
-          <i class="fas fa-globe"></i>
-          <select id="langSelect" aria-label="Language">
-            <option value="fr">Français</option>
-            <option value="ar">العربية</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-      </div>
-      <div class="top-bar-right">
-        <a href="contact.html"><i class="fas fa-phone-alt"></i> +212 5XX XX XX XX</a>
-        <a href="contact.html"><i class="fas fa-envelope"></i> contact@smartservices.ma</a>
-      </div>
-    </div>
-  </div>
-
   <!-- ===== MAIN HEADER ===== -->
   <header class="main-header" id="mainHeader">
     <div class="container">
@@ -54,6 +34,14 @@
         <a href="services.html" class="active" data-i18n="nav.services">Services</a>
         <a href="fonctionnement.html" data-i18n="nav.howItWorks">Fonctionnement</a>
         <a href="contact.html" data-i18n="nav.contact">Contact</a>
+        <div class="lang-selector">
+          <i class="fas fa-globe"></i>
+          <select id="langSelect" aria-label="Language">
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+        </div>
       </nav>
 
       <div class="header-actions" id="headerActions">
@@ -87,134 +75,134 @@
       <div class="services-grid">
         <div class="service-card" onclick="openServiceModal('supplies')">
           <div class="service-image">
-            <img src="images/SchoolSupplies.png" alt="Fournitures de bureau" loading="lazy">
+            <img src="images/SchoolSupplies.png" alt="اللوازم المكتبية" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-boxes"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.supplies.title">Fournitures de bureau</h3>
-            <p data-i18n="services.supplies.desc">Papeterie, cartouches d'encre, classeurs, fournitures administratives, mobilier de bureau.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('supplies')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.supplies.title">اللوازم المكتبية</h3>
+            <p data-i18n="services.supplies.desc">أدوات مكتبية، خراطيش حبر، ملفات، لوازم إدارية، أثاث مكتبي.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('supplies')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('printing')">
           <div class="service-image">
-            <img src="images/PrintingServices.png" alt="Services d'impression" loading="lazy">
+            <img src="images/PrintingServices.png" alt="خدمات الطباعة" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-print"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.printing.title">Services d'impression</h3>
-            <p data-i18n="services.printing.desc">Certificats, bannières, signalétique, flyers, cartes de visite, livres, impressions personnalisées.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('printing')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.printing.title">خدمات الطباعة</h3>
+            <p data-i18n="services.printing.desc">خدمات طباعة احترافية لجميع احتياجاتك.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('printing')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('events')">
           <div class="service-image">
-            <img src="images/events.png" alt="Organisation d'événements" loading="lazy">
+            <img src="images/events.png" alt="تنظيم الحفلات" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-calendar-alt"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.events.title">Organisation d'événements</h3>
-            <p data-i18n="services.events.desc">Cérémonies, journées portes ouvertes, conférences, sorties scolaires, fêtes de fin d'année.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('events')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.events.title">تنظيم الحفلات</h3>
+            <p data-i18n="services.events.desc">تنظيم كامل لحفلاتك ومناسباتك المدرسية.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('events')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('gifts')">
           <div class="service-image">
-            <img src="images/awards.png" alt="Cadeaux & Récompenses scolaires" loading="lazy">
+            <img src="images/awards.png" alt="الهدايا والجوائز المدرسية" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-gift"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.gifts.title">Cadeaux & Récompenses scolaires</h3>
-            <p data-i18n="services.gifts.desc">Trophées, médailles, coupes, certificats, cadeaux de fin d'année, lots de remise des prix.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('gifts')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.gifts.title">الهدايا والجوائز المدرسية</h3>
+            <p data-i18n="services.gifts.desc">كؤوس، ميداليات، جوائز، شهادات، هدايا نهاية العام، حزم جوائز.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('gifts')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('giveaways')">
           <div class="service-image">
-            <img src="images/awards2.png" alt="Goodies scolaires" loading="lazy">
+            <img src="images/awards2.png" alt="المنتجات المخصصة" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-tags"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.giveaways.title">Goodies scolaires</h3>
-            <p data-i18n="services.giveaways.desc">Articles personnalisés : cahiers, stylos, sacs, uniformes, vêtements aux couleurs de l'établissement.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('giveaways')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.giveaways.title">المنتجات المخصصة</h3>
+            <p data-i18n="services.giveaways.desc">منتجات ترويجية مخصصة بشعار مؤسستك.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('giveaways')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('repair')">
           <div class="service-image">
-            <img src="images/PrintingServices.png" alt="Réparation informatique & CCTV" loading="lazy">
+            <img src="images/PrintingServices.png" alt="إصلاح الحواسيب والكاميرات" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-laptop"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.repair.title">Réparation informatique & CCTV</h3>
-            <p data-i18n="services.repair.desc">Réparation d'ordinateurs, installation de caméras de surveillance, maintenance des équipements.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('repair')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.repair.title">إصلاح الحواسيب والكاميرات</h3>
+            <p data-i18n="services.repair.desc">إصلاح وصيانة الحواسيب والكاميرات.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('repair')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('wifi')">
           <div class="service-image">
-            <img src="images/PrintingServices.png" alt="Réparation réseau Wi-Fi" loading="lazy">
+            <img src="images/PrintingServices.png" alt="إصلاح وتركيب شبكات Wi-Fi" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-wifi"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.wifi.title">Réparation réseau Wi-Fi</h3>
-            <p data-i18n="services.wifi.desc">Installation, dépannage et optimisation du réseau Wi-Fi dans l'ensemble de l'établissement.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('wifi')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.wifi.title">إصلاح وتركيب شبكات Wi-Fi</h3>
+            <p data-i18n="services.wifi.desc">تركيب، إصلاح وتحسين شبكات الواي فاي.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('wifi')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('photo')">
           <div class="service-image">
-            <img src="images/events.png" alt="Photographie & Documentation" loading="lazy">
+            <img src="images/events.png" alt="التصوير والتوثيق" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-camera"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.photo.title">Photographie & Documentation</h3>
-            <p data-i18n="services.photo.desc">Photos scolaires, couverture d'événements, vidéos institutionnelles, documentation pédagogique.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('photo')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.photo.title">التصوير والتوثيق</h3>
+            <p data-i18n="services.photo.desc">صور مدرسية، تغطية الفعاليات، فيديوهات مؤسسية، توثيق تربوي.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('photo')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('printer')">
           <div class="service-image">
-            <img src="images/PrintingServices.png" alt="Maintenance d'imprimantes" loading="lazy">
+            <img src="images/PrintingServices.png" alt="صيانة الطابعات" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-tools"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.printer.title">Maintenance d'imprimantes</h3>
-            <p data-i18n="services.printer.desc">Réparation, entretien, fourniture de pièces détachées et cartouches pour tous types d'imprimantes.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('printer')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.printer.title">صيانة الطابعات</h3>
+            <p data-i18n="services.printer.desc">إصلاح وصيانة جميع أنواع الطابعات.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('printer')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('programming')">
           <div class="service-image">
-            <img src="images/Programmation.png" alt="Programmation & Développement" loading="lazy">
+            <img src="images/Programmation.png" alt="خدمات تطوير البرمجيات" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-code"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.programming.title">Programmation & Développement</h3>
-            <p data-i18n="services.programming.desc">Développement de sites web, applications mobiles, logiciels de gestion, solutions e-learning et plateformes sur mesure.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('programming')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.programming.title">خدمات تطوير البرمجيات</h3>
+            <p data-i18n="services.programming.desc">تطوير مواقع الويب، تطبيقات الجوال، برامج الإدارة، حلول التعلم الإلكتروني ومنصات مخصصة.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('programming')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card" onclick="openServiceModal('consulting')">
           <div class="service-image">
-            <img src="images/SchoolSupplies.png" alt="Consulting" loading="lazy">
+            <img src="images/SchoolSupplies.png" alt="الاستشارات" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-chart-line"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.consulting.title">Consulting</h3>
-            <p data-i18n="services.consulting.desc">Conseil en gestion scolaire, audit des processus, accompagnement à la transformation numérique.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('consulting')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">Demander ce service</button>
+            <h3 data-i18n="services.consulting.title">الاستشارات</h3>
+            <p data-i18n="services.consulting.desc">استشارات في الإدارة المدرسية، تدقيق العمليات، مرافقة التحول الرقمي.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('consulting')" class="btn btn-primary btn-sm" data-i18n="services.requestBtn">اطلب هذه الخدمة</button>
           </div>
         </div>
         <div class="service-card service-card-highlight" onclick="openServiceModal('custom')">
           <div class="service-image">
-            <img src="images/awards.png" alt="Service personnalisé" loading="lazy">
+            <img src="images/awards.png" alt="طلب خدمة مخصصة" loading="lazy">
             <div class="service-icon-overlay"><i class="fas fa-plus-circle"></i></div>
           </div>
           <div class="card-body">
-            <h3 data-i18n="services.custom.title">Demander un service personnalisé</h3>
-            <p data-i18n="services.custom.desc">Vous ne trouvez pas ce que vous cherchez ? Décrivez-nous votre besoin et nous vous trouverons la solution.</p>
-            <button onclick="event.stopPropagation(); openServiceModal('custom')" class="btn btn-primary btn-sm" data-i18n="services.customRequestBtn">Faire une demande</button>
+            <h3 data-i18n="services.custom.title">طلب خدمة مخصصة</h3>
+            <p data-i18n="services.custom.desc">لم تجد ما تبحث عنه؟ صِف لنا احتياجك وسنجد لك الحل.</p>
+            <button onclick="event.stopPropagation(); openServiceModal('custom')" class="btn btn-primary btn-sm" data-i18n="services.customRequestBtn">تقديم طلب</button>
           </div>
         </div>
       </div>
@@ -224,27 +212,27 @@
   <!-- ===== WHY SMARTSERVICES ===== -->
   <section class="engagement section">
     <div class="container">
-      <h2 class="section-title" data-i18n-html="benefits.sectionTitle">Pourquoi <span class="orange">SMARTSERVICES Schools ?</span></h2>
+      <h2 class="section-title" data-i18n-html="benefits.sectionTitle">لماذا <span class="orange">SMARTSERVICES Schools؟</span></h2>
       <div class="benefits-grid">
         <div class="benefit-card">
           <div class="benefit-icon"><i class="fas fa-clock"></i></div>
-          <h3 data-i18n="benefits.timeTitle">Gain de temps</h3>
-          <p data-i18n="benefits.timeDesc">Plus besoin de contacter plusieurs fournisseurs. Une seule plateforme pour tous vos besoins.</p>
+          <h3 data-i18n="benefits.timeTitle">توفير الوقت</h3>
+          <p data-i18n="benefits.timeDesc">لا مزيد من الاتصال بعدة مزودين. منصة واحدة لجميع احتياجاتك.</p>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon"><i class="fas fa-hand-holding-usd"></i></div>
-          <h3 data-i18n="benefits.costTitle">Optimisation des coûts</h3>
-          <p data-i18n="benefits.costDesc">Des tarifs négociés grâce à notre réseau de partenaires et notre volume d'achats groupés.</p>
+          <h3 data-i18n="benefits.costTitle">تحسين التكاليف</h3>
+          <p data-i18n="benefits.costDesc">أسعار تفاوضية بفضل شبكة شركائنا وحجم المشتريات الجماعية.</p>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon"><i class="fas fa-clipboard-check"></i></div>
-          <h3 data-i18n="benefits.trackingTitle">Suivi transparent</h3>
-          <p data-i18n="benefits.trackingDesc">Suivez l'état de toutes vos demandes en temps réel depuis votre tableau de bord.</p>
+          <h3 data-i18n="benefits.trackingTitle">تتبع شفاف</h3>
+          <p data-i18n="benefits.trackingDesc">تتبع حالة جميع طلباتك في الوقت الفعلي من لوحة التحكم الخاصة بك.</p>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon"><i class="fas fa-headset"></i></div>
-          <h3 data-i18n="benefits.supportTitle">Accompagnement dédié</h3>
-          <p data-i18n="benefits.supportDesc">Un responsable de compte dédié pour vous accompagner à chaque étape.</p>
+          <h3 data-i18n="benefits.supportTitle">دعم مخصص</h3>
+          <p data-i18n="benefits.supportDesc">مسؤول حساب مخصص لمرافقتك في كل خطوة.</p>
         </div>
       </div>
     </div>
@@ -253,9 +241,9 @@
   <!-- ===== CTA BANNER ===== -->
   <section class="instagram-banner">
     <div class="container">
-      <h2 data-i18n="cta.title">Prêt à simplifier la gestion de votre établissement ?</h2>
-      <p data-i18n="cta.subtitle">Rejoignez les écoles qui nous font déjà confiance au Maroc.</p>
-      <button type="button" class="btn btn-primary" id="servicesCtaBtn"><span data-i18n="cta.btn">Créer un compte gratuitement</span> <i class="fas fa-arrow-right"></i></button>
+      <h2 data-i18n="cta.title">مستعدون لتبسيط إدارة مؤسستكم؟</h2>
+      <p data-i18n="cta.subtitle">انضم إلى المدارس التي تثق بنا بالفعل في المغرب.</p>
+      <button type="button" class="btn btn-primary" id="servicesCtaBtn"><span data-i18n="cta.btn">إنشاء حساب مجاناً</span> <i class="fas fa-arrow-right"></i></button>
     </div>
   </section>
 
@@ -268,30 +256,30 @@
             <img src="images/Assets/logo2.png" alt="logo2" class="logo-image">
             <span class="logo-text" style="color: white;">SMARTSERVICES<br>Schools</span>
           </div>
-          <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6;"><span data-i18n="footer.desc">La plateforme B2B qui centralise tous les services opérationnels pour les établissements scolaires au Maroc.</span>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6;"><span data-i18n="footer.desc">المنصة B2B التي توحد جميع الخدمات التشغيلية للمؤسسات التعليمية في المغرب.</span>
           </p>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.services">Services</h4>
-          <a href="services.html" data-i18n="services.supplies.title">Fournitures de bureau</a>
-          <a href="services.html" data-i18n="services.printing.title">Services d'impression</a>
-          <a href="services.html" data-i18n="services.events.title">Événements</a>
-          <a href="services.html" data-i18n="services.gifts.title">Cadeaux & Récompenses</a>
-          <a href="services.html" data-i18n="services.giveaways.title">Goodies</a>
-          <a href="services.html" data-i18n="services.programming.title">Programmation & Développement</a>
+          <h4 data-i18n="footer.services">الخدمات</h4>
+          <a href="services.html" data-i18n="services.supplies.title">اللوازم المكتبية</a>
+          <a href="services.html" data-i18n="services.printing.title">خدمات الطباعة</a>
+          <a href="services.html" data-i18n="services.events.title">تنظيم الحفلات</a>
+          <a href="services.html" data-i18n="services.gifts.title">الهدايا والجوائز</a>
+          <a href="services.html" data-i18n="services.giveaways.title">المنتجات المخصصة</a>
+          <a href="services.html" data-i18n="services.programming.title">البرمجة والتطوير</a>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.company">Entreprise</h4>
-          <a href="index.html" data-i18n="footer.about">À propos</a>
-          <a href="fonctionnement.html" data-i18n="footer.howItWorks">Comment ça marche</a>
-          <a href="contact.html" data-i18n="nav.contact">Contact</a>
-          <a href="faq.html" data-i18n="footer.faq">FAQ</a>
+          <h4 data-i18n="footer.company">الشركة</h4>
+          <a href="index.html" data-i18n="footer.about">حول</a>
+          <a href="fonctionnement.html" data-i18n="footer.howItWorks">كيف يعمل</a>
+          <a href="contact.html" data-i18n="nav.contact">اتصل بنا</a>
+          <a href="faq.html" data-i18n="footer.faq">الأسئلة الشائعة</a>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.contact">Contact</h4>
+          <h4 data-i18n="footer.contact">اتصل بنا</h4>
           <span><i class="fas fa-phone-alt"></i> +212 5XX XX XX XX</span>
           <span><i class="fas fa-envelope"></i> contact@smartservices.ma</span>
-          <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.location">Tanger, Maroc</span></span>
+          <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.location">طنجة، المغرب</span></span>
         </div>
       </div>
       <div class="footer-bottom">
@@ -448,174 +436,244 @@
     // Service-specific form fields
     const modalServiceFields = {
       gifts: `
-        <label data-i18n="formFields.rewardType">Type de récompense souhaitée</label>
+        <label data-i18n="formFields.awardType">نوع الجائزة</label>
         <select>
-          <option data-i18n="options.trophies">Trophées</option>
-          <option data-i18n="options.medals">Médailles</option>
-          <option data-i18n="options.cups">Coupes</option>
-          <option data-i18n="options.certificates">Certificats</option>
-          <option data-i18n="options.prizePacks">Lots de remise des prix</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.trophy">كأس</option>
+          <option data-i18n="options.medal">ميدالية</option>
+          <option data-i18n="options.shield">درع تكريمي</option>
+          <option data-i18n="options.cashPrize">جائزة عينية</option>
+          <option data-i18n="options.books">كتب</option>
+          <option data-i18n="options.schoolSupplies">أدوات مدرسية</option>
+          <option data-i18n="options.electronics">أجهزة إلكترونية</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.occasion">المناسبة</label>
+        <select>
+          <option data-i18n="options.endOfYearCeremony">حفل نهاية السنة</option>
+          <option data-i18n="options.topStudents">المتفوقون</option>
+          <option data-i18n="options.culturalCompetition">مسابقة ثقافية</option>
+          <option data-i18n="options.sportsCompetition">مسابقة رياضية</option>
+          <option data-i18n="options.quranMemorization">حفظ القرآن الكريم</option>
+          <option data-i18n="options.behaviorExcellence">التميز في السلوك</option>
+          <option data-i18n="options.attendanceExcellence">التميز في المواظبة</option>
+          <option data-i18n="options.artCompetition">مسابقة فنية</option>
+          <option data-i18n="options.scientificCompetition">مسابقة علمية</option>
+          <option data-i18n="options.other">أخرى</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">الكمية المقدرة</label>
         <input type="number" placeholder="Ex: 50">
       `,
       supplies: `
-        <label data-i18n="formFields.suppliesType">Type de fournitures</label>
+        <label data-i18n="formFields.suppliesType">نوع اللوازم</label>
         <select>
-          <option data-i18n="options.stationery">Papeterie</option>
-          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
-          <option data-i18n="options.bindersStorage">Classeurs et rangement</option>
-          <option data-i18n="options.officeFurniture">Mobilier de bureau</option>
-          <option data-i18n="options.adminSupplies">Fournitures administratives</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.paperType">الورق</option>
+          <option data-i18n="options.writingTools">أدوات الكتابة</option>
+          <option data-i18n="options.organizationArchiving">التنظيم والأرشفة</option>
+          <option data-i18n="options.officeSupplies">اللوازم المكتبية</option>
+          <option data-i18n="options.printingSupplies">مستلزمات الطباعة</option>
+          <option data-i18n="options.classroomSupplies">مستلزمات القسم</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">الميزانية المقدرة (درهم)</label>
         <input type="number" placeholder="Ex: 5000">
       `,
       giveaways: `
-        <label data-i18n="formFields.articleType">Type d'article</label>
+        <label data-i18n="formFields.articleType">نوع المقال</label>
         <select>
-          <option data-i18n="options.customNotebooks">Cahiers personnalisés</option>
-          <option data-i18n="options.customPens">Stylos personnalisés</option>
-          <option data-i18n="options.customBags">Sacs personnalisés</option>
-          <option data-i18n="options.uniforms">Uniformes</option>
-          <option data-i18n="options.brandedClothes">Vêtements aux couleurs de l'établissement</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.customPens">أقلام مخصصة</option>
+          <option data-i18n="options.customNotebooks">دفاتر وكراسات</option>
+          <option data-i18n="options.customMugs">أكواب</option>
+          <option data-i18n="options.toteBags">حقائب قماشية</option>
+          <option data-i18n="options.badges">ميداليات تعريفية</option>
+          <option data-i18n="options.lanyards">حبال تعليق البطاقات</option>
+          <option data-i18n="options.waterBottles">زجاجات ماء</option>
+          <option data-i18n="options.customTshirts">قمصان وقبعات</option>
+          <option data-i18n="options.stickers">ملصقات</option>
+          <option data-i18n="options.bookmarks">فواصل كتب</option>
+          <option data-i18n="options.calendars">تقاويم</option>
+          <option data-i18n="options.keychains">مفاتيح</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">الكمية المقدرة</label>
         <input type="number" placeholder="Ex: 200">
       `,
       printing: `
-        <label data-i18n="formFields.printType">Type d'impression</label>
+        <label data-i18n="formFields.printType">اختر نوع الطباعة</label>
         <select>
-          <option data-i18n="options.certificates">Certificats</option>
-          <option data-i18n="options.banners">Bannières</option>
-          <option data-i18n="options.signage">Signalétique</option>
-          <option data-i18n="options.flyers">Flyers</option>
-          <option data-i18n="options.businessCards">Cartes de visite</option>
-          <option data-i18n="options.books">Livres</option>
-          <option data-i18n="options.customPrints">Impressions personnalisées</option>
+          <option data-i18n="options.certificates">شهادات</option>
+          <option data-i18n="options.appreciationCertificates">شواهد تقديرية</option>
+          <option data-i18n="options.cards">بطاقات</option>
+          <option data-i18n="options.rollUp">رول أب</option>
+          <option data-i18n="options.banners">بانرات</option>
+          <option data-i18n="options.posters">ملصقات</option>
+          <option data-i18n="options.notebooks">دفاتر</option>
+          <option data-i18n="options.files">ملفات</option>
+          <option data-i18n="options.envelopes">أظرفة</option>
+          <option data-i18n="options.bags">أكياس</option>
+          <option data-i18n="options.mugs">أكواب</option>
+          <option data-i18n="options.tshirts">قمصان</option>
+          <option data-i18n="options.trophiesAndMedals">كؤوس وميداليات</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">الكمية المقدرة</label>
         <input type="number" placeholder="Ex: 100">
       `,
       events: `
-        <label data-i18n="formFields.eventType">Type d'événement</label>
+        <label data-i18n="formFields.eventType">نوع المناسبة</label>
         <select>
-          <option data-i18n="options.awardCeremony">Cérémonie de remise des prix</option>
-          <option data-i18n="options.openDay">Journée portes ouvertes</option>
-          <option data-i18n="options.conference">Conférence</option>
-          <option data-i18n="options.schoolTrip">Sortie scolaire</option>
-          <option data-i18n="options.yearEndParty">Fête de fin d'année</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.endOfYearCeremony">حفل نهاية السنة</option>
+          <option data-i18n="options.graduationCeremony">حفل تخرج</option>
+          <option data-i18n="options.openDay">يوم مفتوح</option>
+          <option data-i18n="options.educationalActivity">نشاط تربوي</option>
+          <option data-i18n="options.exhibition">معرض</option>
+          <option data-i18n="options.competition">مسابقة</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedParticipants">Nombre de participants estimé</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.requiredServices">الخدمات المطلوبة</label>
+        <select multiple>
+          <option data-i18n="options.entertainment">تنشيط</option>
+          <option data-i18n="options.decoration">ديكور</option>
+          <option data-i18n="options.stage">منصة</option>
+          <option data-i18n="options.soundSystem">صوتيات</option>
+          <option data-i18n="options.lighting">إضاءة</option>
+          <option data-i18n="options.photography">تصوير</option>
+          <option data-i18n="options.catering">ضيافة</option>
+          <option data-i18n="options.eventGifts">هدايا</option>
+          <option data-i18n="options.certificates">شهادات</option>
+          <option data-i18n="options.other">أخرى</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedParticipants">عدد المشاركين المقدر</label>
         <input type="number" placeholder="Ex: 300">
       `,
       repair: `
-        <label data-i18n="formFields.equipmentType">Type d'équipement</label>
+        <label data-i18n="formFields.equipmentType">نوع الجهاز</label>
         <select>
-          <option data-i18n="options.desktopComputer">Ordinateur fixe</option>
-          <option data-i18n="options.laptop">Ordinateur portable</option>
-          <option data-i18n="options.securityCamera">Caméra de surveillance</option>
-          <option data-i18n="options.networkEquipment">Équipement réseau</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.desktopComputer">حاسوب مكتبي</option>
+          <option data-i18n="options.laptop">حاسوب محمول</option>
+          <option data-i18n="options.securityCamera">كاميرا مراقبة</option>
+          <option data-i18n="options.camera">كاميرا تصوير</option>
+          <option data-i18n="options.monitor">شاشة</option>
+          <option data-i18n="options.otherDevice">جهاز آخر</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.equipmentCount">Nombre d'équipements</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.equipmentCount">عدد المعدات</label>
         <input type="number" placeholder="Ex: 10">
       `,
       wifi: `
-        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <label data-i18n="formFields.interventionType">نوع الخدمة</label>
         <select>
-          <option data-i18n="options.newInstallation">Nouvelle installation</option>
-          <option data-i18n="options.troubleshooting">Dépannage</option>
-          <option data-i18n="options.networkOptimization">Optimisation du réseau</option>
-          <option data-i18n="options.coverageExtension">Extension de couverture</option>
+          <option data-i18n="options.newNetworkInstallation">تركيب شبكة جديدة</option>
+          <option data-i18n="options.networkRepair">إصلاح شبكة</option>
+          <option data-i18n="options.coverageExtension">توسيع التغطية</option>
+          <option data-i18n="options.signalBoost">تقوية الإشارة</option>
+          <option data-i18n="options.deviceConfiguration">برمجة أجهزة</option>
+          <option data-i18n="options.networkCameras">كاميرات مرتبطة بالشبكة</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.coverageSurface">Surface à couvrir (m²)</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.coverageSurface">المساحة المراد تغطيتها (م²)</label>
         <input type="number" placeholder="Ex: 500">
       `,
       photo: `
-        <label data-i18n="formFields.prestationType">Type de prestation</label>
+        <label data-i18n="formFields.prestationType">نوع الخدمة</label>
         <select>
-          <option data-i18n="options.schoolPhotos">Photos scolaires</option>
-          <option data-i18n="options.eventCoverage">Couverture d'événement</option>
-          <option data-i18n="options.institutionalVideo">Vidéo institutionnelle</option>
-          <option data-i18n="options.educationalDocumentation">Documentation pédagogique</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.schoolPhotos">صور مدرسية</option>
+          <option data-i18n="options.eventCoverage">تغطية فعاليات</option>
+          <option data-i18n="options.institutionalVideo">فيديو مؤسسي</option>
+          <option data-i18n="options.educationalDocumentation">توثيق تربوي</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedHours">Durée estimée (heures)</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedHours">المدة المقدرة (ساعات)</label>
         <input type="number" placeholder="Ex: 4">
       `,
       printer: `
-        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <label data-i18n="formFields.printerBrand">نوع الطابعة</label>
         <select>
-          <option data-i18n="options.repair">Réparation</option>
-          <option data-i18n="options.preventiveMaintenance">Entretien préventif</option>
-          <option data-i18n="options.spareParts">Fourniture de pièces</option>
-          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
+          <option data-i18n="options.hp">HP</option>
+          <option data-i18n="options.canon">Canon</option>
+          <option data-i18n="options.epson">Epson</option>
+          <option data-i18n="options.brother">Brother</option>
+          <option data-i18n="options.xerox">Xerox</option>
+          <option data-i18n="options.ricoh">Ricoh</option>
+          <option data-i18n="options.otherBrand">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.printerCount">Nombre d'imprimantes</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.issueType">تفاصيل العطل</label>
+        <select>
+          <option data-i18n="options.notPrinting">لا تطبع</option>
+          <option data-i18n="options.poorPrintQuality">جودة الطباعة ضعيفة</option>
+          <option data-i18n="options.paperJam">انحشار الورق</option>
+          <option data-i18n="options.inkProblem">مشكلة الحبر</option>
+          <option data-i18n="options.networkIssue">مشكلة الشبكة</option>
+          <option data-i18n="options.preventiveMaintenance">صيانة دورية</option>
+          <option data-i18n="options.other">أخرى</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.printerCount">عدد الطابعات</label>
         <input type="number" placeholder="Ex: 5">
       `,
       programming: `
-        <label data-i18n="formFields.prestationType">Type de développement</label>
+        <label data-i18n="formFields.softwareService">خدمة التطوير</label>
         <select>
-          <option>Développement de site web</option>
-          <option>Application mobile</option>
-          <option>Logiciel de gestion</option>
-          <option>Solution e-learning</option>
-          <option>Plateforme sur mesure</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.websiteDesign">تصميم موقع إلكتروني</option>
+          <option data-i18n="options.schoolPlatform">تطوير منصة مدرسية</option>
+          <option data-i18n="options.mobileApp">تطوير تطبيق للهاتف</option>
+          <option data-i18n="options.studentManagementSystem">نظام إدارة التلاميذ</option>
+          <option data-i18n="options.teacherManagementSystem">نظام إدارة الأساتذة</option>
+          <option data-i18n="options.invoicingSystem">نظام الفواتير والأداءات</option>
+          <option data-i18n="options.onlineRegistrationSystem">نظام التسجيل الإلكتروني</option>
+          <option data-i18n="options.appointmentBookingSystem">نظام حجز المواعيد</option>
+          <option data-i18n="options.elearningPlatform">منصة التعليم الإلكتروني</option>
+          <option data-i18n="options.notificationsSystem">نظام الإشعارات والرسائل</option>
+          <option data-i18n="options.securityImprovement">تحسين الأمان وحماية البيانات</option>
+          <option data-i18n="options.customSoftware">تطوير برنامج مخصص</option>
+          <option data-i18n="options.softwareUpdate">تعديل أو تحديث برنامج موجود</option>
+          <option data-i18n="options.bugFixing">إصلاح أخطاء برمجية</option>
+          <option data-i18n="options.systemsIntegration">ربط الأنظمة وقواعد البيانات</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">الميزانية المقدرة (درهم)</label>
         <input type="number" placeholder="Ex: 15000">
       `,
       consulting: `
-        <label data-i18n="formFields.consultingDomain">Domaine de consulting</label>
+        <label data-i18n="formFields.consultingDomain">مجال الاستشارات</label>
         <select>
-          <option data-i18n="options.schoolManagement">Gestion scolaire</option>
-          <option data-i18n="options.processAudit">Audit des processus</option>
-          <option data-i18n="options.digitalTransformation">Transformation numérique</option>
-          <option data-i18n="options.staffTraining">Formation du personnel</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.schoolManagement">إدارة مدرسية</option>
+          <option data-i18n="options.processAudit">تدقيق العمليات</option>
+          <option data-i18n="options.digitalTransformation">تحول رقمي</option>
+          <option data-i18n="options.staffTraining">تدريب الموظفين</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
-        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedDays">Durée estimée (jours)</label>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedDays">المدة المقدرة (أيام)</label>
         <input type="number" placeholder="Ex: 5">
       `,
       custom: `
-        <label data-i18n="formFields.serviceCategory">Catégorie du service</label>
+        <label data-i18n="formFields.serviceCategory">فئة الخدمة</label>
         <select>
-          <option data-i18n="options.generalServices">Services généraux</option>
-          <option data-i18n="options.equipment">Équipement</option>
-          <option data-i18n="options.training">Formation</option>
-          <option data-i18n="options.maintenance">Maintenance</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.generalServices">خدمات عامة</option>
+          <option data-i18n="options.equipment">معدات</option>
+          <option data-i18n="options.training">تدريب</option>
+          <option data-i18n="options.maintenance">صيانة</option>
+          <option data-i18n="options.other">أخرى</option>
         </select>
       `
     };
 
     const modalServiceNames = {
-      gifts: 'Cadeaux & Récompenses scolaires',
-      supplies: 'Fournitures de bureau',
-      giveaways: 'Goodies scolaires',
-      printing: "Services d'impression",
-      events: "Organisation d'événements",
-      repair: 'Réparation informatique & CCTV',
-      wifi: 'Réparation réseau Wi-Fi',
-      photo: 'Photographie & Documentation',
-      printer: "Maintenance d'imprimantes",
-      programming: 'Programmation & Développement',
-      consulting: 'Consulting',
-      custom: 'Service personnalisé'
+      gifts: 'الهدايا والجوائز المدرسية',
+      supplies: 'اللوازم المكتبية',
+      giveaways: 'المنتجات المخصصة',
+      printing: "خدمات الطباعة",
+      events: "تنظيم الحفلات",
+      repair: 'إصلاح الحواسيب والكاميرات',
+      wifi: 'إصلاح وتركيب شبكات Wi-Fi',
+      photo: 'التصوير والتوثيق',
+      printer: "صيانة الطابعات",
+      programming: 'خدمات تطوير البرمجيات',
+      consulting: 'الاستشارات',
+      custom: 'طلب خدمة مخصصة'
     };
 
     let currentService = null;
 
     function openServiceModal(service) {
       currentService = service;
-      document.getElementById('modalTitle').textContent = 'Demande : ' + (modalServiceNames[service] || 'Service');
+      document.getElementById('modalTitle').textContent = 'طلب : ' + (modalServiceNames[service] || 'خدمة');
       document.getElementById('modalServiceSpecificFields').innerHTML = modalServiceFields[service] || '';
       if (window.I18n) window.I18n.applyTranslations();
       document.getElementById('serviceModal').classList.add('open');
@@ -643,7 +701,7 @@
     });
 
     function submitModalRequest() {
-      alert('Votre demande a été soumise avec succès ! Un responsable SMARTSERVICES vous contactera dans les plus brefs délais.');
+      alert('تم إرسال طلبك بنجاح! سيتواصل معك مسؤول SMARTSERVICES في أقرب وقت ممكن.');
       closeServiceModal();
     }
   </script>
