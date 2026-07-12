@@ -171,7 +171,7 @@ async function loadDashboard() {
     const [usersRes, requestsRes, quotationsRes] = await Promise.all([
       _supabase.from('users').select('*', { count: 'exact', head: true }),
       _supabase.from('requests').select('*'),
-      _supabase.from('quotations').select('*', { count: 'exact', head: true })
+      _supabase.from('quotes').select('*', { count: 'exact', head: true })
     ]);
     
     const requests = requestsRes.data || [];
@@ -478,11 +478,12 @@ async function saveUser(e, id) {
   };
   
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - changes not saved', 'warning');
       return;
     }
-    const { error } = await supabase.from('users').update(updates).eq('id', id);
+    const { error } = await _supabase.from('users').update(updates).eq('id', id);
     if (error) throw error;
     toast('User updated successfully', 'success');
     closeModal();
@@ -495,11 +496,12 @@ async function saveUser(e, id) {
 async function deleteUser(id) {
   if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - cannot delete', 'warning');
       return;
     }
-    const { error } = await supabase.from('users').delete().eq('id', id);
+    const { error } = await _supabase.from('users').delete().eq('id', id);
     if (error) throw error;
     toast('User deleted', 'success');
     loadUsers();
@@ -512,7 +514,8 @@ async function deleteUser(id) {
 async function loadRequests(statusFilter = '') {
   try {
     STATE.isLoading = true;
-    let query = supabase.from('requests').select('*').order('created_at', { ascending: false });
+    if (!_supabase) await initSupabase();
+    let query = _supabase.from('requests').select('*').order('created_at', { ascending: false });
     if (statusFilter) query = query.eq('status', statusFilter);
     const { data, error } = await query;
     if (error) throw error;
@@ -581,22 +584,23 @@ function filterRequests() {
 
 async function updateRequestStatus(id, newStatus) {
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - changes not saved', 'warning');
       return;
     }
-    const { error } = await supabase.from('requests').update({ status: newStatus }).eq('id', id);
+    const { error } = await _supabase.from('requests').update({ status: newStatus }).eq('id', id);
     if (error) throw error;
     toast('Status updated to ' + newStatus.replace(/_/g, ' '), 'success');
     
     // Log to audit
-    if (supabase) {
-      await supabase.from('audit_logs').insert({
-        user_id: STATE.user?.id,
-        action: 'status_change',
+    if (_supabase) {
+      await _supabase.from('activity_logs').insert({
+        admin_id: STATE.user?.id,
+        action_type: 'status_change',
         entity_type: 'request',
         entity_id: id,
-        changes: { status: newStatus }
+        new_value: { status: newStatus }
       });
     }
     
@@ -708,11 +712,12 @@ async function saveRequest(e, id) {
   };
   
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - changes not saved', 'warning');
       return;
     }
-    const { error } = await supabase.from('requests').update(updates).eq('id', id);
+    const { error } = await _supabase.from('requests').update(updates).eq('id', id);
     if (error) throw error;
     toast('Request updated successfully', 'success');
     closeModal();
@@ -725,11 +730,12 @@ async function saveRequest(e, id) {
 async function deleteRequest(id) {
   if (!confirm('Are you sure you want to delete this request?')) return;
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - cannot delete', 'warning');
       return;
     }
-    const { error } = await supabase.from('requests').delete().eq('id', id);
+    const { error } = await _supabase.from('requests').delete().eq('id', id);
     if (error) throw error;
     toast('Request deleted', 'success');
     loadRequests();
@@ -741,7 +747,8 @@ async function deleteRequest(id) {
 // ===== SERVICES =====
 async function loadServices() {
   try {
-    const { data, error } = await supabase.from('service_categories').select('*').order('sort_order', { ascending: true });
+    if (!_supabase) await initSupabase();
+    const { data, error } = await _supabase.from('service_categories').select('*').order('sort_order', { ascending: true });
     if (error) throw error;
     
     STATE.services = data || [];
@@ -829,11 +836,12 @@ async function saveService(e, id) {
   };
   
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - changes not saved', 'warning');
       return;
     }
-    const { error } = await supabase.from('service_categories').update(updates).eq('id', id);
+    const { error } = await _supabase.from('service_categories').update(updates).eq('id', id);
     if (error) throw error;
     toast('Service updated', 'success');
     closeModal();
@@ -845,11 +853,12 @@ async function saveService(e, id) {
 
 async function toggleService(id, active) {
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - changes not saved', 'warning');
       return;
     }
-    const { error } = await supabase.from('service_categories').update({ is_active: active }).eq('id', id);
+    const { error } = await _supabase.from('service_categories').update({ is_active: active }).eq('id', id);
     if (error) throw error;
     toast(`Service ${active ? 'activated' : 'deactivated'}`, 'success');
     loadServices();
@@ -861,7 +870,8 @@ async function toggleService(id, active) {
 // ===== QUOTATIONS =====
 async function loadQuotations() {
   try {
-    const { data, error } = await supabase.from('quotations').select('*, request:request_id(service_name, school_name)').order('uploaded_at', { ascending: false });
+    if (!_supabase) await initSupabase();
+    const { data, error } = await _supabase.from('quotes').select('*, request:request_id(service_name, school_name)').order('created_at', { ascending: false });
     if (error) throw error;
     
     STATE.quotations = data || [];
@@ -900,11 +910,12 @@ function renderQuotationsTable(quotations) {
 async function deleteQuotation(id) {
   if (!confirm('Delete this quotation?')) return;
   try {
-    if (!supabase) {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
       toast('Database not connected - cannot delete', 'warning');
       return;
     }
-    const { error } = await supabase.from('quotations').delete().eq('id', id);
+    const { error } = await _supabase.from('quotes').delete().eq('id', id);
     if (error) throw error;
     toast('Quotation deleted', 'success');
     loadQuotations();
@@ -916,11 +927,12 @@ async function deleteQuotation(id) {
 // ===== ANALYTICS =====
 async function loadAnalytics() {
   try {
+    if (!_supabase) await initSupabase();
     const year = new Date().getFullYear();
     const yearStart = `${year}-01-01`;
     const yearEnd = `${year}-12-31`;
     
-    const { data, error } = await supabase.from('requests').select('created_at, status, service_name, service_key').gte('created_at', yearStart).lte('created_at', yearEnd);
+    const { data, error } = await _supabase.from('requests').select('created_at, status, service_name, service_key').gte('created_at', yearStart).lte('created_at', yearEnd);
     if (error) throw error;
     
     const requests = data || [];
@@ -983,12 +995,13 @@ function toggleDarkMode() {
 // ===== AUDIT LOGS =====
 async function loadAuditLogs() {
   try {
+    if (!_supabase) await initSupabase();
     let logs = [];
     
-    if (!supabase) {
+    if (!_supabase) {
       logs = [];
     } else {
-      const { data, error } = await supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(100);
+      const { data, error } = await _supabase.from('activity_logs').select('*').order('created_at', { ascending: false }).limit(100);
       if (error) throw error;
       logs = data || [];
     }

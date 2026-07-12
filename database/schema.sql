@@ -234,9 +234,6 @@ GRANT SELECT ON public.invoices TO anon;
 GRANT SELECT ON public.request_details TO anon;
 GRANT SELECT ON public.invoice_details TO anon;
 
--- ============================================
--- 7. DEFAULT SEED DATA
--- ============================================
 
 INSERT INTO public.service_categories (key, name_fr, name_ar, name_en, icon, sort_order) VALUES
   ('printing', 'Services d''impression', 'خدمات الطباعة', 'Printing Services', 'fa-print', 1),

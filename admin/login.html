@@ -164,7 +164,7 @@
     // When running via Node server, credentials come from .env
     // When running as file:// (direct open), these fallback credentials are used:
     const ADMIN_EMAIL = 'admin@smartservices.ma';
-    const ADMIN_PASSWORD = 'Admin123!';
+    const ADMIN_PASSWORD = 'G1235678';
     const ADMIN_NAME = 'Super Admin';
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
@@ -183,7 +183,6 @@
       try {
         let user = null;
 
-        // Try server-side login first (when opened via http://localhost:3000)
         try {
           const response = await fetch('/api/admin/login', {
             method: 'POST',

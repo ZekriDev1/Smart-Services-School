@@ -14,7 +14,7 @@ const { createClient } = require('@supabase/supabase-js');
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@smartservices.ma';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'G1235678';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'G12345678';
 const ADMIN_NAME = process.env.ADMIN_NAME || 'Super Admin';
 
 async function setupAdmin() {
