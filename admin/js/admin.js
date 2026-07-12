@@ -109,9 +109,9 @@ function updateUserUI(user) {
   const headerName = document.getElementById('headerUserName');
   
   if (avatar) avatar.textContent = (user.full_name || user.email || 'A').charAt(0).toUpperCase();
-  if (name) name.textContent = user.full_name || user.email || 'Admin';
+  if (name) name.innerHTML = '<i class="fas fa-user-shield"></i>';
   if (role) role.textContent = user.role || 'admin';
-  if (headerName) headerName.textContent = user.full_name || user.email || 'Admin';
+  if (headerName) headerName.textContent = (user.full_name || user.email || 'A').charAt(0).toUpperCase();
 }
 
 // ===== SIDEBAR =====
@@ -153,25 +153,17 @@ function navigateTo(tab, el) {
   }
 }
 
-// ===== NOTE: No mock data - only real database data is shown =====
-
-// ===== INIT =====
 document.addEventListener('DOMContentLoaded', async function() {
-  // Check auth
   const user = await checkAuth();
   if (!user) return;
   
-  // Update UI
   updateUserUI(user);
-  
-  // Load theme
+
   const savedTheme = localStorage.getItem('adminTheme');
   if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
   
-  // Try to init Supabase
   await initSupabase();
   
-  // Load dashboard with real data only
   loadDashboard();
 });
 
@@ -212,7 +204,6 @@ async function loadDashboard() {
       } catch(e) { /* backend not available */ }
     }
 
-    // Fallback: Direct Supabase query
     if (!_supabase) await initSupabase();
     await ensureSupabaseSession();
     const [usersRes, requestsRes, quotationsRes] = await Promise.all([
@@ -233,27 +224,21 @@ async function loadDashboard() {
     const completed = requests.filter(r => r.status === 'completed').length;
     const totalRequests = requests.length;
     
-    // Update stat cards
     document.getElementById('statTotalRequests').textContent = totalRequests;
     document.getElementById('statActiveRequests').textContent = inProgress;
     document.getElementById('statCompletedRequests').textContent = completed;
     document.getElementById('statTotalUsers').textContent = totalUsers;
     document.getElementById('statQuotations').textContent = totalQuotations;
     
-    // Revenue estimate
     const revenue = requests.reduce((sum, r) => sum + (Number(r.quote_amount) || 0), 0);
     document.getElementById('statRevenue').textContent = `${revenue.toLocaleString()} MAD`;
     
-    // Monthly chart
     renderMonthlyChart(requests);
     
-    // Service distribution
     renderServiceChart(requests);
     
-    // Status distribution
     renderStatusChart(requests);
     
-    // Recent activity
     renderRecentActivity(requests.slice(0, 10));
     
   } catch(e) {
@@ -645,16 +630,8 @@ async function loadRequests(statusFilter = '') {
       if (tbody) {
         tbody.innerHTML = `<tr><td colspan="9">
           <div class="empty-state">
-            <i class="fas fa-shield-alt" style="color:var(--warning);"></i>
-            <h3>RLS bloque l'affichage</h3>
-            <p style="max-width:500px;margin:0 auto;line-height:1.6;">
-              Les demandes existent dans Supabase mais ne peuvent pas être affichées à cause des politiques RLS.<br><br>
-              <strong>Solution 1:</strong> Lancez <code>node server.js</code> et ouvrez <code>http://localhost:3000/admin/</code><br><br>
-              <strong>Solution 2:</strong> Exécutez cette requête SQL dans Supabase SQL Editor:<br>
-              <code style="font-size:0.8rem;word-break:break-all;">
-                CREATE POLICY "anon_can_select_requests" ON public.requests FOR SELECT USING (true);
-              </code>
-            </p>
+            <i class="fas fa-inbox"></i>
+            <h3>Aucune demande pour le moment</h3>
           </div>
         </td></tr>`;
       }
@@ -689,7 +666,7 @@ function renderRequestsTable(requests) {
         </select>
       </td>
       <td class="text-muted text-sm">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '-'}</td>
-      <td>${(() => { const docs = STATE.documents.filter(d => d.request_id === r.id); return docs.length ? docs.map(d => d.public_url ? `<a href="${d.public_url}" download class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded hover:bg-gray-50 hover:border-gray-300 transition-colors no-underline mr-1 mb-1"><svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>${d.file_name}</a>` : `<span class="inline-flex items-center gap-1 px-2 py-1 text-xs text-gray-500 bg-gray-50 border border-dashed border-gray-200 rounded mr-1 mb-1" title="Fichier reçu mais stockage indisponible">${d.file_name}</span>`).join('') : '<span class="text-gray-400 text-xs">—</span>'; })()}</td>
+      <td>${(() => { const docs = STATE.documents.filter(d => d.request_id === r.id); return docs.length ? `<div style="display:flex;gap:4px;">${docs.map(d => d.public_url ? `<a href="${d.public_url}" download class="btn-icon btn-icon-download" title="Télécharger ${d.file_name}"><i class="fas fa-download"></i></a><a href="${d.public_url}" target="_blank" class="btn-icon btn-icon-view" title="Voir ${d.file_name}"><i class="fas fa-eye"></i></a>` : `<span class="btn-icon" style="cursor:default;opacity:0.3;" title="Fichier indisponible"><i class="fas fa-ban"></i></span>`).join(' ')}</div>` : '<span class="text-muted" style="font-size:0.85rem;">—</span>'; })()}</td>
       <td>${r.quotation_url ? `<a href="${r.quotation_url}" target="_blank" class="btn btn-sm btn-success"><i class="fas fa-file-pdf"></i></a>` : '<span class="text-light">-</span>'}</td>
       <td>
         <div class="flex gap-1" style="flex-wrap:wrap;">

@@ -992,38 +992,22 @@
               // Generate unique file path
               const ext = file.name.split('.').pop().toLowerCase();
               const filePath = `requests/${reqId}/${Date.now()}_${file.name}`;
-
-              // Upload to Supabase Storage (try 'documents' bucket, fallback to 'request-files', then skip)
+              const bucketName = 'pdf';
               let uploadedUrl = null;
               try {
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                  .from('documents')
+                const { error: uploadError } = await supabase.storage
+                  .from(bucketName)
                   .upload(filePath, file);
 
                 if (uploadError) throw uploadError;
 
-                // Get public URL
                 const { data: urlData } = supabase.storage
-                  .from('documents')
+                  .from(bucketName)
                   .getPublicUrl(filePath);
                 uploadedUrl = urlData?.publicUrl || null;
               } catch (bucketErr) {
-                // Try alternative bucket name
-                try {
-                  const { data: altData } = await supabase.storage
-                    .from('request-files')
-                    .upload(filePath, file);
-                  
-                  if (!altData) throw new Error('No bucket available');
-                  
-                  const { data: urlData } = supabase.storage
-                    .from('request-files')
-                    .getPublicUrl(filePath);
-                  uploadedUrl = urlData?.publicUrl || null;
-                } catch (altErr) {
-                  // No bucket configured - still save document reference
-                  uploadedUrl = null;
-                }
+                console.warn('Storage upload failed, saving document reference only:', bucketErr.message);
+                uploadedUrl = null;
               }
 
               // Save document record to documents table
@@ -1041,6 +1025,7 @@
                   uploaded_by: currentUser?.id || null
                 });
               if (insertErr) console.error('Document insert error:', insertErr, file.name);
+              if (!uploadedUrl && !insertErr) console.warn('File stored in DB but storage bucket unavailable:', file.name);
 
             } catch (fileErr) {
               console.error('File upload error for', file.name, fileErr);
@@ -1087,33 +1072,30 @@
           // Fallback: Use Supabase client directly with user_id set
           const supabase = window.__supabase?.getClient();
           if (supabase && currentUser) {
-            supabase.auth.getSession().then(async ({ data: { session } }) => {
-              // Use anon key client without auth for insert since RLS is off
-              const { data, error } = await supabase
-                .from('requests')
-                .insert([
-                  {
-                    user_id: currentUser.id,
-                    service_key: currentServiceKey,
-                    service_name: currentServiceName,
-                    school_name: schoolName,
-                    city: city,
-                    contact_name: contactName,
-                    contact_phone: phone,
-                    contact_email: email,
-                    description: description,
-                    requested_date: desiredDate || null,
-                    status: 'pending'
-                  }
-                ])
-                .select();
+            const { data, error } = await supabase
+              .from('requests')
+              .insert([
+                {
+                  user_id: currentUser.id,
+                  service_key: currentServiceKey,
+                  service_name: currentServiceName,
+                  school_name: schoolName,
+                  city: city,
+                  contact_name: contactName,
+                  contact_phone: phone,
+                  contact_email: email,
+                  description: description,
+                  requested_date: desiredDate || null,
+                  status: 'pending'
+                }
+              ])
+              .select();
 
-              if (error) throw error;
+            if (error) throw error;
 
-              requestId = data?.[0]?.id || null;
-              // Upload files
-              if (requestId) await uploadFilesForRequest(requestId);
-            });
+            requestId = data?.[0]?.id || null;
+            // Upload files
+            if (requestId) await uploadFilesForRequest(requestId);
 
             // Show success modal
             const modal = document.getElementById('successModalApp');
