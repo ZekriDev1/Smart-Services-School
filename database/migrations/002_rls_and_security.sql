@@ -1,5 +1,7 @@
 
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+-- NOTE: public.users RLS is disabled in schema.sql (line 34) to avoid recursion
+-- when is_admin() queries the users table within RLS policies.
+-- ALTER TABLE public.users ENABLE ROW LEVEL SECURITY; -- This would cause infinite recursion
 ALTER TABLE public.requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
@@ -19,7 +21,7 @@ BEGIN
   RETURN EXISTS (
     SELECT 1 FROM public.users
     WHERE id = auth.uid()
-    AND role IN ('super_admin', 'sales_manager', 'operations_manager', 'support_agent', 'technician', 'account_manager')
+    AND role IN ('super_admin', 'sales_manager', 'operations_manager', 'support_agent', 'technician', 'account_manager', 'admin')
     AND account_status = 'active'
   );
 END;

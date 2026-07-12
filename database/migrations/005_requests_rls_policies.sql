@@ -22,7 +22,7 @@ BEGIN
     WHERE id = auth.uid()
     AND (
       -- If role column exists, check for admin roles
-      (role IN ('super_admin', 'sales_manager', 'operations_manager', 'support_agent', 'technician', 'account_manager'))
+      (role IN ('super_admin', 'sales_manager', 'operations_manager', 'support_agent', 'technician', 'account_manager', 'admin'))
       OR
       -- Fallback: if role column doesn't exist or is null, check email
       (email = 'admin@smartservices.ma')

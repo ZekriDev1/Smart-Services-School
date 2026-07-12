@@ -141,7 +141,9 @@ CREATE TABLE IF NOT EXISTS public.request_attachments (
 -- ============================================
 -- ENABLE RLS ON ALL TABLES
 -- ============================================
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+-- NOTE: public.users RLS is disabled in schema.sql to avoid infinite recursion
+-- when is_admin() or other policies query the users table.
+-- ALTER TABLE public.users ENABLE ROW LEVEL SECURITY; -- Would cause infinite recursion
 ALTER TABLE public.requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quotations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
@@ -155,28 +157,9 @@ ALTER TABLE public.request_attachments ENABLE ROW LEVEL SECURITY;
 -- RLS POLICIES
 -- ============================================
 
--- USERS POLICIES
-DROP POLICY IF EXISTS "Users can view own profile" ON public.users;
-CREATE POLICY "Users can view own profile" ON public.users
-  FOR SELECT USING (auth.uid() = id);
-
-DROP POLICY IF EXISTS "Admins can view all users" ON public.users;
-CREATE POLICY "Admins can view all users" ON public.users
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
-
-DROP POLICY IF EXISTS "Admins can update users" ON public.users;
-CREATE POLICY "Admins can update users" ON public.users
-  FOR UPDATE USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
-
-DROP POLICY IF EXISTS "Admins can delete users" ON public.users;
-CREATE POLICY "Admins can delete users" ON public.users
-  FOR DELETE USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+-- NOTE: No RLS policies on public.users since RLS is disabled on that table.
+-- User access control is handled via the is_admin() SECURITY DEFINER function
+-- and the policies defined in migration 002.
 
 -- REQUESTS POLICIES
 DROP POLICY IF EXISTS "Users can view own requests" ON public.requests;
@@ -185,9 +168,7 @@ CREATE POLICY "Users can view own requests" ON public.requests
 
 DROP POLICY IF EXISTS "Admins can view all requests" ON public.requests;
 CREATE POLICY "Admins can view all requests" ON public.requests
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR SELECT USING (public.is_admin());
 
 DROP POLICY IF EXISTS "Users can create requests" ON public.requests;
 CREATE POLICY "Users can create requests" ON public.requests
@@ -199,15 +180,11 @@ CREATE POLICY "Users can update own pending requests" ON public.requests
 
 DROP POLICY IF EXISTS "Admins can update all requests" ON public.requests;
 CREATE POLICY "Admins can update all requests" ON public.requests
-  FOR UPDATE USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR UPDATE USING (public.is_admin());
 
 DROP POLICY IF EXISTS "Admins can delete requests" ON public.requests;
 CREATE POLICY "Admins can delete requests" ON public.requests
-  FOR DELETE USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR DELETE USING (public.is_admin());
 
 -- QUOTATIONS POLICIES
 DROP POLICY IF EXISTS "Users can view quotations on own requests" ON public.quotations;
@@ -218,37 +195,27 @@ CREATE POLICY "Users can view quotations on own requests" ON public.quotations
 
 DROP POLICY IF EXISTS "Admins can manage quotations" ON public.quotations;
 CREATE POLICY "Admins can manage quotations" ON public.quotations
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR ALL USING (public.is_admin());
 
 -- AUDIT LOGS POLICIES
 DROP POLICY IF EXISTS "Admins can view audit logs" ON public.audit_logs;
 CREATE POLICY "Admins can view audit logs" ON public.audit_logs
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR SELECT USING (public.is_admin());
 
 -- ACTIVITY LOGS POLICIES
 DROP POLICY IF EXISTS "Admins can view activity logs" ON public.activity_logs;
 CREATE POLICY "Admins can view activity logs" ON public.activity_logs
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR SELECT USING (public.is_admin());
 
 -- INTERNAL NOTES POLICIES
 DROP POLICY IF EXISTS "Admins can manage internal notes" ON public.internal_notes;
 CREATE POLICY "Admins can manage internal notes" ON public.internal_notes
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR ALL USING (public.is_admin());
 
 -- CALENDAR EVENTS POLICIES
 DROP POLICY IF EXISTS "Admins can manage calendar events" ON public.calendar_events;
 CREATE POLICY "Admins can manage calendar events" ON public.calendar_events
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR ALL USING (public.is_admin());
 
 -- NOTIFICATIONS POLICIES
 DROP POLICY IF EXISTS "Users can view own notifications" ON public.notifications;
@@ -264,9 +231,7 @@ CREATE POLICY "Users can view attachments on own requests" ON public.request_att
 
 DROP POLICY IF EXISTS "Admins can manage attachments" ON public.request_attachments;
 CREATE POLICY "Admins can manage attachments" ON public.request_attachments
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR ALL USING (public.is_admin());
 
 -- ============================================
 -- STORAGE BUCKET POLICIES
@@ -282,7 +247,7 @@ DROP POLICY IF EXISTS "Admins can upload quotations" ON storage.objects;
 CREATE POLICY "Admins can upload quotations" ON storage.objects
   FOR INSERT WITH CHECK (
     bucket_id = 'quotations' AND
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    public.is_admin()
   );
 
 DROP POLICY IF EXISTS "Anyone can view quotations" ON storage.objects;
@@ -293,14 +258,14 @@ DROP POLICY IF EXISTS "Admins can update quotations" ON storage.objects;
 CREATE POLICY "Admins can update quotations" ON storage.objects
   FOR UPDATE USING (
     bucket_id = 'quotations' AND
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    public.is_admin()
   );
 
 DROP POLICY IF EXISTS "Admins can delete quotations" ON storage.objects;
 CREATE POLICY "Admins can delete quotations" ON storage.objects
   FOR DELETE USING (
     bucket_id = 'quotations' AND
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    public.is_admin()
   );
 
 -- ============================================
