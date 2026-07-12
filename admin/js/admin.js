@@ -4,6 +4,11 @@
  * ============================================
  */
 
+function __(key) {
+  if (window.I18n && typeof window.I18n.t === 'function') return window.I18n.t(key);
+  return key.split('.').pop().replace(/_/g, ' ');
+}
+
 // ===== STATE =====
 const STATE = {
   user: null,
@@ -167,6 +172,15 @@ document.addEventListener('DOMContentLoaded', async function() {
   loadDashboard();
 });
 
+window.addEventListener('languageChanged', function() {
+  const tab = STATE.currentTab || 'dashboard';
+  const activeLink = document.querySelector('.sidebar-link.active');
+  navigateTo(tab, activeLink);
+  if (window.I18n && window.I18n.applyTranslations) {
+    window.I18n.applyTranslations();
+  }
+});
+
 // ===== DASHBOARD =====
 async function loadDashboard() {
   try {
@@ -243,7 +257,7 @@ async function loadDashboard() {
     
   } catch(e) {
     console.error('Dashboard error:', e);
-    toast('Failed to load dashboard data', 'error');
+    toast(__('admin.toast.loadDashboardFailed'), 'error');
   }
 }
 
@@ -261,7 +275,7 @@ function renderMonthlyChart(requests) {
   if (!container) return;
   
   if (sorted.length === 0) {
-    container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-bar"></i><h3>No data yet</h3></div>';
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-bar"></i><h3>' + __('admin.empty.noData') + '</h3></div>';
     return;
   }
   
@@ -291,7 +305,7 @@ function renderServiceChart(requests) {
   if (!container) return;
   
   if (sorted.length === 0) {
-    container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-pie"></i><h3>No data yet</h3></div>';
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-pie"></i><h3>' + __('admin.empty.noData') + '</h3></div>';
     return;
   }
   
@@ -321,7 +335,7 @@ function renderStatusChart(requests) {
   if (!container) return;
   
   const total = requests.length || 1;
-  const labels = { pending: 'Pending', under_review: 'Under Review', in_progress: 'In Progress', completed: 'Completed', cancelled: 'Cancelled' };
+  const labels = { pending: __('admin.requests.pending'), under_review: __('admin.requests.underReview'), in_progress: __('admin.requests.inProgress'), completed: __('admin.requests.completed'), cancelled: __('admin.requests.cancelled') };
   const colors = { pending: 'var(--status-pending)', under_review: 'var(--status-review)', in_progress: 'var(--status-progress)', completed: 'var(--status-completed)', cancelled: 'var(--status-cancelled)' };
   
   container.innerHTML = Object.entries(statuses).map(([k,v]) => `
@@ -342,7 +356,7 @@ function renderRecentActivity(requests) {
   if (!container) return;
   
   if (requests.length === 0) {
-    container.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><h3>No recent activity</h3></div>';
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><h3>' + __('admin.empty.noActivity') + '</h3></div>';
     return;
   }
   
@@ -376,7 +390,7 @@ async function loadUsers(roleFilter = '') {
     renderUsersTable(STATE.users);
   } catch(e) {
     console.error('Users error:', e);
-    toast('Failed to load users', 'error');
+    toast(__('admin.toast.loadUsersFailed'), 'error');
   } finally {
     STATE.isLoading = false;
   }
@@ -387,7 +401,7 @@ function renderUsersTable(users) {
   if (!tbody) return;
   
   if (users.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-users"></i><h3>No users found</h3></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-users"></i><h3>' + __('admin.empty.noUsers') + '</h3></div></td></tr>';
     return;
   }
   
@@ -432,17 +446,17 @@ async function viewUser(id) {
   
   const userRequests = STATE.requests.filter(r => r.user_id === id);
   const content = `
-    <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${u.full_name || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${u.email || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">School</span><span class="detail-value">${u.school_name || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-value">${u.role || 'user'}</span></div>
-    <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${u.account_status || 'active'}</span></div>
-    <div class="detail-row"><span class="detail-label">Total Requests</span><span class="detail-value">${userRequests.length}</span></div>
-    <div class="detail-row"><span class="detail-label">Joined</span><span class="detail-value">${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</span></div>
-    <div class="detail-row"><span class="detail-label">Last Login</span><span class="detail-value">${u.last_login ? new Date(u.last_login).toLocaleDateString() : 'Never'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.fullName')}</span><span class="detail-value">${u.full_name || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.email')}</span><span class="detail-value">${u.email || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.school')}</span><span class="detail-value">${u.school_name || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.role')}</span><span class="detail-value">${u.role || 'user'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.status')}</span><span class="detail-value">${u.account_status || 'active'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.dashboard.totalRequests')}</span><span class="detail-value">${userRequests.length}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.joined')}</span><span class="detail-value">${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.lastLogin')}</span><span class="detail-value">${u.last_login ? new Date(u.last_login).toLocaleDateString() : __('admin.table.never')}</span></div>
   `;
   
-  openModal('User Profile', content);
+  openModal(__('admin.modal.userProfile'), content);
 }
 
 async function editUser(id) {
@@ -453,49 +467,49 @@ async function editUser(id) {
     <form id="editUserForm" onsubmit="saveUser(event, '${id}')">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Full Name</label>
+          <label class="form-label">${__('admin.modal.fullName')}</label>
           <input class="form-input" id="editUserName" value="${u.full_name || ''}" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Email</label>
+          <label class="form-label">${__('admin.modal.email')}</label>
           <input class="form-input" type="email" id="editUserEmail" value="${u.email || ''}" required>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">School</label>
+          <label class="form-label">${__('admin.modal.school')}</label>
           <input class="form-input" id="editUserSchool" value="${u.school_name || ''}">
         </div>
         <div class="form-group">
-          <label class="form-label">Phone</label>
+          <label class="form-label">${__('admin.modal.phone')}</label>
           <input class="form-input" id="editUserPhone" value="${u.phone || ''}">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Role</label>
+          <label class="form-label">${__('admin.modal.role')}</label>
           <select class="form-select" id="editUserRole">
-            <option value="user" ${u.role==='user'?'selected':''}>User</option>
-            <option value="admin" ${u.role==='admin'?'selected':''}>Admin</option>
+            <option value="user" ${u.role==='user'?'selected':''}>${__('admin.users.user')}</option>
+            <option value="admin" ${u.role==='admin'?'selected':''}>${__('admin.users.admin')}</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Status</label>
+          <label class="form-label">${__('admin.modal.status')}</label>
           <select class="form-select" id="editUserStatus">
-            <option value="active" ${u.account_status==='active'?'selected':''}>Active</option>
-            <option value="suspended" ${u.account_status==='suspended'?'selected':''}>Suspended</option>
-            <option value="archived" ${u.account_status==='archived'?'selected':''}>Archived</option>
+            <option value="active" ${u.account_status==='active'?'selected':''}>${__('admin.users.active')}</option>
+            <option value="suspended" ${u.account_status==='suspended'?'selected':''}>${__('admin.users.suspended')}</option>
+            <option value="archived" ${u.account_status==='archived'?'selected':''}>${__('admin.users.archived')}</option>
           </select>
         </div>
       </div>
       <div class="flex justify-end gap-2 mt-4">
-        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">${__('admin.modal.cancel')}</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> ${__('admin.modal.save')}</button>
       </div>
     </form>
   `;
   
-  openModal('Edit User', content);
+  openModal(__('admin.modal.editUser'), content);
 }
 
 async function saveUser(e, id) {
@@ -512,33 +526,33 @@ async function saveUser(e, id) {
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - changes not saved', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('users').update(updates).eq('id', id);
     if (error) throw error;
-    toast('User updated successfully', 'success');
+    toast(__('admin.toast.userUpdated'), 'success');
     closeModal();
     loadUsers();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
 async function deleteUser(id) {
-  if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
+  if (!confirm(__('admin.toast.deleteUserConfirm'))) return;
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - cannot delete', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('users').delete().eq('id', id);
     if (error) throw error;
-    toast('User deleted', 'success');
+    toast(__('admin.toast.userDeleted'), 'success');
     loadUsers();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
@@ -619,7 +633,7 @@ async function loadRequests(statusFilter = '') {
         }
       } catch (e) {
         console.warn('Could not load documents:', e);
-        toast('Impossible de charger les pièces jointes', 'warning');
+        toast(__('admin.toast.loadAttachmentsFailed'), 'warning');
         STATE.documents = [];
       }
     }
@@ -631,14 +645,14 @@ async function loadRequests(statusFilter = '') {
         tbody.innerHTML = `<tr><td colspan="9">
           <div class="empty-state">
             <i class="fas fa-inbox"></i>
-            <h3>Aucune demande pour le moment</h3>
+            <h3>${__('admin.toast.noRequests')}</h3>
           </div>
         </td></tr>`;
       }
     }
   } catch(e) {
     console.error('Requests error:', e);
-    toast('Failed to load requests', 'error');
+    toast(__('admin.toast.loadRequestsFailed'), 'error');
   } finally {
     STATE.isLoading = false;
   }
@@ -649,7 +663,7 @@ function renderRequestsTable(requests) {
   if (!tbody) return;
   
   if (requests.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><i class="fas fa-clipboard-list"></i><h3>No requests found</h3></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><i class="fas fa-clipboard-list"></i><h3>' + __('admin.empty.noRequests') + '</h3></div></td></tr>';
     return;
   }
   
@@ -703,12 +717,12 @@ async function updateRequestStatus(id, newStatus) {
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - changes not saved', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('requests').update({ status: newStatus }).eq('id', id);
     if (error) throw error;
-    toast('Status updated to ' + newStatus.replace(/_/g, ' '), 'success');
+    toast(__('admin.toast.statusUpdated') + ' ' + newStatus.replace(/_/g, ' '), 'success');
     
     // Log to audit
     if (_supabase) {
@@ -723,7 +737,7 @@ async function updateRequestStatus(id, newStatus) {
     
     loadRequests();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
@@ -743,7 +757,7 @@ async function viewRequest(id) {
         .order('created_at', { ascending: false });
       
       if (!error && docs && docs.length > 0) {
-        documentsHtml = `<div class="mt-4"><div class="detail-label" style="margin-bottom:8px;font-weight:700;">Uploaded Documents (${docs.length})</div>`;
+        documentsHtml = `<div class="mt-4"><div class="detail-label" style="margin-bottom:8px;font-weight:700;">${__('admin.modal.uploadedDocs')} (${docs.length})</div>`;
         docs.forEach(doc => {
           const icon = doc.file_type === 'pdf' ? 'fa-file-pdf' : 
                        ['png','jpg','jpeg','gif','webp'].includes(doc.file_type) ? 'fa-file-image' : 'fa-file-alt';
@@ -769,25 +783,25 @@ async function viewRequest(id) {
   }
   
   const content = `
-    <div class="detail-row"><span class="detail-label">Request #</span><span class="detail-value">${r.request_number || r.id}</span></div>
-    <div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">${r.service_name || r.service_key}</span></div>
-    <div class="detail-row"><span class="detail-label">School</span><span class="detail-value">${r.school_name || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">Contact</span><span class="detail-value">${r.contact_name || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${r.contact_email || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value">${r.contact_phone || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value"><span class="badge badge-${r.status}">${r.status}</span></span></div>
-    <div class="detail-row"><span class="detail-label">Priority</span><span class="detail-value"><span class="badge badge-${r.priority||'normal'}">${r.priority||'normal'}</span></span></div>
-    <div class="detail-row"><span class="detail-label">Created</span><span class="detail-value">${r.created_at ? new Date(r.created_at).toLocaleString() : '-'}</span></div>
-    ${r.description ? `<div class="detail-row"><span class="detail-label">Description</span><span class="detail-value">${r.description}</span></div>` : ''}
+    <div class="detail-row"><span class="detail-label">${__('admin.table.requestId')}</span><span class="detail-value">${r.request_number || r.id}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.service')}</span><span class="detail-value">${r.service_name || r.service_key}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.school')}</span><span class="detail-value">${r.school_name || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.contact')}</span><span class="detail-value">${r.contact_name || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.email')}</span><span class="detail-value">${r.contact_email || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.phone')}</span><span class="detail-value">${r.contact_phone || 'N/A'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.status')}</span><span class="detail-value"><span class="badge badge-${r.status}">${r.status}</span></span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.priority')}</span><span class="detail-value"><span class="badge badge-${r.priority||'normal'}">${r.priority||'normal'}</span></span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.created')}</span><span class="detail-value">${r.created_at ? new Date(r.created_at).toLocaleString() : '-'}</span></div>
+    ${r.description ? `<div class="detail-row"><span class="detail-label">${__('admin.table.description')}</span><span class="detail-value">${r.description}</span></div>` : ''}
     ${r.quotation_url ? `
       <div class="mt-4">
         <div class="quotation-preview">
           <i class="fas fa-file-pdf"></i>
           <div class="info">
-            <div class="name">Quotation Document</div>
-            <div class="meta">PDF File</div>
+            <div class="name">${__('admin.table.quotationDoc')}</div>
+            <div class="meta">PDF</div>
           </div>
-          <a href="${r.quotation_url}" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-download"></i> Download</a>
+          <a href="${r.quotation_url}" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-download"></i> ${__('admin.table.download')}</a>
         </div>
       </div>
     ` : ''}
@@ -808,13 +822,13 @@ async function editRequest(id) {
     <form id="editRequestForm" onsubmit="saveRequest(event, '${id}')">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Status</label>
+          <label class="form-label">${__('admin.modal.status')}</label>
           <select class="form-select" id="editReqStatus">
             ${statuses.map(s => `<option value="${s}" ${r.status===s?'selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Priority</label>
+          <label class="form-label">${__('admin.modal.priority')}</label>
           <select class="form-select" id="editReqPriority">
             ${priorities.map(p => `<option value="${p}" ${r.priority===p?'selected':''}>${p}</option>`).join('')}
           </select>
@@ -822,36 +836,36 @@ async function editRequest(id) {
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Contact Name</label>
+          <label class="form-label">${__('admin.modal.contactName')}</label>
           <input class="form-input" id="editReqContact" value="${r.contact_name||''}">
         </div>
         <div class="form-group">
-          <label class="form-label">Contact Email</label>
+          <label class="form-label">${__('admin.modal.contactEmail')}</label>
           <input class="form-input" type="email" id="editReqEmail" value="${r.contact_email||''}">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">School</label>
+          <label class="form-label">${__('admin.modal.school')}</label>
           <input class="form-input" id="editReqSchool" value="${r.school_name||''}">
         </div>
         <div class="form-group">
-          <label class="form-label">Quote Amount (MAD)</label>
+          <label class="form-label">${__('admin.modal.quoteAmount')}</label>
           <input class="form-input" type="number" id="editReqAmount" value="${r.quote_amount||''}">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Notes</label>
+        <label class="form-label">${__('admin.modal.notes')}</label>
         <textarea class="form-textarea" id="editReqNotes">${r.notes||''}</textarea>
       </div>
       <div class="flex justify-end gap-2 mt-4">
-        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">${__('admin.modal.cancel')}</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> ${__('admin.modal.save')}</button>
       </div>
     </form>
   `;
   
-  openModal('Edit Request', content);
+  openModal(__('admin.modal.editRequest'), content);
 }
 
 async function saveRequest(e, id) {
@@ -869,33 +883,33 @@ async function saveRequest(e, id) {
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - changes not saved', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('requests').update(updates).eq('id', id);
     if (error) throw error;
-    toast('Request updated successfully', 'success');
+    toast(__('admin.toast.requestUpdated'), 'success');
     closeModal();
     loadRequests();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
 async function deleteRequest(id) {
-  if (!confirm('Are you sure you want to delete this request?')) return;
+  if (!confirm(__('admin.toast.deleteRequestConfirm'))) return;
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - cannot delete', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('requests').delete().eq('id', id);
     if (error) throw error;
-    toast('Request deleted', 'success');
+    toast(__('admin.toast.requestDeleted'), 'success');
     loadRequests();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
@@ -906,24 +920,24 @@ async function uploadDevis(requestId) {
 
   const content = `
     <div style="margin-bottom:16px;">
-      <div class="detail-row"><span class="detail-label">Request #</span><span class="detail-value">${req.request_number || req.id.slice(0,8)}</span></div>
-      <div class="detail-row"><span class="detail-label">School</span><span class="detail-value">${req.school_name || 'N/A'}</span></div>
-      <div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">${req.service_name || req.service_key}</span></div>
+      <div class="detail-row"><span class="detail-label">${__('admin.table.requestId')}</span><span class="detail-value">${req.request_number || req.id.slice(0,8)}</span></div>
+      <div class="detail-row"><span class="detail-label">${__('admin.table.school')}</span><span class="detail-value">${req.school_name || 'N/A'}</span></div>
+      <div class="detail-row"><span class="detail-label">${__('admin.table.service')}</span><span class="detail-value">${req.service_name || req.service_key}</span></div>
       ${req.quotation_url ? `
-        <div class="detail-row"><span class="detail-label">Current Devis</span><span class="detail-value"><a href="${req.quotation_url}" target="_blank" style="color:var(--primary);"><i class="fas fa-file-pdf"></i> View current</a></span></div>
+        <div class="detail-row"><span class="detail-label">${__('admin.modal.currentDevis')}</span><span class="detail-value"><a href="${req.quotation_url}" target="_blank" style="color:var(--primary);"><i class="fas fa-file-pdf"></i> ${__('admin.modal.viewCurrent')}</a></span></div>
       ` : ''}
     </div>
     <div style="border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:16px;" id="devisDropZone">
       <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--primary);margin-bottom:8px;"></i>
-      <p style="margin:0 0 4px;font-weight:600;">Select Devis PDF file</p>
-      <p style="margin:0 0 12px;font-size:0.85rem;color:var(--text-light);">PDF only, max 10MB</p>
+      <p style="margin:0 0 4px;font-weight:600;">${__('admin.modal.selectDevis')}</p>
+      <p style="margin:0 0 12px;font-size:0.85rem;color:var(--text-light);">${__('admin.modal.pdfHint')}</p>
       <input type="file" id="devisFileInput" accept=".pdf" style="display:none;">
-      <button class="btn btn-primary btn-sm" onclick="document.getElementById('devisFileInput').click()"><i class="fas fa-folder-open"></i> Browse</button>
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('devisFileInput').click()"><i class="fas fa-folder-open"></i> ${__('admin.modal.browse')}</button>
       <span id="devisFileName" style="display:inline-block;margin-left:8px;font-size:0.85rem;color:var(--text-light);"></span>
     </div>
     <div id="devisUploadProgress" style="display:none;margin-bottom:12px;">
       <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
-        <span>Uploading...</span>
+        <span>${__('admin.modal.uploading')}</span>
         <span id="devisProgressPct">0%</span>
       </div>
       <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
@@ -936,7 +950,7 @@ async function uploadDevis(requestId) {
     </div>
   `;
 
-  openModal('Upload Devis - ' + (req.service_name || req.service_key), content);
+  openModal(__('admin.modal.uploadDevis') + ' - ' + (req.service_name || req.service_key), content);
 
   // Bind file input change
   setTimeout(() => {
@@ -957,31 +971,31 @@ async function uploadDevis(requestId) {
 async function processDevisUpload(requestId) {
   const input = document.getElementById('devisFileInput');
   if (!input || !input.files || !input.files[0]) {
-    toast('Please select a PDF file first', 'warning');
+      toast(__('admin.toast.selectPDF'), 'warning');
     return;
   }
 
   const file = input.files[0];
 
   if (file.type !== 'application/pdf') {
-    toast('Please select a PDF file', 'error');
+    toast(__('admin.toast.selectPDF'), 'error');
     return;
   }
 
   if (file.size > 10 * 1024 * 1024) {
-    toast('File size must be under 10MB', 'error');
+    toast(__('admin.toast.fileTooLarge'), 'error');
     return;
   }
 
   const uploadBtn = document.getElementById('devisUploadBtn');
   const progress = document.getElementById('devisUploadProgress');
-  if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...'; }
+  if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + __('admin.modal.uploading'); }
   if (progress) progress.style.display = 'block';
 
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
 
@@ -1079,15 +1093,15 @@ async function processDevisUpload(requestId) {
     if (pct) pct.textContent = '100%';
 
     setTimeout(() => {
-      toast('Devis uploaded successfully! User can view it in Mes demandes.', 'success');
+      toast(__('admin.toast.devisUploaded'), 'success');
       closeModal();
       loadRequests();
     }, 500);
 
   } catch(err) {
     console.error('Upload devis error:', err);
-    toast('Error uploading devis: ' + err.message, 'error');
-    if (uploadBtn) { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Upload Devis'; }
+    toast(__('admin.toast.devisUploadError') + ': ' + err.message, 'error');
+    if (uploadBtn) { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fas fa-upload"></i> ' + __('admin.modal.uploadDevis'); }
   }
 }
 
@@ -1102,7 +1116,7 @@ async function loadServices() {
     renderServicesTable(STATE.services);
   } catch(e) {
     console.error('Services error:', e);
-    toast('Failed to load services', 'error');
+    toast(__('admin.toast.loadServicesFailed'), 'error');
   }
 }
 
@@ -1111,7 +1125,7 @@ function renderServicesTable(services) {
   if (!tbody) return;
   
   if (services.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-cogs"></i><h3>No services found</h3></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-cogs"></i><h3>' + __('admin.empty.noServices') + '</h3></div></td></tr>';
     return;
   }
   
@@ -1140,36 +1154,36 @@ async function editService(id) {
     <form id="editServiceForm" onsubmit="saveService(event, '${id}')">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Name (French)</label>
+          <label class="form-label">${__('admin.modal.nameFR')}</label>
           <input class="form-input" id="editSvcFr" value="${s.name_fr || ''}" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Name (English)</label>
+          <label class="form-label">${__('admin.modal.nameEN')}</label>
           <input class="form-input" id="editSvcEn" value="${s.name_en || ''}">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Name (Arabic)</label>
+          <label class="form-label">${__('admin.modal.nameAR')}</label>
           <input class="form-input" id="editSvcAr" value="${s.name_ar || ''}">
         </div>
         <div class="form-group">
-          <label class="form-label">Sort Order</label>
+          <label class="form-label">${__('admin.modal.sortOrder')}</label>
           <input class="form-input" type="number" id="editSvcOrder" value="${s.sort_order || 0}">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Description (French)</label>
+        <label class="form-label">${__('admin.modal.descriptionFR')}</label>
         <textarea class="form-textarea" id="editSvcDesc">${s.description_fr || ''}</textarea>
       </div>
       <div class="flex justify-end gap-2 mt-4">
-        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">${__('admin.modal.cancel')}</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> ${__('admin.modal.save')}</button>
       </div>
     </form>
   `;
   
-  openModal('Edit Service', content);
+  openModal(__('admin.modal.editService'), content);
 }
 
 async function saveService(e, id) {
@@ -1185,16 +1199,16 @@ async function saveService(e, id) {
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - changes not saved', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('service_categories').update(updates).eq('id', id);
     if (error) throw error;
-    toast('Service updated', 'success');
+    toast(__('admin.toast.serviceUpdated'), 'success');
     closeModal();
     loadServices();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
@@ -1202,15 +1216,15 @@ async function toggleService(id, active) {
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - changes not saved', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('service_categories').update({ is_active: active }).eq('id', id);
     if (error) throw error;
-    toast(`Service ${active ? 'activated' : 'deactivated'}`, 'success');
+    toast(active ? __('admin.toast.serviceActivated') : __('admin.toast.serviceDeactivated'), 'success');
     loadServices();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
@@ -1225,7 +1239,7 @@ async function loadQuotations() {
     renderQuotationsTable(STATE.quotations);
   } catch(e) {
     console.error('Quotations error:', e);
-    toast('Failed to load quotations', 'error');
+    toast(__('admin.toast.loadQuotationsFailed'), 'error');
   }
 }
 
@@ -1234,7 +1248,7 @@ function renderQuotationsTable(quotations) {
   if (!tbody) return;
   
   if (quotations.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-file-invoice-dollar"></i><h3>No quotations found</h3></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-file-invoice-dollar"></i><h3>' + __('admin.empty.noQuotations') + '</h3></div></td></tr>';
     return;
   }
   
@@ -1255,19 +1269,19 @@ function renderQuotationsTable(quotations) {
 }
 
 async function deleteQuotation(id) {
-  if (!confirm('Delete this quotation?')) return;
+  if (!confirm(__('admin.toast.deleteQuotationConfirm'))) return;
   try {
     if (!_supabase) await initSupabase();
     if (!_supabase) {
-      toast('Database not connected - cannot delete', 'warning');
+      toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
     const { error } = await _supabase.from('quotes').delete().eq('id', id);
     if (error) throw error;
-    toast('Quotation deleted', 'success');
+    toast(__('admin.toast.quotationDeleted'), 'success');
     loadQuotations();
   } catch(e) {
-    toast('Error: ' + e.message, 'error');
+    toast(__('admin.toast.loadError') + e.message, 'error');
   }
 }
 
@@ -1297,7 +1311,7 @@ async function loadAnalytics() {
     if (container) {
       const sorted = Object.entries(months).sort((a,b) => a[0].localeCompare(b[0]));
       if (sorted.length === 0) {
-        container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><h3>No data yet</h3></div>';
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><h3>' + __('admin.empty.noData') + '</h3></div>';
       } else {
         const max = Math.max(...sorted.map(([,v]) => v), 1);
         container.innerHTML = sorted.map(([k,v]) => `
@@ -1321,7 +1335,7 @@ async function loadAnalytics() {
     
   } catch(e) {
     console.error('Analytics error:', e);
-    toast('Failed to load analytics', 'error');
+    toast(__('admin.toast.loadAnalyticsFailed'), 'error');
   }
 }
 
@@ -1336,7 +1350,7 @@ function toggleDarkMode() {
   const newTheme = current === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', newTheme);
   localStorage.setItem('adminTheme', newTheme);
-  toast(`Switched to ${newTheme} mode`, 'info');
+  toast(__('admin.toast.themeSwitched') + ' ' + newTheme, 'info');
 }
 
 // ===== AUDIT LOGS =====
@@ -1357,7 +1371,7 @@ async function loadAuditLogs() {
     if (!tbody) return;
     
     if (!logs || logs.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><i class="fas fa-history"></i><h3>No audit logs</h3></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><i class="fas fa-history"></i><h3>' + __('admin.empty.noAuditLogs') + '</h3></div></td></tr>';
       return;
     }
     
@@ -1407,7 +1421,7 @@ function exportCSV(type) {
     default: return;
   }
   
-  if (data.length === 0) { toast('No data to export', 'warning'); return; }
+  if (data.length === 0) { toast(__('admin.toast.noDataExport'), 'warning'); return; }
   
   const headers = Object.keys(data[0]);
   const csv = [headers.join(',')];
@@ -1425,7 +1439,7 @@ function exportCSV(type) {
   link.href = URL.createObjectURL(blob);
   link.download = `${type}_${new Date().toISOString().slice(0,10)}.csv`;
   link.click();
-  toast('CSV exported', 'success');
+  toast(__('admin.toast.csvExported'), 'success');
 }
 
 // ===== LOGOUT =====

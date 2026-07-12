@@ -121,7 +121,7 @@
     <div class="login-logo">
       <img src="../images/Assets/logo2.png" alt="SMARTSERVICES Schools">
       <h1>SMARTSERVICES</h1>
-      <p>Administrator Access</p>
+      <p data-i18n="admin.login.subtitle">Administrator Access</p>
     </div>
 
     <div class="error-message" id="errorMessage">
@@ -130,21 +130,22 @@
 
     <form id="loginForm">
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="admin@school.com" required autocomplete="email">
+        <label for="email" data-i18n="admin.login.email">Email</label>
+        <input type="email" id="email" placeholder="admin@school.com" required autocomplete="email" data-i18n-placeholder="admin.login.emailPlaceholder">
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+        <label for="password" data-i18n="admin.login.password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password" data-i18n-placeholder="admin.login.passwordPlaceholder">
       </div>
       <button type="submit" class="btn-login" id="loginBtn">
         <span class="spinner" id="loginSpinner"><i class="fas fa-spinner"></i></span>
-        <span id="loginText"><i class="fas fa-sign-in-alt"></i> Sign In</span>
+        <span id="loginText"><i class="fas fa-sign-in-alt"></i> <span data-i18n="admin.login.signIn">Sign In</span></span>
       </button>
     </form>
-    <p class="info-text"><i class="fas fa-shield-alt"></i> Secure administrator authentication</p>
+    <p class="info-text"><i class="fas fa-shield-alt"></i> <span data-i18n="admin.login.secure">Secure administrator authentication</span></p>
   </div>
 
+  <script src="../js/i18n.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Check if already logged in

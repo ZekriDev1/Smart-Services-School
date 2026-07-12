@@ -13,10 +13,24 @@
 </head>
 <body>
 
-  <!-- ===== TOP BAR ===== -->
-  <div class="top-bar">
+  <!-- ===== FLOATING ELEMENTS ===== -->
+  <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- ===== MAIN HEADER ===== -->
+  <header class="main-header" id="mainHeader">
     <div class="container">
-      <div class="top-bar-left">
+      <a href="index.html" class="logo">
+        <img src="images/Assets/logo.png" alt="SMARTSERVICES Schools Logo" class="logo-image">
+        <span class="logo-text">Smart Services<br>Schools</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" data-i18n="nav.home">Accueil</a>
+        <a href="app.html" class="active" data-i18n="nav.services">Services</a>
+        <a href="fonctionnement.html" data-i18n="nav.howItWorks">Fonctionnement</a>
+        <a href="contact.html" data-i18n="nav.contact">Contact</a>
         <div class="lang-selector">
           <i class="fas fa-globe"></i>
           <select id="langSelect" aria-label="Language">
@@ -25,34 +39,10 @@
             <option value="en">English</option>
           </select>
         </div>
-      </div>
-      <div class="top-bar-right" id="topBarAuth">
-        <a href="#" id="topBarBell"><i class="fas fa-bell"></i></a>
-        <!-- Auth state is managed dynamically by auth.js -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== MAIN HEADER ===== -->
-  <header class="main-header" id="mainHeader">
-    <div class="container">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">
-          <img src="images/Assets/logo2.png" alt="logo2" class="logo-image">
-          </div>
-        <span class="logo-text">SMARTSERVICES<br>Schools</span>
-      </a>
-
-      <nav class="nav-links" id="navLinks">
-        <a href="index.html" data-i18n="nav.home">Accueil</a>
-        <a href="app.html" class="active" data-i18n="app.sidebarServices">Services</a>
-        <a href="app.html" data-i18n="app.sidebarRequests">Mes demandes</a>
-        <a href="app.html" data-i18n="app.sidebarInvoices">Factures</a>
       </nav>
 
-      <div class="header-actions">
-        <a href="#" class="btn btn-outline btn-sm" id="headerProfileBtn"><i class="fas fa-user"></i> <span data-i18n="nav.myProfile">Mon profil</span></a>
-        <a href="#" class="btn btn-primary btn-sm" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <div class="header-actions" id="headerActions">
+        <!-- Auth state is managed dynamically by auth.js -->
       </div>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
@@ -743,13 +733,28 @@
     // Service-specific form fields
     const serviceFields = {
       gifts: `
-        <label data-i18n="formFields.rewardType">Type de récompense souhaitée</label>
+        <label data-i18n="formFields.awardType">Type de récompense</label>
         <select>
-          <option data-i18n="options.trophies">Trophées</option>
-          <option data-i18n="options.medals">Médailles</option>
-          <option data-i18n="options.cups">Coupes</option>
-          <option data-i18n="options.certificates">Certificats</option>
-          <option data-i18n="options.prizePacks">Lots de remise des prix</option>
+          <option data-i18n="options.trophy">Trophée</option>
+          <option data-i18n="options.medal">Médaille</option>
+          <option data-i18n="options.shield">Bouclier</option>
+          <option data-i18n="options.cashPrize">Prix en espèces</option>
+          <option data-i18n="options.books">Livres</option>
+          <option data-i18n="options.schoolSupplies">Fournitures scolaires</option>
+          <option data-i18n="options.electronics">Appareils électroniques</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.occasion">Occasion</label>
+        <select>
+          <option data-i18n="options.endOfYearCeremony">Cérémonie de fin d'année</option>
+          <option data-i18n="options.topStudents">Élèves méritants</option>
+          <option data-i18n="options.culturalCompetition">Concours culturel</option>
+          <option data-i18n="options.sportsCompetition">Concours sportif</option>
+          <option data-i18n="options.quranMemorization">Mémorisation du Coran</option>
+          <option data-i18n="options.behaviorExcellence">Excellence en comportement</option>
+          <option data-i18n="options.attendanceExcellence">Excellence en assiduité</option>
+          <option data-i18n="options.artCompetition">Concours artistique</option>
+          <option data-i18n="options.scientificCompetition">Concours scientifique</option>
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
@@ -758,11 +763,12 @@
       supplies: `
         <label data-i18n="formFields.suppliesType">Type de fournitures</label>
         <select>
-          <option data-i18n="options.stationery">Papeterie</option>
-          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
-          <option data-i18n="options.bindersStorage">Classeurs et rangement</option>
-          <option data-i18n="options.officeFurniture">Mobilier de bureau</option>
-          <option data-i18n="options.adminSupplies">Fournitures administratives</option>
+          <option data-i18n="options.paperType">Type de papier</option>
+          <option data-i18n="options.writingTools">Outils d'écriture</option>
+          <option data-i18n="options.organizationArchiving">Organisation et archivage</option>
+          <option data-i18n="options.officeSupplies">Fournitures de bureau</option>
+          <option data-i18n="options.printingSupplies">Fournitures d'impression</option>
+          <option data-i18n="options.classroomSupplies">Fournitures de classe</option>
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>
@@ -771,11 +777,18 @@
       giveaways: `
         <label data-i18n="formFields.articleType">Type d'article</label>
         <select>
-          <option data-i18n="options.customNotebooks">Cahiers personnalisés</option>
           <option data-i18n="options.customPens">Stylos personnalisés</option>
-          <option data-i18n="options.customBags">Sacs personnalisés</option>
-          <option data-i18n="options.uniforms">Uniformes</option>
-          <option data-i18n="options.brandedClothes">Vêtements aux couleurs de l'établissement</option>
+          <option data-i18n="options.customNotebooks">Cahiers personnalisés</option>
+          <option data-i18n="options.customMugs">Gobelets personnalisés</option>
+          <option data-i18n="options.toteBags">Sacs en tissu</option>
+          <option data-i18n="options.badges">Badges</option>
+          <option data-i18n="options.lanyards">Porte-badges</option>
+          <option data-i18n="options.waterBottles">Gourdes</option>
+          <option data-i18n="options.customTshirts">T-shirts personnalisés</option>
+          <option data-i18n="options.stickers">Autocollants</option>
+          <option data-i18n="options.bookmarks">Marque-pages</option>
+          <option data-i18n="options.calendars">Calendriers</option>
+          <option data-i18n="options.keychains">Porte-clés</option>
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
@@ -785,12 +798,19 @@
         <label data-i18n="formFields.printType">Type d'impression</label>
         <select>
           <option data-i18n="options.certificates">Certificats</option>
+          <option data-i18n="options.appreciationCertificates">Attestations de mérite</option>
+          <option data-i18n="options.cards">Cartes</option>
+          <option data-i18n="options.rollUp">Roll-up</option>
           <option data-i18n="options.banners">Bannières</option>
-          <option data-i18n="options.signage">Signalétique</option>
-          <option data-i18n="options.flyers">Flyers</option>
-          <option data-i18n="options.businessCards">Cartes de visite</option>
-          <option data-i18n="options.books">Livres</option>
-          <option data-i18n="options.customPrints">Impressions personnalisées</option>
+          <option data-i18n="options.posters">Affiches</option>
+          <option data-i18n="options.notebooks">Cahiers</option>
+          <option data-i18n="options.files">Dossiers</option>
+          <option data-i18n="options.envelopes">Enveloppes</option>
+          <option data-i18n="options.bags">Sacs</option>
+          <option data-i18n="options.mugs">Gobelets</option>
+          <option data-i18n="options.tshirts">T-shirts</option>
+          <option data-i18n="options.trophiesAndMedals">Trophées et médailles</option>
+          <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label>
         <input type="number" placeholder="Quantité estimée">
@@ -798,15 +818,29 @@
       events: `
         <label data-i18n="formFields.eventType">Type d'événement</label>
         <select>
-          <option data-i18n="options.awardCeremony">Cérémonie de remise des prix</option>
+          <option data-i18n="options.endOfYearCeremony">Cérémonie de fin d'année</option>
+          <option data-i18n="options.graduationCeremony">Cérémonie de remise des diplômes</option>
           <option data-i18n="options.openDay">Journée portes ouvertes</option>
-          <option data-i18n="options.conference">Conférence</option>
-          <option data-i18n="options.schoolTrip">Sortie scolaire</option>
-          <option data-i18n="options.yearEndParty">Fête de fin d'année</option>
+          <option data-i18n="options.educationalActivity">Activité éducative</option>
+          <option data-i18n="options.exhibition">Exposition</option>
+          <option data-i18n="options.competition">Concours</option>
+          <option data-i18n="options.other">Autre</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.requiredServices">Services requis</label>
+        <select multiple>
+          <option data-i18n="options.entertainment">Animation</option>
+          <option data-i18n="options.decoration">Décoration</option>
+          <option data-i18n="options.stage">Scène</option>
+          <option data-i18n="options.soundSystem">Sonorisation</option>
+          <option data-i18n="options.lighting">Éclairage</option>
+          <option data-i18n="options.photography">Photographie</option>
+          <option data-i18n="options.catering">Traiteur</option>
+          <option data-i18n="options.eventGifts">Cadeaux</option>
+          <option data-i18n="options.certificates">Certificats</option>
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedParticipants">Nombre de participants estimé</label>
-        <input type="number" placeholder="Participants estimés">
+        <input type="number" placeholder="Nombre de participants estimé">
       `,
       repair: `
         <label data-i18n="formFields.equipmentType">Type d'équipement</label>
@@ -814,8 +848,9 @@
           <option data-i18n="options.desktopComputer">Ordinateur fixe</option>
           <option data-i18n="options.laptop">Ordinateur portable</option>
           <option data-i18n="options.securityCamera">Caméra de surveillance</option>
-          <option data-i18n="options.networkEquipment">Équipement réseau</option>
-          <option data-i18n="options.other">Autre</option>
+          <option data-i18n="options.camera">Caméra</option>
+          <option data-i18n="options.monitor">Moniteur</option>
+          <option data-i18n="options.otherDevice">Autre appareil</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.equipmentCount">Nombre d'équipements</label>
         <input type="number" placeholder="Nombre d'équipements">
@@ -823,10 +858,12 @@
       wifi: `
         <label data-i18n="formFields.interventionType">Type d'intervention</label>
         <select>
-          <option data-i18n="options.newInstallation">Nouvelle installation</option>
-          <option data-i18n="options.troubleshooting">Dépannage</option>
-          <option data-i18n="options.networkOptimization">Optimisation du réseau</option>
+          <option data-i18n="options.newNetworkInstallation">Nouvelle installation réseau</option>
+          <option data-i18n="options.networkRepair">Réparation réseau</option>
           <option data-i18n="options.coverageExtension">Extension de couverture</option>
+          <option data-i18n="options.signalBoost">Amplification du signal</option>
+          <option data-i18n="options.deviceConfiguration">Configuration d'appareils</option>
+          <option data-i18n="options.networkCameras">Caméras réseau</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.coverageSurface">Surface à couvrir (m²)</label>
         <input type="number" placeholder="Surface à couvrir">
@@ -844,24 +881,47 @@
         <input type="number" placeholder="Durée estimée">
       `,
       printer: `
-        <label data-i18n="formFields.interventionType">Type d'intervention</label>
+        <label data-i18n="formFields.printerBrand">Marque de l'imprimante</label>
         <select>
-          <option data-i18n="options.repair">Réparation</option>
-          <option data-i18n="options.preventiveMaintenance">Entretien préventif</option>
-          <option data-i18n="options.spareParts">Fourniture de pièces</option>
-          <option data-i18n="options.inkCartridges">Cartouches d'encre</option>
+          <option data-i18n="options.hp">HP</option>
+          <option data-i18n="options.canon">Canon</option>
+          <option data-i18n="options.epson">Epson</option>
+          <option data-i18n="options.brother">Brother</option>
+          <option data-i18n="options.xerox">Xerox</option>
+          <option data-i18n="options.ricoh">Ricoh</option>
+          <option data-i18n="options.otherBrand">Autre marque</option>
+        </select>
+        <label style="margin-top:12px;display:block;" data-i18n="formFields.issueType">Type de problème</label>
+        <select>
+          <option data-i18n="options.notPrinting">N'imprime pas</option>
+          <option data-i18n="options.poorPrintQuality">Mauvaise qualité d'impression</option>
+          <option data-i18n="options.paperJam">Bourrage papier</option>
+          <option data-i18n="options.inkProblem">Problème d'encre</option>
+          <option data-i18n="options.networkIssue">Problème réseau</option>
+          <option data-i18n="options.preventiveMaintenance">Maintenance préventive</option>
+          <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.printerCount">Nombre d'imprimantes</label>
         <input type="number" placeholder="Nombre d'imprimantes">
       `,
       programming: `
-        <label data-i18n="formFields.prestationType">Type de développement</label>
+        <label data-i18n="formFields.softwareService">Service de développement</label>
         <select>
-          <option>Développement de site web</option>
-          <option>Application mobile</option>
-          <option>Logiciel de gestion</option>
-          <option>Solution e-learning</option>
-          <option>Plateforme sur mesure</option>
+          <option data-i18n="options.websiteDesign">Conception de site web</option>
+          <option data-i18n="options.schoolPlatform">Plateforme scolaire</option>
+          <option data-i18n="options.mobileApp">Application mobile</option>
+          <option data-i18n="options.studentManagementSystem">Système de gestion des élèves</option>
+          <option data-i18n="options.teacherManagementSystem">Système de gestion des enseignants</option>
+          <option data-i18n="options.invoicingSystem">Système de facturation</option>
+          <option data-i18n="options.onlineRegistrationSystem">Système d'inscription en ligne</option>
+          <option data-i18n="options.appointmentBookingSystem">Système de prise de rendez-vous</option>
+          <option data-i18n="options.elearningPlatform">Plateforme e-learning</option>
+          <option data-i18n="options.notificationsSystem">Système de notifications</option>
+          <option data-i18n="options.securityImprovement">Amélioration de la sécurité</option>
+          <option data-i18n="options.customSoftware">Logiciel personnalisé</option>
+          <option data-i18n="options.softwareUpdate">Mise à jour logicielle</option>
+          <option data-i18n="options.bugFixing">Correction de bugs</option>
+          <option data-i18n="options.systemsIntegration">Intégration de systèmes</option>
           <option data-i18n="options.other">Autre</option>
         </select>
         <label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedBudget">Budget estimé (MAD)</label>

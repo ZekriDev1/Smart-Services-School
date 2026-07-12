@@ -18,57 +18,53 @@
         <img src="../images/Assets/logo.png" alt="SMARTSERVICES">
         <div class="sidebar-logo-text">
           <h2>SMARTSERVICES</h2>
-          <span>Admin Panel</span>
+          <span data-i18n="admin.panel">Admin Panel</span>
         </div>
       </div>
       
       <nav class="sidebar-nav">
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Main</div>
+          <div class="sidebar-section-title" data-i18n="admin.sidebar.main">Main</div>
           <a class="sidebar-link active" onclick="navigateTo('dashboard', this)">
-            <i class="fas fa-th-large"></i> Dashboard
+            <i class="fas fa-th-large"></i> <span data-i18n="admin.sidebar.dashboard">Dashboard</span>
           </a>
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Requests</div>
+          <div class="sidebar-section-title" data-i18n="admin.sidebar.requests">Requests</div>
           <a class="sidebar-link" onclick="navigateTo('requests', this)">
-            <i class="fas fa-clipboard-list"></i> All Requests
+            <i class="fas fa-clipboard-list"></i> <span data-i18n="admin.sidebar.allRequests">All Requests</span>
           </a>
-         
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Users</div>
+          <div class="sidebar-section-title" data-i18n="admin.sidebar.users">Users</div>
           <a class="sidebar-link" onclick="navigateTo('users', this)">
-            <i class="fas fa-users"></i> All Users
+            <i class="fas fa-users"></i> <span data-i18n="admin.sidebar.allUsers">All Users</span>
           </a>
-          
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Services</div>
+          <div class="sidebar-section-title" data-i18n="admin.sidebar.services">Services</div>
           <a class="sidebar-link" onclick="navigateTo('services', this)">
-            <i class="fas fa-cogs"></i> Manage Services
+            <i class="fas fa-cogs"></i> <span data-i18n="admin.sidebar.manageServices">Manage Services</span>
           </a>
         </div>
 
-
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Insights</div>
+          <div class="sidebar-section-title" data-i18n="admin.sidebar.insights">Insights</div>
           <a class="sidebar-link" onclick="navigateTo('analytics', this)">
-            <i class="fas fa-chart-bar"></i> Analytics
+            <i class="fas fa-chart-bar"></i> <span data-i18n="admin.sidebar.analytics">Analytics</span>
           </a>
-
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-section-title">System</div>
+          <div class="sidebar-section-title" data-i18n="admin.sidebar.system">System</div>
           <a class="sidebar-link" onclick="navigateTo('settings', this)">
-            <i class="fas fa-cog"></i> Settings
+            <i class="fas fa-cog"></i> <span data-i18n="admin.sidebar.settings">Settings</span>
           </a>
           <a class="sidebar-link" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i> Logout
+            <i class="fas fa-sign-out-alt"></i> <span data-i18n="nav.logout">Logout</span>
           </a>
         </div>
       </nav>
@@ -94,14 +90,22 @@
           </button>
           <div class="header-search">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search anything..." id="globalSearch">
+            <input type="text" placeholder="Search anything..." id="globalSearch" data-i18n-placeholder="admin.search">
           </div>
         </div>
         <div class="header-right">
-          <button class="header-action-btn" onclick="toggleDarkMode()" title="Toggle Theme">
+          <div class="lang-selector" style="margin-right:8px;">
+            <i class="fas fa-globe"></i>
+            <select id="langSelect" aria-label="Language" style="background:transparent;border:none;color:inherit;font-size:0.85rem;cursor:pointer;">
+              <option value="fr">Français</option>
+              <option value="ar">العربية</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <button class="header-action-btn" onclick="toggleDarkMode()" title="" id="themeToggleBtn" data-i18n-title="admin.toggleTheme">
             <i class="fas fa-moon"></i>
           </button>
-          <button class="header-action-btn" title="Notifications">
+          <button class="header-action-btn" title="" id="notifBtn" data-i18n-title="admin.notifications">
             <i class="fas fa-bell"></i>
             <span class="dot"></span>
           </button>
@@ -121,66 +125,66 @@
         <div id="dashboardTab" class="tab-content">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-shield-alt"></i> Dashboard</h1>
-              <p class="page-subtitle">Overview of your platform activity</p>
+              <h1 class="page-title"><i class="fas fa-shield-alt"></i> <span data-i18n="admin.dashboard.title">Dashboard</span></h1>
+              <p class="page-subtitle" data-i18n="admin.dashboard.subtitle">Overview of your platform activity</p>
             </div>
             <div class="flex gap-2">
-              <button class="btn btn-secondary btn-sm" onclick="exportCSV('requests')"><i class="fas fa-download"></i> Export</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportCSV('requests')"><i class="fas fa-download"></i> <span data-i18n="admin.dashboard.export">Export</span></button>
             </div>
           </div>
 
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-card-icon primary"><i class="fas fa-clipboard-list"></i></div>
-              <div class="stat-card-label">Total Requests</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.totalRequests">Total Requests</div>
               <div class="stat-card-value" id="statTotalRequests">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon blue"><i class="fas fa-spinner"></i></div>
-              <div class="stat-card-label">Active Requests</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.activeRequests">Active Requests</div>
               <div class="stat-card-value" id="statActiveRequests">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon green"><i class="fas fa-check-circle"></i></div>
-              <div class="stat-card-label">Completed</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.completed">Completed</div>
               <div class="stat-card-value" id="statCompletedRequests">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon purple"><i class="fas fa-users"></i></div>
-              <div class="stat-card-label">Total Users</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.totalUsers">Total Users</div>
               <div class="stat-card-value" id="statTotalUsers">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon amber"><i class="fas fa-file-invoice-dollar"></i></div>
-              <div class="stat-card-label">Quotations</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.quotations">Quotations</div>
               <div class="stat-card-value" id="statQuotations">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon pink"><i class="fas fa-money-bill-wave"></i></div>
-              <div class="stat-card-label">Revenue Estimate</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.revenueEstimate">Revenue Estimate</div>
               <div class="stat-card-value" id="statRevenue">0 MAD</div>
             </div>
           </div>
 
           <div class="charts-grid">
             <div class="chart-container">
-              <div class="chart-title">Requests by Month</div>
-              <div id="monthlyChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+              <div class="chart-title" data-i18n="admin.dashboard.requestsByMonth">Requests by Month</div>
+              <div id="monthlyChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></div>
             </div>
             <div class="chart-container">
-              <div class="chart-title">Recent Activity</div>
-              <div id="recentActivity"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+              <div class="chart-title" data-i18n="admin.dashboard.recentActivity">Recent Activity</div>
+              <div id="recentActivity"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></div>
             </div>
           </div>
 
           <div class="charts-grid">
             <div class="chart-container">
-              <div class="chart-title">Requests by Service</div>
-              <div id="serviceChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+              <div class="chart-title" data-i18n="admin.dashboard.requestsByService">Requests by Service</div>
+              <div id="serviceChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></div>
             </div>
             <div class="chart-container">
-              <div class="chart-title">Status Distribution</div>
-              <div id="statusChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+              <div class="chart-title" data-i18n="admin.dashboard.statusDistribution">Status Distribution</div>
+              <div id="statusChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></div>
             </div>
           </div>
         </div>
@@ -189,36 +193,36 @@
         <div id="requestsTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-clipboard-list"></i> Request Management</h1>
-              <p class="page-subtitle">Manage all service requests</p>
+              <h1 class="page-title"><i class="fas fa-clipboard-list"></i> <span data-i18n="admin.requests.title">Request Management</span></h1>
+              <p class="page-subtitle" data-i18n="admin.requests.subtitle">Manage all service requests</p>
             </div>
             <div class="flex gap-2">
-              <button class="btn btn-secondary btn-sm" onclick="exportCSV('requests')"><i class="fas fa-download"></i> Export CSV</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportCSV('requests')"><i class="fas fa-download"></i> <span data-i18n="admin.requests.exportCSV">Export CSV</span></button>
             </div>
           </div>
 
           <div class="filter-bar">
-            <input type="text" id="requestSearch" placeholder="Search requests..." oninput="filterRequests()">
+            <input type="text" id="requestSearch" placeholder="" oninput="filterRequests()" data-i18n-placeholder="admin.requests.search">
             <select id="requestStatusFilter" onchange="filterRequests()">
-              <option value="">All Statuses</option>
-              <option value="pending">Pending</option>
-              <option value="under_review">Under Review</option>
-              <option value="waiting_info">Waiting for Info</option>
-              <option value="approved">Approved</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="" data-i18n="admin.requests.allStatuses">All Statuses</option>
+              <option value="pending" data-i18n="admin.requests.pending">Pending</option>
+              <option value="under_review" data-i18n="admin.requests.underReview">Under Review</option>
+              <option value="waiting_info" data-i18n="admin.requests.waitingInfo">Waiting for Info</option>
+              <option value="approved" data-i18n="admin.requests.approved">Approved</option>
+              <option value="in_progress" data-i18n="admin.requests.inProgress">In Progress</option>
+              <option value="completed" data-i18n="admin.requests.completed">Completed</option>
+              <option value="cancelled" data-i18n="admin.requests.cancelled">Cancelled</option>
             </select>
             <select id="requestPriorityFilter" onchange="filterRequests()">
-              <option value="">All Priorities</option>
-              <option value="low">Low</option>
-              <option value="normal">Normal</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-              <option value="critical">Critical</option>
+              <option value="" data-i18n="admin.requests.allPriorities">All Priorities</option>
+              <option value="low" data-i18n="admin.requests.low">Low</option>
+              <option value="normal" data-i18n="admin.requests.normal">Normal</option>
+              <option value="high" data-i18n="admin.requests.high">High</option>
+              <option value="urgent" data-i18n="admin.requests.urgent">Urgent</option>
+              <option value="critical" data-i18n="admin.requests.critical">Critical</option>
             </select>
             <select id="requestServiceFilter" onchange="filterRequests()">
-              <option value="">All Services</option>
+              <option value="" data-i18n="admin.requests.allServices">All Services</option>
             </select>
           </div>
 
@@ -227,19 +231,19 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Request ID</th>
-                    <th>School</th>
-                    <th>Service</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Attachments</th>
-                    <th>Quotation</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.requestId">Request ID</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.service">Service</th>
+                    <th data-i18n="admin.table.priority">Priority</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.created">Created</th>
+                    <th data-i18n="admin.table.attachments">Attachments</th>
+                    <th data-i18n="admin.table.quotation">Quotation</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="requestsTableBody">
-                  <tr><td colspan="9"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="9"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -251,8 +255,8 @@
         <div id="pendingTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-clock"></i> Pending Requests</h1>
-              <p class="page-subtitle">Requests awaiting action</p>
+              <h1 class="page-title"><i class="fas fa-clock"></i> <span data-i18n="admin.pending.title">Pending Requests</span></h1>
+              <p class="page-subtitle" data-i18n="admin.pending.subtitle">Requests awaiting action</p>
             </div>
           </div>
           <div class="table-container">
@@ -260,17 +264,17 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Request ID</th>
-                    <th>School</th>
-                    <th>Service</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.requestId">Request ID</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.service">Service</th>
+                    <th data-i18n="admin.table.priority">Priority</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.created">Created</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="pendingTableBody">
-                  <tr><td colspan="7"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="7"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -281,8 +285,8 @@
         <div id="in_progressTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-spinner"></i> In Progress</h1>
-              <p class="page-subtitle">Active requests being processed</p>
+              <h1 class="page-title"><i class="fas fa-spinner"></i> <span data-i18n="admin.inProgress.title">In Progress</span></h1>
+              <p class="page-subtitle" data-i18n="admin.inProgress.subtitle">Active requests being processed</p>
             </div>
           </div>
           <div class="table-container">
@@ -290,17 +294,17 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Request ID</th>
-                    <th>School</th>
-                    <th>Service</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.requestId">Request ID</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.service">Service</th>
+                    <th data-i18n="admin.table.priority">Priority</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.created">Created</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="inProgressTableBody">
-                  <tr><td colspan="7"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="7"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -311,8 +315,8 @@
         <div id="completedTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-check-circle"></i> Completed</h1>
-              <p class="page-subtitle">Successfully completed requests</p>
+              <h1 class="page-title"><i class="fas fa-check-circle"></i> <span data-i18n="admin.completed.title">Completed</span></h1>
+              <p class="page-subtitle" data-i18n="admin.completed.subtitle">Successfully completed requests</p>
             </div>
           </div>
           <div class="table-container">
@@ -320,15 +324,15 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Request ID</th>
-                    <th>School</th>
-                    <th>Service</th>
-                    <th>Completed</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.requestId">Request ID</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.service">Service</th>
+                    <th data-i18n="admin.table.completed">Completed</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="completedTableBody">
-                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -339,8 +343,8 @@
         <div id="cancelledTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-times-circle"></i> Cancelled</h1>
-              <p class="page-subtitle">Cancelled requests</p>
+              <h1 class="page-title"><i class="fas fa-times-circle"></i> <span data-i18n="admin.cancelled.title">Cancelled</span></h1>
+              <p class="page-subtitle" data-i18n="admin.cancelled.subtitle">Cancelled requests</p>
             </div>
           </div>
           <div class="table-container">
@@ -348,15 +352,15 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Request ID</th>
-                    <th>School</th>
-                    <th>Service</th>
-                    <th>Cancelled</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.requestId">Request ID</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.service">Service</th>
+                    <th data-i18n="admin.table.cancelled">Cancelled</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="cancelledTableBody">
-                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -367,26 +371,26 @@
         <div id="usersTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-users"></i> User Management</h1>
-              <p class="page-subtitle">Manage all platform users</p>
+              <h1 class="page-title"><i class="fas fa-users"></i> <span data-i18n="admin.users.title">User Management</span></h1>
+              <p class="page-subtitle" data-i18n="admin.users.subtitle">Manage all platform users</p>
             </div>
             <div class="flex gap-2">
-              <button class="btn btn-secondary btn-sm" onclick="exportCSV('users')"><i class="fas fa-download"></i> Export CSV</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportCSV('users')"><i class="fas fa-download"></i> <span data-i18n="admin.users.exportCSV">Export CSV</span></button>
             </div>
           </div>
 
           <div class="filter-bar">
-            <input type="text" id="userSearch" placeholder="Search users..." oninput="filterUsers()">
+            <input type="text" id="userSearch" placeholder="" oninput="filterUsers()" data-i18n-placeholder="admin.users.search">
             <select id="userRoleFilter" onchange="filterUsers()">
-              <option value="">All Roles</option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
+              <option value="" data-i18n="admin.users.allRoles">All Roles</option>
+              <option value="admin" data-i18n="admin.users.admin">Admin</option>
+              <option value="user" data-i18n="admin.users.user">User</option>
             </select>
             <select id="userStatusFilter" onchange="filterUsers()">
-              <option value="">All Statuses</option>
-              <option value="active">Active</option>
-              <option value="suspended">Suspended</option>
-              <option value="archived">Archived</option>
+              <option value="" data-i18n="admin.users.allStatuses">All Statuses</option>
+              <option value="active" data-i18n="admin.users.active">Active</option>
+              <option value="suspended" data-i18n="admin.users.suspended">Suspended</option>
+              <option value="archived" data-i18n="admin.users.archived">Archived</option>
             </select>
           </div>
 
@@ -395,17 +399,17 @@
               <table>
                 <thead>
                   <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>School</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Joined</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.user">User</th>
+                    <th data-i18n="admin.table.email">Email</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.role">Role</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.joined">Joined</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="usersTableBody">
-                  <tr><td colspan="7"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="7"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -416,8 +420,8 @@
         <div id="administratorsTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-user-shield"></i> Administrators</h1>
-              <p class="page-subtitle">Platform administrators</p>
+              <h1 class="page-title"><i class="fas fa-user-shield"></i> <span data-i18n="admin.administrators.title">Administrators</span></h1>
+              <p class="page-subtitle" data-i18n="admin.administrators.subtitle">Platform administrators</p>
             </div>
           </div>
           <div class="table-container">
@@ -425,15 +429,15 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Admin</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Joined</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.user">Admin</th>
+                    <th data-i18n="admin.table.email">Email</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.joined">Joined</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="adminsTableBody">
-                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -444,8 +448,8 @@
         <div id="schoolsTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-school"></i> Schools</h1>
-              <p class="page-subtitle">Registered schools and institutions</p>
+              <h1 class="page-title"><i class="fas fa-school"></i> <span data-i18n="admin.schools.title">Schools</span></h1>
+              <p class="page-subtitle" data-i18n="admin.schools.subtitle">Registered schools and institutions</p>
             </div>
           </div>
           <div class="table-container">
@@ -453,15 +457,15 @@
               <table>
                 <thead>
                   <tr>
-                    <th>School</th>
-                    <th>Contact</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.contact">Contact</th>
+                    <th data-i18n="admin.table.email">Email</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="schoolsTableBody">
-                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -472,8 +476,8 @@
         <div id="servicesTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-cogs"></i> Service Management</h1>
-              <p class="page-subtitle">Manage service categories</p>
+              <h1 class="page-title"><i class="fas fa-cogs"></i> <span data-i18n="admin.servicesPage.title">Service Management</span></h1>
+              <p class="page-subtitle" data-i18n="admin.servicesPage.subtitle">Manage service categories</p>
             </div>
           </div>
           <div class="table-container">
@@ -481,16 +485,16 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Name (FR)</th>
-                    <th>Key</th>
-                    <th>Name (EN)</th>
-                    <th>Name (AR)</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.nameFR">Name (FR)</th>
+                    <th data-i18n="admin.table.key">Key</th>
+                    <th data-i18n="admin.table.nameEN">Name (EN)</th>
+                    <th data-i18n="admin.table.nameAR">Name (AR)</th>
+                    <th data-i18n="admin.table.status">Status</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="servicesTableBody">
-                  <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -501,11 +505,11 @@
         <div id="quotationsTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-file-invoice-dollar"></i> Quotations</h1>
-              <p class="page-subtitle">Manage uploaded quotations</p>
+              <h1 class="page-title"><i class="fas fa-file-invoice-dollar"></i> <span data-i18n="admin.quotations.title">Quotations</span></h1>
+              <p class="page-subtitle" data-i18n="admin.quotations.subtitle">Manage uploaded quotations</p>
             </div>
             <div class="flex gap-2">
-              <button class="btn btn-secondary btn-sm" onclick="exportCSV('quotations')"><i class="fas fa-download"></i> Export CSV</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportCSV('quotations')"><i class="fas fa-download"></i> <span data-i18n="admin.quotations.exportCSV">Export CSV</span></button>
             </div>
           </div>
           <div class="table-container">
@@ -513,16 +517,16 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Service</th>
-                    <th>School</th>
-                    <th>Version</th>
-                    <th>Uploaded</th>
-                    <th>File</th>
-                    <th>Actions</th>
+                    <th data-i18n="admin.table.service">Service</th>
+                    <th data-i18n="admin.table.school">School</th>
+                    <th data-i18n="admin.table.version">Version</th>
+                    <th data-i18n="admin.table.uploaded">Uploaded</th>
+                    <th data-i18n="admin.table.file">File</th>
+                    <th data-i18n="admin.table.actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="quotationsTableBody">
-                  <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -533,37 +537,37 @@
         <div id="analyticsTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-chart-bar"></i> Analytics</h1>
-              <p class="page-subtitle">Platform performance metrics</p>
+              <h1 class="page-title"><i class="fas fa-chart-bar"></i> <span data-i18n="admin.analyticsPage.title">Analytics</span></h1>
+              <p class="page-subtitle" data-i18n="admin.analyticsPage.subtitle">Platform performance metrics</p>
             </div>
           </div>
 
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-card-icon green"><i class="fas fa-percent"></i></div>
-              <div class="stat-card-label">Conversion Rate</div>
+              <div class="stat-card-label" data-i18n="admin.analyticsPage.conversionRate">Conversion Rate</div>
               <div class="stat-card-value" id="analyticsConversion">0%</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon primary"><i class="fas fa-clipboard-list"></i></div>
-              <div class="stat-card-label">Total Requests</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.totalRequests">Total Requests</div>
               <div class="stat-card-value" id="analyticsTotal">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon blue"><i class="fas fa-check-circle"></i></div>
-              <div class="stat-card-label">Completed</div>
+              <div class="stat-card-label" data-i18n="admin.dashboard.completed">Completed</div>
               <div class="stat-card-value" id="analyticsCompleted">0</div>
             </div>
             <div class="stat-card">
               <div class="stat-card-icon amber"><i class="fas fa-clock"></i></div>
-              <div class="stat-card-label">Pending</div>
+              <div class="stat-card-label" data-i18n="admin.requests.pending">Pending</div>
               <div class="stat-card-value" id="analyticsPending">0</div>
             </div>
           </div>
 
           <div class="chart-container">
-            <div class="chart-title">Requests by Month (This Year)</div>
-            <div id="analyticsChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+            <div class="chart-title" data-i18n="admin.analyticsPage.requestsByMonthTitle">Requests by Month (This Year)</div>
+            <div id="analyticsChart"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></div>
           </div>
         </div>
 
@@ -571,23 +575,23 @@
         <div id="settingsTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-cog"></i> Settings</h1>
-              <p class="page-subtitle">System configuration</p>
+              <h1 class="page-title"><i class="fas fa-cog"></i> <span data-i18n="admin.settingsPage.title">Settings</span></h1>
+              <p class="page-subtitle" data-i18n="admin.settingsPage.subtitle">System configuration</p>
             </div>
           </div>
 
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Appearance</div>
+              <div class="card-title" data-i18n="admin.settingsPage.appearance">Appearance</div>
             </div>
             <div class="card-body">
               <div class="flex items-center justify-between">
                 <div>
-                  <div class="font-semibold">Dark Mode</div>
-                  <div class="text-sm text-muted">Toggle between light and dark theme</div>
+                  <div class="font-semibold" data-i18n="admin.settingsPage.darkMode">Dark Mode</div>
+                  <div class="text-sm text-muted" data-i18n="admin.settingsPage.darkModeDesc">Toggle between light and dark theme</div>
                 </div>
                 <button class="btn btn-secondary btn-sm" onclick="toggleDarkMode()">
-                  <i class="fas fa-moon"></i> Toggle
+                  <i class="fas fa-moon"></i> <span data-i18n="admin.settingsPage.toggle">Toggle</span>
                 </button>
               </div>
             </div>
@@ -595,16 +599,16 @@
 
           <div class="card mt-4">
             <div class="card-header">
-              <div class="card-title">Account</div>
+              <div class="card-title" data-i18n="admin.settingsPage.account">Account</div>
             </div>
             <div class="card-body">
               <div class="flex items-center justify-between">
                 <div>
-                  <div class="font-semibold">Session</div>
-                  <div class="text-sm text-muted">You are logged in as an administrator</div>
+                  <div class="font-semibold" data-i18n="admin.settingsPage.session">Session</div>
+                  <div class="text-sm text-muted" data-i18n="admin.settingsPage.sessionDesc">You are logged in as an administrator</div>
                 </div>
                 <button class="btn btn-danger btn-sm" onclick="logout()">
-                  <i class="fas fa-sign-out-alt"></i> Logout
+                  <i class="fas fa-sign-out-alt"></i> <span data-i18n="admin.settingsPage.logout">Logout</span>
                 </button>
               </div>
             </div>
@@ -615,8 +619,8 @@
         <div id="auditTab" class="tab-content hidden">
           <div class="page-header">
             <div>
-              <h1 class="page-title"><i class="fas fa-history"></i> Audit Logs</h1>
-              <p class="page-subtitle">Track all administrative actions</p>
+              <h1 class="page-title"><i class="fas fa-history"></i> <span data-i18n="admin.auditLogs.title">Audit Logs</span></h1>
+              <p class="page-subtitle" data-i18n="admin.auditLogs.subtitle">Track all administrative actions</p>
             </div>
           </div>
           <div class="table-container">
@@ -624,14 +628,14 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Timestamp</th>
-                    <th>Action</th>
-                    <th>Entity</th>
-                    <th>User</th>
+                    <th data-i18n="admin.table.timestamp">Timestamp</th>
+                    <th data-i18n="admin.table.action">Action</th>
+                    <th data-i18n="admin.table.entity">Entity</th>
+                    <th data-i18n="admin.table.user">User</th>
                   </tr>
                 </thead>
                 <tbody id="auditTableBody">
-                  <tr><td colspan="4"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div></td></tr>
+                  <tr><td colspan="4"><div class="loading"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="admin.loading">Loading...</span></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -652,6 +656,7 @@
     </div>
   </div>
 
+  <script src="../js/i18n.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>
