@@ -1395,4 +1395,99 @@ router.get('/roles', requireAuth, requireAdmin, async (req, res) => {
   }
 });
 
+// ==========================================
+// ADMIN PANEL PROXY (no JWT required - for admin frontend)
+// Secured by checking admin session + admin role
+// ==========================================
+router.post('/panel/requests', express.json(), async (req, res) => {
+  try {
+    const { adminSession } = req.body;
+    if (!adminSession || adminSession.role !== 'admin') {
+      return res.status(401).json({ success: false, error: 'Unauthorized' });
+    }
+    const { data, error } = await supabase
+      .from('requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+router.post('/panel/upload-devis', express.json(), async (req, res) => {
+  try {
+    const { adminSession, requestId, fileName, fileType, fileSize, storagePath, publicUrl } = req.body;
+    if (!adminSession || adminSession.role !== 'admin') {
+      return res.status(401).json({ success: false, error: 'Unauthorized' });
+    }
+    if (!requestId || !publicUrl) {
+      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    }
+
+    // 1. Save document record
+    const { error: docError } = await supabase.from('documents').insert({
+      request_id: requestId,
+      category: 'devis',
+      file_name: fileName || 'devis.pdf',
+      file_type: fileType || 'pdf',
+      file_size: fileSize || 0,
+      storage_path: storagePath || '',
+      public_url: publicUrl || '',
+      uploaded_by: adminSession.id || null
+    });
+    if (docError) throw docError;
+
+    // 2. Update request with devis url
+    const { error: reqError } = await supabase.from('requests').update({
+      quotation_url: publicUrl,
+      status: 'devis_envoye'
+    }).eq('id', requestId);
+    if (reqError) throw reqError;
+
+    // 3. Create notification for the user
+    const { data: reqData } = await supabase.from('requests').select('user_id, service_name').eq('id', requestId).single();
+    if (reqData?.user_id) {
+      await supabase.from('notifications').insert({
+        user_id: reqData.user_id,
+        type: 'devis_disponible',
+        title: 'Devis disponible',
+        message: `Un devis est disponible pour votre demande "${reqData.service_name || 'Service'}"`,
+        data: { request_id: requestId, devis_url: publicUrl }
+      });
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    logger.error('Upload devis error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+router.post('/panel/dashboard', express.json(), async (req, res) => {
+  try {
+    const { adminSession } = req.body;
+    if (!adminSession || adminSession.role !== 'admin') {
+      return res.status(401).json({ success: false, error: 'Unauthorized' });
+    }
+    const [usersRes, requestsRes, quotesRes] = await Promise.all([
+      supabase.from('users').select('*', { count: 'exact', head: true }),
+      supabase.from('requests').select('*'),
+      supabase.from('quotes').select('*', { count: 'exact', head: true })
+    ]);
+    const requests = requestsRes.data || [];
+    const totalUsers = usersRes.count || 0;
+    const totalQuotations = quotesRes.count || 0;
+    const pending = requests.filter(r => r.status === 'pending').length;
+    const inProgress = requests.filter(r => ['in_progress','under_review'].includes(r.status)).length;
+    const completed = requests.filter(r => r.status === 'completed').length;
+    const totalRequests = requests.length;
+    const revenue = requests.reduce((sum, r) => sum + (Number(r.quote_amount) || 0), 0);
+    res.json({ success: true, data: { totalUsers, totalRequests, totalQuotations, pending, inProgress, completed, revenue, requests } });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 module.exports = router;

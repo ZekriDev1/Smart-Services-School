@@ -160,12 +160,38 @@
       }
     });
 
-    // ===== HARDCODED ADMIN CREDENTIALS (change these in .env on the server) =====
-    // When running via Node server, credentials come from .env
-    // When running as file:// (direct open), these fallback credentials are used:
+    // ===== HARDCODED ADMIN CREDENTIALS =====
     const ADMIN_EMAIL = 'admin@smartservices.ma';
     const ADMIN_PASSWORD = 'G12345678';
     const ADMIN_NAME = 'Super Admin';
+
+    // ===== SUPABASE CONFIG =====
+    const SUPABASE_URL = 'https://rsriyrvkizgnhvgsosgk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzcml5cnZraXpnbmh2Z3Nvc2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcxMjMsImV4cCI6MjA5ODkxMzEyM30.QkRn1oqI7UdDbi6LdJWlU8xrZXdFz7sqXxLqmxaUBy0';
+
+    // ===== SIGN IN WITH SUPABASE AUTH =====
+    async function signInWithSupabase(email, password) {
+      // Load Supabase JS dynamically if not already loaded
+      if (!window.supabase?.createClient) {
+        await new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+          script.onload = resolve;
+          script.onerror = resolve;
+          document.head.appendChild(script);
+        });
+      }
+      if (!window.supabase?.createClient) return null;
+      const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: { persistSession: true, autoRefreshToken: true }
+      });
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      if (error) {
+        console.warn('Supabase Auth sign-in failed:', error.message);
+        return null;
+      }
+      return data;
+    }
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -195,11 +221,9 @@
             user = result.user;
           }
         } catch (e) {
-          // Server not available (opened as file://), use hardcoded fallback
           console.log('Server not available, using local auth');
         }
 
-        // Fallback: hardcoded local check
         if (!user) {
           if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
             user = {
@@ -214,8 +238,11 @@
           }
         }
 
-        // Store admin session
         localStorage.setItem('adminSession', JSON.stringify(user));
+
+        // Also sign in with Supabase Auth so RLS policies work (auth.uid() will be set)
+        await signInWithSupabase(email, password);
+
         window.location.href = 'index.html';
 
       } catch(error) {

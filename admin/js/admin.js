@@ -32,8 +32,17 @@ async function initSupabase() {
 
   // Check if Supabase is already loaded (by js/supabase.js or another script)
   if (window.__supabase) {
-    _supabase = window.__supabase;
-    return _supabase;
+    const client = window.__supabase.getClient();
+    if (client) {
+      _supabase = client;
+      return _supabase;
+    }
+    // Client exists as wrapper but not initialized yet - init it
+    const initialized = await window.__supabase.init();
+    if (initialized) {
+      _supabase = initialized;
+      return _supabase;
+    }
   }
 
   // If not loaded, load it dynamically
@@ -168,15 +177,52 @@ document.addEventListener('DOMContentLoaded', async function() {
 // ===== DASHBOARD =====
 async function loadDashboard() {
   try {
+    let requests = [], users = [], quotations = [];
+    
+    // Try backend proxy first (only if running on a server, not file://)
+    if (window.location.protocol !== 'file:') {
+      try {
+        const adminSession = localStorage.getItem('adminSession');
+        if (adminSession) {
+          const resp = await fetch('/api/admin/panel/dashboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminSession: JSON.parse(adminSession) })
+          });
+          if (resp.ok) {
+            const result = await resp.json();
+            if (result.success && result.data) {
+              const d = result.data;
+              document.getElementById('statTotalRequests').textContent = d.totalRequests;
+              document.getElementById('statActiveRequests').textContent = d.inProgress;
+              document.getElementById('statCompletedRequests').textContent = d.completed;
+              document.getElementById('statTotalUsers').textContent = d.totalUsers;
+              document.getElementById('statQuotations').textContent = d.totalQuotations || 0;
+              document.getElementById('statRevenue').textContent = `${(d.revenue || 0).toLocaleString()} MAD`;
+              const reqs = d.requests || [];
+              renderMonthlyChart(reqs);
+              renderServiceChart(reqs);
+              renderStatusChart(reqs);
+              renderRecentActivity(reqs.slice(0, 10));
+              return;
+            }
+          }
+        }
+      } catch(e) { /* backend not available */ }
+    }
+
+    // Fallback: Direct Supabase query
+    if (!_supabase) await initSupabase();
+    await ensureSupabaseSession();
     const [usersRes, requestsRes, quotationsRes] = await Promise.all([
       _supabase.from('users').select('*', { count: 'exact', head: true }),
       _supabase.from('requests').select('*'),
       _supabase.from('quotes').select('*', { count: 'exact', head: true })
     ]);
     
-    const requests = requestsRes.data || [];
-    const users = usersRes.data || [];
-    const quotations = quotationsRes.data || [];
+    requests = requestsRes.data || [];
+    users = usersRes.data || [];
+    quotations = quotationsRes.data || [];
     
     const totalUsers = users.length;
     const totalQuotations = quotations.length;
@@ -511,17 +557,81 @@ async function deleteUser(id) {
 }
 
 // ===== REQUESTS =====
+async function ensureSupabaseSession() {
+  if (!_supabase) return;
+  try {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session) return;
+    // Try to restore from stored Supabase session key
+    const key = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+    if (key) {
+      const stored = JSON.parse(localStorage.getItem(key));
+      if (stored?.access_token) {
+        await _supabase.auth.setSession({ access_token: stored.access_token, refresh_token: stored.refresh_token });
+      }
+    }
+  } catch(e) {
+    console.warn('Session restore skipped:', e.message);
+  }
+}
+
 async function loadRequests(statusFilter = '') {
   try {
     STATE.isLoading = true;
-    if (!_supabase) await initSupabase();
-    let query = _supabase.from('requests').select('*').order('created_at', { ascending: false });
-    if (statusFilter) query = query.eq('status', statusFilter);
-    const { data, error } = await query;
-    if (error) throw error;
+    let data = null;
+
+    // Try backend proxy first (only if running on a server, not file://)
+    if (window.location.protocol !== 'file:') {
+      try {
+        const adminSession = localStorage.getItem('adminSession');
+        if (adminSession) {
+          const resp = await fetch('/api/admin/panel/requests', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminSession: JSON.parse(adminSession) })
+          });
+          if (resp.ok) {
+            const result = await resp.json();
+            if (result.success) {
+              data = result.data;
+            }
+          }
+        }
+      } catch(e) { /* backend not available */ }
+    }
+
+    // Fallback: Direct Supabase query
+    if (!data) {
+      if (!_supabase) await initSupabase();
+      await ensureSupabaseSession();
+      let query = _supabase.from('requests').select('*').order('created_at', { ascending: false });
+      if (statusFilter) query = query.eq('status', statusFilter);
+      const result = await query;
+      if (result.error) throw result.error;
+      data = result.data || [];
+    }
     
     STATE.requests = data || [];
     renderRequestsTable(STATE.requests);
+    if (!data || data.length === 0) {
+      const tbody = document.getElementById('requestsTableBody');
+      if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="9">
+          <div class="empty-state">
+            <i class="fas fa-shield-alt" style="color:var(--warning);"></i>
+            <h3>RLS bloque l'affichage</h3>
+            <p style="max-width:500px;margin:0 auto;line-height:1.6;">
+              Les demandes existent dans Supabase mais ne peuvent pas être affichées à cause des politiques RLS.<br><br>
+              <strong>Solution 1:</strong> Lancez <code>node server.js</code> et ouvrez <code>http://localhost:3000/admin/</code><br><br>
+              <strong>Solution 2:</strong> Exécutez cette requête SQL dans Supabase SQL Editor:<br>
+              <code style="font-size:0.8rem;word-break:break-all;">
+                CREATE POLICY "anon_can_select_requests" ON public.requests FOR SELECT USING (true);
+              </code>
+            </p>
+          </div>
+        </td></tr>`;
+      }
+    }
   } catch(e) {
     console.error('Requests error:', e);
     toast('Failed to load requests', 'error');
@@ -555,9 +665,12 @@ function renderRequestsTable(requests) {
       <td>${r.assigned_admin_id ? r.assigned_admin_id.slice(0,8) : '<span class="text-light">Unassigned</span>'}</td>
       <td>${r.quotation_url ? `<a href="${r.quotation_url}" target="_blank" class="btn btn-sm btn-success"><i class="fas fa-file-pdf"></i></a>` : '<span class="text-light">-</span>'}</td>
       <td>
-        <div class="flex gap-1">
+        <div class="flex gap-1" style="flex-wrap:wrap;">
           <button class="btn-icon btn-icon-view" onclick="viewRequest('${r.id}')" title="View"><i class="fas fa-eye"></i></button>
           <button class="btn-icon btn-icon-edit" onclick="editRequest('${r.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+          ${r.quotation_url
+            ? `<button class="btn btn-sm btn-secondary" disabled style="opacity:0.6;cursor:not-allowed;" title="Devis already sent"><i class="fas fa-check-circle"></i> Devis envoyé</button>`
+            : `<button class="btn btn-sm btn-success" onclick="uploadDevis('${r.id}')" title="Upload Devis"><i class="fas fa-file-pdf"></i> Devis</button>`}
           <button class="btn-icon btn-icon-delete" onclick="deleteRequest('${r.id}')" title="Delete"><i class="fas fa-trash"></i></button>
         </div>
       </td>
@@ -779,6 +892,198 @@ async function deleteRequest(id) {
     loadRequests();
   } catch(e) {
     toast('Error: ' + e.message, 'error');
+  }
+}
+
+// ===== UPLOAD DEVIS (PDF) via Modal =====
+async function uploadDevis(requestId) {
+  const req = STATE.requests.find(x => x.id === requestId);
+  if (!req) return;
+
+  const content = `
+    <div style="margin-bottom:16px;">
+      <div class="detail-row"><span class="detail-label">Request #</span><span class="detail-value">${req.request_number || req.id.slice(0,8)}</span></div>
+      <div class="detail-row"><span class="detail-label">School</span><span class="detail-value">${req.school_name || 'N/A'}</span></div>
+      <div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">${req.service_name || req.service_key}</span></div>
+      ${req.quotation_url ? `
+        <div class="detail-row"><span class="detail-label">Current Devis</span><span class="detail-value"><a href="${req.quotation_url}" target="_blank" style="color:var(--primary);"><i class="fas fa-file-pdf"></i> View current</a></span></div>
+      ` : ''}
+    </div>
+    <div style="border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:16px;" id="devisDropZone">
+      <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--primary);margin-bottom:8px;"></i>
+      <p style="margin:0 0 4px;font-weight:600;">Select Devis PDF file</p>
+      <p style="margin:0 0 12px;font-size:0.85rem;color:var(--text-light);">PDF only, max 10MB</p>
+      <input type="file" id="devisFileInput" accept=".pdf" style="display:none;">
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('devisFileInput').click()"><i class="fas fa-folder-open"></i> Browse</button>
+      <span id="devisFileName" style="display:inline-block;margin-left:8px;font-size:0.85rem;color:var(--text-light);"></span>
+    </div>
+    <div id="devisUploadProgress" style="display:none;margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
+        <span>Uploading...</span>
+        <span id="devisProgressPct">0%</span>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+        <div id="devisProgressBar" style="height:100%;width:0%;background:var(--primary);border-radius:3px;transition:width 0.3s;"></div>
+      </div>
+    </div>
+    <div class="flex justify-end gap-2 mt-4">
+      <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button type="button" class="btn btn-primary" id="devisUploadBtn" onclick="processDevisUpload('${requestId}')"><i class="fas fa-upload"></i> Upload Devis</button>
+    </div>
+  `;
+
+  openModal('Upload Devis - ' + (req.service_name || req.service_key), content);
+
+  // Bind file input change
+  setTimeout(() => {
+    const input = document.getElementById('devisFileInput');
+    const nameSpan = document.getElementById('devisFileName');
+    const uploadBtn = document.getElementById('devisUploadBtn');
+    if (input) {
+      input.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          nameSpan.textContent = this.files[0].name;
+          if (uploadBtn) uploadBtn.disabled = false;
+        }
+      });
+    }
+  }, 50);
+}
+
+async function processDevisUpload(requestId) {
+  const input = document.getElementById('devisFileInput');
+  if (!input || !input.files || !input.files[0]) {
+    toast('Please select a PDF file first', 'warning');
+    return;
+  }
+
+  const file = input.files[0];
+
+  if (file.type !== 'application/pdf') {
+    toast('Please select a PDF file', 'error');
+    return;
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    toast('File size must be under 10MB', 'error');
+    return;
+  }
+
+  const uploadBtn = document.getElementById('devisUploadBtn');
+  const progress = document.getElementById('devisUploadProgress');
+  if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...'; }
+  if (progress) progress.style.display = 'block';
+
+  try {
+    if (!_supabase) await initSupabase();
+    if (!_supabase) {
+      toast('Database not connected', 'warning');
+      return;
+    }
+
+    // Simulate progress
+    const bar = document.getElementById('devisProgressBar');
+    const pct = document.getElementById('devisProgressPct');
+    if (bar) bar.style.width = '30%';
+    if (pct) pct.textContent = '30%';
+
+    const filePath = `devis/${requestId}/${Date.now()}_${file.name}`;
+
+    let publicUrl = null;
+    try {
+      const { error: uploadError } = await _supabase.storage
+        .from('quotations')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        const { error: altError } = await _supabase.storage
+          .from('documents')
+          .upload(filePath, file);
+        if (altError) throw altError;
+
+        const { data: urlData } = _supabase.storage
+          .from('documents')
+          .getPublicUrl(filePath);
+        publicUrl = urlData?.publicUrl || null;
+      } else {
+        const { data: urlData } = _supabase.storage
+          .from('quotations')
+          .getPublicUrl(filePath);
+        publicUrl = urlData?.publicUrl || null;
+      }
+    } catch (storageErr) {
+      publicUrl = null;
+    }
+
+    if (bar) bar.style.width = '70%';
+    if (pct) pct.textContent = '70%';
+
+    // Save to DB: try backend proxy first, fallback to direct Supabase
+    const adminSession = localStorage.getItem('adminSession');
+    let dbSuccess = false;
+
+    if (publicUrl && window.location.protocol !== 'file:' && adminSession) {
+      try {
+        const resp = await fetch('/api/admin/panel/upload-devis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            adminSession: JSON.parse(adminSession),
+            requestId,
+            fileName: file.name,
+            fileType: 'pdf',
+            fileSize: file.size,
+            storagePath: filePath,
+            publicUrl
+          })
+        });
+        if (resp.ok) dbSuccess = true;
+      } catch(e) { /* proxy not available */ }
+    }
+
+    if (!dbSuccess && publicUrl) {
+      // Direct Supabase fallback
+      await _supabase.from('documents').insert({
+        request_id: requestId,
+        category: 'devis',
+        file_name: file.name,
+        file_type: 'pdf',
+        file_size: file.size,
+        storage_path: filePath,
+        public_url: publicUrl,
+        uploaded_by: STATE.user?.id || null
+      });
+
+      await _supabase.from('requests').update({
+        quotation_url: publicUrl,
+        status: 'devis_envoye'
+      }).eq('id', requestId);
+
+      const { data: reqData } = await _supabase.from('requests').select('user_id, service_name').eq('id', requestId).single();
+      if (reqData?.user_id) {
+        await _supabase.from('notifications').insert({
+          user_id: reqData.user_id,
+          type: 'devis_disponible',
+          title: 'Devis disponible',
+          message: `Un devis est disponible pour votre demande "${reqData.service_name || 'Service'}"`,
+          data: { request_id: requestId, devis_url: publicUrl }
+        });
+      }
+    }
+
+    if (bar) bar.style.width = '100%';
+    if (pct) pct.textContent = '100%';
+
+    setTimeout(() => {
+      toast('Devis uploaded successfully! User can view it in Mes demandes.', 'success');
+      closeModal();
+      loadRequests();
+    }, 500);
+
+  } catch(err) {
+    console.error('Upload devis error:', err);
+    toast('Error uploading devis: ' + err.message, 'error');
+    if (uploadBtn) { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Upload Devis'; }
   }
 }
 
@@ -1139,6 +1444,8 @@ window.editRequest = editRequest;
 window.saveRequest = saveRequest;
 window.deleteRequest = deleteRequest;
 window.updateRequestStatus = updateRequestStatus;
+window.uploadDevis = uploadDevis;
+window.processDevisUpload = processDevisUpload;
 window.editService = editService;
 window.saveService = saveService;
 window.toggleService = toggleService;

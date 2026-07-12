@@ -418,9 +418,43 @@
   <script src="js/file-upload.js"></script>
 <script>
      // ===== GLOBAL FUNCTIONS =====
-     function viewRequestDetails(id) {
-       alert('Détails de la demande #' + id + ' - Fonctionnalité à venir.');
-     }
+      function viewRequestDetails(id) {
+        const req = (window._userRequests || []).find(r => String(r.id) === String(id));
+        if (!req) return;
+        const statusLabels = {
+          pending: 'En attente', under_review: 'En cours', waiting_info: 'Info attendue',
+          approved: 'Validé', in_progress: 'En cours', completed: 'Terminé',
+          cancelled: 'Annulé', rejected: 'Refusé', devis_envoye: 'Devis envoyé'
+        };
+        const hasDevis = req.quotation_url && req.quotation_url.trim() !== '';
+        document.getElementById('detailsModalTitle').textContent = `Demande ${req.request_number || '#'+req.id}`;
+        document.getElementById('detailsModalBody').innerHTML = `
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Service</strong><br>${req.service_name || '-'}</div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Statut</strong><br><span class="status-badge ${req.status === 'completed' ? 'status-completed' : req.status === 'devis_envoye' || req.status === 'in_progress' ? 'status-progress' : 'status-new'}">${statusLabels[req.status] || req.status}</span></div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Établissement</strong><br>${req.school_name || '-'}</div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Ville</strong><br>${req.city || '-'}</div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Contact</strong><br>${req.contact_name || '-'}</div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Téléphone</strong><br>${req.contact_phone || '-'}</div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Email</strong><br>${req.contact_email || '-'}</div>
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Date soumission</strong><br>${req.created_at ? new Date(req.created_at).toLocaleDateString('fr-FR') : '-'}</div>
+            ${req.requested_date ? `<div><strong style="color:var(--text-light);font-size:0.85rem;">Date souhaitée</strong><br>${new Date(req.requested_date).toLocaleDateString('fr-FR')}</div>` : ''}
+            <div><strong style="color:var(--text-light);font-size:0.85rem;">Devis</strong><br>${hasDevis ? `<a href="${req.quotation_url}" target="_blank" style="color:#059669;font-weight:600;text-decoration:none;"><i class="fas fa-file-pdf"></i> Voir le devis</a>` : '<span style="color:#94a3b8;">Aucun devis</span>'}</div>
+          </div>
+          ${req.description ? `<hr style="margin:16px 0;border:none;border-top:1px solid var(--border);"><div><strong style="color:var(--text-light);font-size:0.85rem;">Description</strong><br><p style="margin:4px 0 0;line-height:1.5;">${req.description}</p></div>` : ''}
+        `;
+        document.getElementById('detailsModalApp').classList.add('open');
+      }
+
+      function closeDetailsModal() {
+        document.getElementById('detailsModalApp').classList.remove('open');
+      }
+      document.addEventListener('click', function(e) {
+        if (e.target.id === 'detailsModalApp') closeDetailsModal();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeDetailsModal();
+      });
      function downloadInvoice(id) {
        alert('Téléchargement de la facture #' + id + ' - Fonctionnalité à venir.');
      }
@@ -607,16 +641,19 @@
 
         if (!requests || requests.length === 0) { empty.style.display = 'block'; return; }
 
+        window._userRequests = requests;
         empty.style.display = 'none';
         requests.forEach(req => {
           const cls = req.status === 'completed' ? 'status-completed' :
                       req.status === 'in_progress' ? 'status-progress' :
                       req.status === 'approved' ? 'status-completed' :
+                      req.status === 'devis_envoye' ? 'status-progress' :
                       req.status === 'rejected' ? 'status-cancelled' :
                       req.status === 'cancelled' ? 'status-cancelled' : 'status-new';
           const lbl = req.status === 'completed' ? 'Terminé' :
                       req.status === 'in_progress' ? 'En cours' :
                       req.status === 'approved' ? 'Validé' :
+                      req.status === 'devis_envoye' ? 'Devis envoyé' :
                       req.status === 'rejected' ? 'Refusé' :
                       req.status === 'cancelled' ? 'Annulé' : 'En attente';
           const hasDevis = req.quotation_url && req.quotation_url.trim() !== '';
@@ -888,8 +925,8 @@
       window.currentServiceKey = null;
     }
 
-    // ===== SUCCESS MODAL HTML (injected once) =====
-    (function injectModal() {
+    // ===== MODALS HTML (injected once) =====
+    (function injectModals() {
       if (document.getElementById('successModalApp')) return;
       const div = document.createElement('div');
       div.innerHTML = `
@@ -903,8 +940,17 @@
             </div>
           </div>
         </div>
+        <div id="detailsModalApp" class="modal-overlay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 id="detailsModalTitle" style="font-size:1.25rem;font-weight:700;">Détails de la demande</h2>
+              <button class="modal-close" onclick="closeDetailsModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-light);padding:4px 8px;">&times;</button>
+            </div>
+            <div class="modal-body" id="detailsModalBody" style="padding:24px;"></div>
+          </div>
+        </div>
       `;
-      document.body.appendChild(div.firstElementChild);
+      while (div.firstChild) document.body.appendChild(div.firstChild);
     })();
 
     function closeSuccessModal() {
