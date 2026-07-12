@@ -1410,7 +1410,20 @@ router.post('/panel/requests', express.json(), async (req, res) => {
       .select('*')
       .order('created_at', { ascending: false });
     if (error) throw error;
-    res.json({ success: true, data });
+
+    // Also fetch documents for these requests (uses service_role key — no RLS)
+    const requestIds = (data || []).map(r => r.id).filter(Boolean);
+    let documents = [];
+    if (requestIds.length > 0) {
+      const { data: docs } = await supabase
+        .from('documents')
+        .select('id, request_id, file_name, file_type, public_url, storage_path, created_at')
+        .in('request_id', requestIds)
+        .order('created_at', { ascending: false });
+      documents = docs || [];
+    }
+
+    res.json({ success: true, data, documents });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

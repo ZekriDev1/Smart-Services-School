@@ -9,6 +9,7 @@ const STATE = {
   user: null,
   users: [],
   requests: [],
+  documents: [],
   quotations: [],
   services: [],
   notifications: [],
@@ -594,6 +595,7 @@ async function loadRequests(statusFilter = '') {
             const result = await resp.json();
             if (result.success) {
               data = result.data;
+              STATE.documents = result.documents || [];
             }
           }
         }
@@ -612,6 +614,31 @@ async function loadRequests(statusFilter = '') {
     }
     
     STATE.requests = data || [];
+
+    // Load documents (only if not already loaded from backend proxy)
+    if (STATE.documents.length === 0) {
+      try {
+        if (!_supabase) await initSupabase();
+        await ensureSupabaseSession();
+        const requestIds = (data || []).map(r => r.id).filter(Boolean);
+        if (requestIds.length > 0) {
+          const { data: docs, error: docsErr } = await _supabase
+            .from('documents')
+            .select('id, request_id, file_name, file_type, public_url, storage_path, created_at')
+            .in('request_id', requestIds)
+            .order('created_at', { ascending: false });
+          if (docsErr) throw docsErr;
+          STATE.documents = docs || [];
+        } else {
+          STATE.documents = [];
+        }
+      } catch (e) {
+        console.warn('Could not load documents:', e);
+        toast('Impossible de charger les pièces jointes', 'warning');
+        STATE.documents = [];
+      }
+    }
+
     renderRequestsTable(STATE.requests);
     if (!data || data.length === 0) {
       const tbody = document.getElementById('requestsTableBody');
@@ -662,7 +689,7 @@ function renderRequestsTable(requests) {
         </select>
       </td>
       <td class="text-muted text-sm">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '-'}</td>
-      <td>${r.assigned_admin_id ? r.assigned_admin_id.slice(0,8) : '<span class="text-light">Unassigned</span>'}</td>
+      <td>${(() => { const docs = STATE.documents.filter(d => d.request_id === r.id); return docs.length ? docs.map(d => d.public_url ? `<a href="${d.public_url}" download class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded hover:bg-gray-50 hover:border-gray-300 transition-colors no-underline mr-1 mb-1"><svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>${d.file_name}</a>` : `<span class="inline-flex items-center gap-1 px-2 py-1 text-xs text-gray-500 bg-gray-50 border border-dashed border-gray-200 rounded mr-1 mb-1" title="Fichier reçu mais stockage indisponible">${d.file_name}</span>`).join('') : '<span class="text-gray-400 text-xs">—</span>'; })()}</td>
       <td>${r.quotation_url ? `<a href="${r.quotation_url}" target="_blank" class="btn btn-sm btn-success"><i class="fas fa-file-pdf"></i></a>` : '<span class="text-light">-</span>'}</td>
       <td>
         <div class="flex gap-1" style="flex-wrap:wrap;">

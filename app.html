@@ -1027,7 +1027,7 @@
               }
 
               // Save document record to documents table
-              await supabase
+              const { error: insertErr } = await supabase
                 .from('documents')
                 .insert({
                   request_id: reqId,
@@ -1040,6 +1040,7 @@
                   public_url: uploadedUrl || '',
                   uploaded_by: currentUser?.id || null
                 });
+              if (insertErr) console.error('Document insert error:', insertErr, file.name);
 
             } catch (fileErr) {
               console.error('File upload error for', file.name, fileErr);

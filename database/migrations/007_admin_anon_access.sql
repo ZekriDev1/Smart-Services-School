@@ -97,7 +97,26 @@ CREATE POLICY "anon_can_select_service_categories" ON public.service_categories
   FOR SELECT USING (true);
 
 -- ============================================
--- 9. STORAGE: anon can upload to quotations bucket
+-- 9. DOCUMENTS STORAGE BUCKET SETUP
+--    Used by app.html to upload request attachments
+-- ============================================
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+SELECT 'documents', 'documents', true, 10485760, ARRAY['application/pdf','image/png','image/jpeg','image/gif','image/webp']
+WHERE NOT EXISTS (SELECT 1 FROM storage.buckets WHERE id = 'documents');
+
+GRANT SELECT ON storage.objects TO anon;
+GRANT INSERT ON storage.objects TO anon;
+
+DROP POLICY IF EXISTS "anon_can_upload_documents" ON storage.objects;
+CREATE POLICY "anon_can_upload_documents" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'documents');
+
+DROP POLICY IF EXISTS "anon_can_select_documents" ON storage.objects;
+CREATE POLICY "anon_can_select_documents" ON storage.objects
+  FOR SELECT USING (bucket_id = 'documents');
+
+-- ============================================
+-- 10. STORAGE: anon can upload to quotations bucket
 -- ============================================
 DROP POLICY IF EXISTS "anon_can_upload_quotations" ON storage.objects;
 CREATE POLICY "anon_can_upload_quotations" ON storage.objects
