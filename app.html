@@ -931,6 +931,75 @@
         const currentServiceKey = window.currentServiceKey || 'custom';
         const currentServiceName = serviceNames[currentServiceKey] || 'Service personnalisé';
         const token = localStorage.getItem('auth_token');
+        let requestId = null;
+
+        // Helper to upload files after request is created
+        async function uploadFilesForRequest(reqId) {
+          const files = window.fileUploadApp?.getFiles() || [];
+          if (files.length === 0) return;
+          
+          const supabase = window.__supabase?.getClient();
+          if (!supabase) return;
+
+          for (const file of files) {
+            try {
+              // Generate unique file path
+              const ext = file.name.split('.').pop().toLowerCase();
+              const filePath = `requests/${reqId}/${Date.now()}_${file.name}`;
+
+              // Upload to Supabase Storage (try 'documents' bucket, fallback to 'request-files', then skip)
+              let uploadedUrl = null;
+              try {
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                  .from('documents')
+                  .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                // Get public URL
+                const { data: urlData } = supabase.storage
+                  .from('documents')
+                  .getPublicUrl(filePath);
+                uploadedUrl = urlData?.publicUrl || null;
+              } catch (bucketErr) {
+                // Try alternative bucket name
+                try {
+                  const { data: altData } = await supabase.storage
+                    .from('request-files')
+                    .upload(filePath, file);
+                  
+                  if (!altData) throw new Error('No bucket available');
+                  
+                  const { data: urlData } = supabase.storage
+                    .from('request-files')
+                    .getPublicUrl(filePath);
+                  uploadedUrl = urlData?.publicUrl || null;
+                } catch (altErr) {
+                  // No bucket configured - still save document reference
+                  uploadedUrl = null;
+                }
+              }
+
+              // Save document record to documents table
+              await supabase
+                .from('documents')
+                .insert({
+                  request_id: reqId,
+                  user_id: currentUser?.id || null,
+                  category: 'images',
+                  file_name: file.name,
+                  file_type: ext,
+                  file_size: file.size,
+                  storage_path: filePath,
+                  public_url: uploadedUrl || '',
+                  uploaded_by: currentUser?.id || null
+                });
+
+            } catch (fileErr) {
+              console.error('File upload error for', file.name, fileErr);
+            }
+          }
+        }
 
         // Try backend API first
         try {
@@ -954,10 +1023,16 @@
           });
 
           if (response.ok) {
+            const result = await response.json();
+            requestId = result?.data?.id || result?.id || null;
+            // Upload files if we have a request ID
+            if (requestId) await uploadFilesForRequest(requestId);
             // Show success modal
             const modal = document.getElementById('successModalApp');
             if (modal) modal.classList.add('open');
             window.currentServiceKey = null;
+            // Clear uploaded files
+            window.fileUploadApp?.clear();
             return;
           }
           throw new Error('API not available');
@@ -965,31 +1040,40 @@
           // Fallback: Use Supabase client directly with user_id set
           const supabase = window.__supabase?.getClient();
           if (supabase && currentUser) {
-            const { data, error } = await supabase
-              .from('requests')
-              .insert([
-                {
-                  user_id: currentUser.id,
-                  service_key: currentServiceKey,
-                  service_name: currentServiceName,
-                  school_name: schoolName,
-                  city: city,
-                  contact_name: contactName,
-                  contact_phone: phone,
-                  contact_email: email,
-                  description: description,
-                  requested_date: desiredDate || null,
-                  status: 'pending'
-                }
-              ])
-              .select();
+            supabase.auth.getSession().then(async ({ data: { session } }) => {
+              // Use anon key client without auth for insert since RLS is off
+              const { data, error } = await supabase
+                .from('requests')
+                .insert([
+                  {
+                    user_id: currentUser.id,
+                    service_key: currentServiceKey,
+                    service_name: currentServiceName,
+                    school_name: schoolName,
+                    city: city,
+                    contact_name: contactName,
+                    contact_phone: phone,
+                    contact_email: email,
+                    description: description,
+                    requested_date: desiredDate || null,
+                    status: 'pending'
+                  }
+                ])
+                .select();
 
-            if (error) throw error;
+              if (error) throw error;
+
+              requestId = data?.[0]?.id || null;
+              // Upload files
+              if (requestId) await uploadFilesForRequest(requestId);
+            });
 
             // Show success modal
             const modal = document.getElementById('successModalApp');
             if (modal) modal.classList.add('open');
             window.currentServiceKey = null;
+            // Clear uploaded files
+            window.fileUploadApp?.clear();
             return;
           }
           throw apiErr;

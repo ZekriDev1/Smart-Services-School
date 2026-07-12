@@ -614,6 +614,43 @@ async function viewRequest(id) {
   const r = STATE.requests.find(x => x.id === id);
   if (!r) return;
   
+  // Fetch documents for this request
+  let documentsHtml = '';
+  try {
+    if (!_supabase) await initSupabase();
+    if (_supabase) {
+      const { data: docs, error } = await _supabase
+        .from('documents')
+        .select('*')
+        .eq('request_id', id)
+        .order('created_at', { ascending: false });
+      
+      if (!error && docs && docs.length > 0) {
+        documentsHtml = `<div class="mt-4"><div class="detail-label" style="margin-bottom:8px;font-weight:700;">Uploaded Documents (${docs.length})</div>`;
+        docs.forEach(doc => {
+          const icon = doc.file_type === 'pdf' ? 'fa-file-pdf' : 
+                       ['png','jpg','jpeg','gif','webp'].includes(doc.file_type) ? 'fa-file-image' : 'fa-file-alt';
+          const fileUrl = doc.public_url || '#';
+          const previewHtml = (doc.public_url && ['png','jpg','jpeg','gif','webp'].includes(doc.file_type))
+            ? `<img src="${doc.public_url}" style="max-width:120px;max-height:80px;border-radius:4px;object-fit:cover;" alt="${doc.file_name}">`
+            : `<i class="fas ${icon}" style="font-size:1.5rem;color:var(--primary);"></i>`;
+          documentsHtml += `
+            <div class="quotation-preview" style="margin-bottom:6px;">
+              ${previewHtml}
+              <div class="info" style="flex:1;min-width:0;">
+                <div class="name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${doc.file_name}</div>
+                <div class="meta">${doc.file_type.toUpperCase()} ${doc.file_size ? `- ${(doc.file_size/1024).toFixed(0)} KB` : ''}</div>
+              </div>
+              <a href="${fileUrl}" target="_blank" class="btn btn-sm btn-primary" style="flex-shrink:0;"><i class="fas fa-download"></i></a>
+            </div>`;
+        });
+        documentsHtml += `</div>`;
+      }
+    }
+  } catch(e) {
+    console.error('Error fetching documents:', e);
+  }
+  
   const content = `
     <div class="detail-row"><span class="detail-label">Request #</span><span class="detail-value">${r.request_number || r.id}</span></div>
     <div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">${r.service_name || r.service_key}</span></div>
@@ -637,6 +674,7 @@ async function viewRequest(id) {
         </div>
       </div>
     ` : ''}
+    ${documentsHtml}
   `;
   
   openModal(`Request: ${r.service_name || r.service_key}`, content);
