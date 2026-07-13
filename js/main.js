@@ -9,60 +9,95 @@ document.addEventListener('DOMContentLoaded', function() {
     I18n.init();
   }
 
-  // Sync language selector
-  const langSelect = document.getElementById('langSelect');
-  if (langSelect) {
-    langSelect.addEventListener('change', function() {
-      if (window.I18n) {
-        window.I18n.setLanguage(this.value);
-      }
-    });
+  // Sync language selectors (desktop + mobile)
+  function bindLangSelector(selectorId) {
+    const sel = document.getElementById(selectorId);
+    if (sel) {
+      sel.addEventListener('change', function() {
+        if (window.I18n) {
+          window.I18n.setLanguage(this.value);
+        }
+      });
+      // Sync value when I18n language changes
+      document.addEventListener('languageChanged', function() {
+        if (window.I18n) {
+          sel.value = window.I18n.currentLang || 'fr';
+        }
+      });
+    }
   }
+  bindLangSelector('langSelect');
 
-  const menuToggle = document.getElementById('menuToggle');
-  const navLinks = document.getElementById('navLinks');
+  // ===== HAMBURGER MENU =====
+  var hamburger = document.getElementById('hamburger');
+  var navLinks = document.getElementById('navLinks');
 
-  if (menuToggle && navLinks) {
-    // Create overlay element
-    const overlay = document.createElement('div');
-    overlay.className = 'nav-overlay';
-    document.body.appendChild(overlay);
+  if (hamburger && navLinks) {
+    var mobileActions = document.createElement('div');
+    mobileActions.className = 'mobile-actions';
+    navLinks.appendChild(mobileActions);
 
-    function closeNav() {
+    // Only clone lang selector if not already inside #navLinks
+    if (!navLinks.querySelector('.lang-selector')) {
+      var mobileLang = document.createElement('div');
+      mobileLang.className = 'mobile-lang';
+      var desktopLang = document.querySelector('.lang-selector');
+      if (desktopLang) {
+        mobileLang.innerHTML = desktopLang.innerHTML;
+        navLinks.appendChild(mobileLang);
+        var mobSel = mobileLang.querySelector('select');
+        if (mobSel) {
+          mobSel.addEventListener('change', function() {
+            if (window.I18n) window.I18n.setLanguage(this.value);
+          });
+        }
+      }
+    }
+
+    function openHamburger() {
+      var ha = document.getElementById('headerActions');
+      if (ha) mobileActions.innerHTML = ha.innerHTML;
+      mobileActions.querySelectorAll('[onclick]').forEach(function(el) {
+        var fn = el.getAttribute('onclick');
+        el.removeAttribute('onclick');
+        el.addEventListener('click', function(e) {
+          e.stopPropagation();
+          try { eval(fn); } catch(ex) {}
+          closeHamburger();
+        });
+      });
+      navLinks.classList.add('open');
+      hamburger.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeHamburger() {
       navLinks.classList.remove('open');
-      overlay.classList.remove('open');
-      menuToggle.classList.remove('active');
+      hamburger.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    menuToggle.addEventListener('click', function(e) {
+    hamburger.addEventListener('click', function(e) {
       e.stopPropagation();
-      navLinks.classList.toggle('open');
-      overlay.classList.toggle('open');
-      menuToggle.classList.toggle('active');
-      document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+      if (navLinks.classList.contains('open')) {
+        closeHamburger();
+      } else {
+        openHamburger();
+      }
     });
 
-    // Close nav when clicking navigation links (except language selector)
-    navLinks.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        // Let the link navigate naturally (don't prevent default)
-        // The menu will close after a short delay for smooth animation
-        setTimeout(closeNav, 150);
-      });
-    });
-
-    // Prevent nav from closing when clicking the language selector
-    const langSelector = navLinks.querySelector('.lang-selector');
-    if (langSelector) {
-      langSelector.addEventListener('click', function(e) {
-        e.stopPropagation();
+    var hamburgerLinks = navLinks.querySelectorAll('a');
+    for (var i = 0; i < hamburgerLinks.length; i++) {
+      hamburgerLinks[i].addEventListener('click', function() {
+        setTimeout(closeHamburger, 150);
       });
     }
 
-    // Close nav when clicking outside (on overlay)
-    overlay.addEventListener('click', function() {
-      closeNav();
+    document.addEventListener('languageChanged', function() {
+      if (window.I18n && typeof mobileLang !== 'undefined' && mobileLang) {
+        var sel = mobileLang.querySelector('select');
+        if (sel) sel.value = window.I18n.currentLang || 'fr';
+      }
     });
   }
 

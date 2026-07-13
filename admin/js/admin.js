@@ -9,6 +9,20 @@ function __(key) {
   return key.split('.').pop().replace(/_/g, ' ');
 }
 
+let _labelTablesRaf;
+function labelTables() {
+  document.querySelectorAll('.table-wrapper table').forEach(table => {
+    const ths = table.querySelectorAll('thead th');
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      tr.querySelectorAll('td').forEach((td, i) => {
+        if (ths[i] && !td.hasAttribute('data-label')) {
+          td.setAttribute('data-label', ths[i].textContent.trim());
+        }
+      });
+    });
+  });
+}
+
 // ===== STATE =====
 const STATE = {
   user: null,
@@ -170,12 +184,14 @@ document.addEventListener('DOMContentLoaded', async function() {
   await initSupabase();
   
   loadDashboard();
+  setTimeout(labelTables, 500);
 });
 
 window.addEventListener('languageChanged', function() {
   const tab = STATE.currentTab || 'dashboard';
   const activeLink = document.querySelector('.sidebar-link.active');
   navigateTo(tab, activeLink);
+  setTimeout(labelTables, 300);
   if (window.I18n && window.I18n.applyTranslations) {
     window.I18n.applyTranslations();
   }
@@ -381,6 +397,9 @@ function renderRecentActivity(requests) {
 async function loadUsers(roleFilter = '') {
   try {
     STATE.isLoading = true;
+    if (!_supabase) await initSupabase();
+    if (!_supabase) { STATE.isLoading = false; return; }
+    await ensureSupabaseSession();
     let query = _supabase.from('users').select('*').order('created_at', { ascending: false });
     if (roleFilter) query = query.eq('role', roleFilter);
     const { data, error } = await query;
@@ -529,6 +548,7 @@ async function saveUser(e, id) {
       toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
+    await ensureSupabaseSession();
     const { error } = await _supabase.from('users').update(updates).eq('id', id);
     if (error) throw error;
     toast(__('admin.toast.userUpdated'), 'success');
@@ -547,8 +567,28 @@ async function deleteUser(id) {
       toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
+    await ensureSupabaseSession();
+    // Try backend API first (if running on a server)
+    if (window.location.protocol !== 'file:') {
+      try {
+        const resp = await fetch('/api/admin/panel/users/' + id, { method: 'DELETE' });
+        if (resp.ok) {
+          toast(__('admin.toast.userDeleted'), 'success');
+          loadUsers();
+          return;
+        }
+      } catch(e) {}
+    }
+    // Fallback: direct Supabase delete
     const { error } = await _supabase.from('users').delete().eq('id', id);
-    if (error) throw error;
+    if (error) {
+      // If RLS blocks, try with service-role via the API
+      if (error.message?.includes('policy') || error.code === '42501') {
+        toast(__('admin.toast.deletePermissionError') || 'Permission denied. Use the backend API.', 'error');
+        return;
+      }
+      throw error;
+    }
     toast(__('admin.toast.userDeleted'), 'success');
     loadUsers();
   } catch(e) {
@@ -904,6 +944,7 @@ async function deleteRequest(id) {
       toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
+    await ensureSupabaseSession();
     const { error } = await _supabase.from('requests').delete().eq('id', id);
     if (error) throw error;
     toast(__('admin.toast.requestDeleted'), 'success');
@@ -1276,6 +1317,7 @@ async function deleteQuotation(id) {
       toast(__('admin.toast.noDbConnection'), 'warning');
       return;
     }
+    await ensureSupabaseSession();
     const { error } = await _supabase.from('quotes').delete().eq('id', id);
     if (error) throw error;
     toast(__('admin.toast.quotationDeleted'), 'success');

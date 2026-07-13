@@ -114,6 +114,38 @@
     .spinner { display: none; }
     .spinner.show { display: inline-block; animation: spin 1s linear infinite; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .login-container { padding: 32px 24px; }
+      .login-logo img { width: 56px; height: 56px; }
+      .login-logo h1 { font-size: 1.25rem; }
+      .form-group input { padding: 12px 14px; font-size: 0.9rem; }
+      .btn-login { padding: 12px; font-size: 0.95rem; }
+    }
+    @media (max-width: 480px) {
+      body { padding: 8px; align-items: flex-start; padding-top: 40px; }
+      .login-container { padding: 24px 16px; border-radius: 16px; }
+      .login-logo { margin-bottom: 24px; }
+      .login-logo img { width: 48px; height: 48px; border-radius: 12px; }
+      .login-logo h1 { font-size: 1.1rem; }
+      .login-logo p { font-size: 0.8rem; }
+      .form-group { margin-bottom: 16px; }
+      .form-group label { font-size: 0.8rem; }
+      .form-group input { padding: 10px 12px; font-size: 16px; }
+      .btn-login { padding: 12px; font-size: 0.9rem; min-height: 44px; }
+      .info-text { font-size: 0.75rem; margin-top: 16px; }
+    }
+    @media (max-width: 375px) {
+      .login-container { padding: 20px 12px; }
+      .login-logo h1 { font-size: 1rem; }
+    }
+    @media (max-width: 320px) {
+      .login-container { padding: 16px 10px; border-radius: 12px; }
+    }
+    @media (pointer: coarse) {
+      .form-group input { min-height: 44px; font-size: 16px; }
+      .btn-login { min-height: 48px; }
+    }
   </style>
 </head>
 <body>

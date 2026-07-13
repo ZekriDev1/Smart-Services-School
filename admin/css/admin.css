@@ -527,6 +527,130 @@ tbody tr:last-child td { border-bottom: none; }
 
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr; }
+  .stat-card-value { font-size: 1.2rem; }
+  .page-title { font-size: 1.2rem; }
+  .content { padding: 12px; }
+  .header { padding: 0 12px; height: 60px; }
+  .header-right { gap: 6px; }
+  .header-action-btn { width: 34px; height: 34px; font-size: 0.95rem; }
+  .table-toolbar { padding: 12px; }
+  tbody td { padding: 10px 12px; font-size: 0.8rem; }
+  thead th { padding: 10px 12px; font-size: 0.7rem; }
+  .card { padding: 16px; }
+  .chart-container { padding: 14px; }
+  .modal-header { padding: 14px 16px; }
+  .modal-body { padding: 16px; }
+  .modal-title { font-size: 1rem; }
+  .filter-bar select, .filter-bar input { font-size: 0.8rem; padding: 6px 10px; }
+  .btn { padding: 8px 16px; font-size: 0.8rem; }
+  .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+  .toast { min-width: unset; max-width: calc(100vw - 32px); font-size: 0.8rem; padding: 12px 16px; }
+  .toast-container { right: 10px; top: 10px; }
+  .sidebar { width: 100% !important; }
+  .pagination-btn { min-width: 32px; padding: 6px 10px; font-size: 0.8rem; }
+  .empty-state { padding: 40px 16px; }
+  .empty-state i { font-size: 2.5rem; }
+  .loading { padding: 40px; }
+  .detail-row { flex-direction: column; gap: 4px; padding: 8px 0; }
+  .detail-value { text-align: left; max-width: 100%; }
+  .quotation-preview { flex-wrap: wrap; }
+  .lang-selector select { font-size: 0.8rem; min-width: unset; }
+}
+
+/* Mobile navigation toggle */
+@media (max-width: 1024px) {
+  #menuToggle { display: flex !important; }
+}
+
+/* Table → Card layout on small screens */
+@media (max-width: 768px) {
+  .table-wrapper table,
+  .table-wrapper thead,
+  .table-wrapper tbody,
+  .table-wrapper th,
+  .table-wrapper td,
+  .table-wrapper tr {
+    display: block;
+  }
+  .table-wrapper thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .table-wrapper tbody tr {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: var(--bg-card);
+  }
+  .table-wrapper tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--border-light);
+    text-align: right;
+    gap: 8px;
+  }
+  .table-wrapper tbody td:last-child {
+    border-bottom: none;
+  }
+  .table-wrapper tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+  .table-wrapper tbody td:empty::before { display: none; }
+  .stats-grid { gap: 10px; }
+  .stat-card { padding: 14px; }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+  .header-right .lang-selector i { display: none; }
+  .header-right .lang-selector select { font-size: 0.75rem; max-width: 80px; }
+  .header-right .avatar-sm { width: 24px; height: 24px; font-size: 0.6rem; }
+  .stat-card-value { font-size: 1.1rem; }
+  .stat-card-icon { width: 36px; height: 36px; font-size: 1rem; }
+  .tabs .tab { padding: 10px 14px; font-size: 0.8rem; }
+}
+
+@media (max-width: 320px) {
+  .header { padding: 0 8px; }
+  .header-right { gap: 4px; }
+  .header-action-btn { width: 28px; height: 28px; font-size: 0.8rem; }
+  .content { padding: 8px; }
+  .page-title { font-size: 1.1rem; }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat-card { padding: 16px; }
+  .stat-card-value { font-size: 1.4rem; }
+  .header-search { min-width: 200px; }
+}
+
+/* Touch-friendly interactive elements */
+@media (pointer: coarse) {
+  .sidebar-link { padding: 12px; }
+  .btn { min-height: 44px; }
+  .btn-sm { min-height: 36px; }
+  .form-input, .form-select, .form-textarea { min-height: 44px; font-size: 16px; }
+  .filter-bar select, .filter-bar input { min-height: 44px; }
+  .pagination-btn { min-height: 40px; min-width: 40px; }
+  .status-select { min-height: 36px; }
+  .tab { padding: 14px 20px; }
+  .header-action-btn { width: 44px; height: 44px; }
+  tbody td .btn-icon { width: 40px; height: 40px; }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
