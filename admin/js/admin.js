@@ -43,12 +43,39 @@ const STATE = {
 
 // ===== SUPABASE CLIENT =====
 let _supabase = null;
+let _supabaseAdmin = null;
+
+const SUPABASE_URL = 'https://rsriyrvkizgnhvgsosgk.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzcml5cnZraXpnbmh2Z3Nvc2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcxMjMsImV4cCI6MjA5ODkxMzEyM30.QkRn1oqI7UdDbi6LdJWlU8xrZXdFz7sqXxLqmxaUBy0';
+
+// IMPORTANT: Get your service_role key from Supabase Dashboard → Project Settings → API
+// This is required for admin write operations (delete users, etc.)
+// It bypasses Row Level Security, so keep it secure.
+const SUPABASE_SERVICE_ROLE_KEY = localStorage.getItem('supabaseServiceKey') || '';
+
+async function getAdminClient() {
+  if (_supabaseAdmin) return _supabaseAdmin;
+  if (!SUPABASE_SERVICE_ROLE_KEY && !window.supabase?.createClient) return null;
+  try {
+    if (!window.supabase?.createClient) {
+      await new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+    _supabaseAdmin = window.supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY);
+    return _supabaseAdmin;
+  } catch(e) {
+    console.error('Failed to create admin client:', e);
+    return null;
+  }
+}
 
 async function initSupabase() {
   if (_supabase) return _supabase;
-  
-  const SUPABASE_URL = 'https://rsriyrvkizgnhvgsosgk.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzcml5cnZraXpnbmh2Z3Nvc2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcxMjMsImV4cCI6MjA5ODkxMzEyM30.QkRn1oqI7UdDbi6LdJWlU8xrZXdFz7sqXxLqmxaUBy0';
 
   // Check if Supabase is already loaded (by js/supabase.js or another script)
   if (window.__supabase) {
@@ -184,7 +211,29 @@ document.addEventListener('DOMContentLoaded', async function() {
   await initSupabase();
   
   loadDashboard();
+  loadNotifications();
   setTimeout(labelTables, 500);
+
+  // Pre-fill service role key input
+  var keyInput = document.getElementById('serviceRoleKeyInput');
+  var savedKey = localStorage.getItem('supabaseServiceKey');
+  if (keyInput && savedKey) keyInput.value = savedKey;
+
+  // Notification toggle
+  var notifBtn = document.getElementById('notifBtn');
+  var notifMenu = document.getElementById('notifMenu');
+  if (notifBtn && notifMenu) {
+    notifBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      notifMenu.classList.toggle('open');
+      if (notifMenu.classList.contains('open')) loadNotifications();
+    });
+    document.addEventListener('click', function(e) {
+      if (!notifMenu.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
+        notifMenu.classList.remove('open');
+      }
+    });
+  }
 });
 
 window.addEventListener('languageChanged', function() {
@@ -246,8 +295,8 @@ async function loadDashboard() {
     users = usersRes.data || [];
     quotations = quotationsRes.data || [];
     
-    const totalUsers = users.length;
-    const totalQuotations = quotations.length;
+    const totalUsers = usersRes.count ?? users.length;
+    const totalQuotations = quotationsRes.count ?? quotations.length;
     
     const pending = requests.filter(r => r.status === 'pending').length;
     const inProgress = requests.filter(r => r.status === 'in_progress' || r.status === 'under_review').length;
@@ -430,8 +479,8 @@ function renderUsersTable(users) {
       <td><div class="flex items-center gap-2"><div class="avatar avatar-sm">${initials}</div><span class="font-semibold">${u.full_name || 'N/A'}</span></div></td>
       <td class="text-muted">${u.email || 'N/A'}</td>
       <td>${u.school_name || '-'}</td>
-      <td><span class="badge badge-${u.role === 'admin' ? 'approved' : 'normal'}">${u.role || 'user'}</span></td>
-      <td><span class="badge badge-${u.account_status || 'active'}">${u.account_status || 'active'}</span></td>
+      <td><span class="badge badge-${u.role === 'admin' ? 'approved' : 'normal'}">${__('admin.users.' + (u.role || 'user'))}</span></td>
+      <td><span class="badge badge-${u.account_status || 'active'}">${__('admin.users.' + (u.account_status || 'active'))}</span></td>
       <td class="text-muted text-sm">${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td>
       <td>
         <div class="flex gap-1">
@@ -468,8 +517,8 @@ async function viewUser(id) {
     <div class="detail-row"><span class="detail-label">${__('admin.modal.fullName')}</span><span class="detail-value">${u.full_name || 'N/A'}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.modal.email')}</span><span class="detail-value">${u.email || 'N/A'}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.modal.school')}</span><span class="detail-value">${u.school_name || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">${__('admin.modal.role')}</span><span class="detail-value">${u.role || 'user'}</span></div>
-    <div class="detail-row"><span class="detail-label">${__('admin.modal.status')}</span><span class="detail-value">${u.account_status || 'active'}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.role')}</span><span class="detail-value">${__('admin.users.' + (u.role || 'user'))}</span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.modal.status')}</span><span class="detail-value">${__('admin.users.' + (u.account_status || 'active'))}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.dashboard.totalRequests')}</span><span class="detail-value">${userRequests.length}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.table.joined')}</span><span class="detail-value">${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.table.lastLogin')}</span><span class="detail-value">${u.last_login ? new Date(u.last_login).toLocaleDateString() : __('admin.table.never')}</span></div>
@@ -579,12 +628,23 @@ async function deleteUser(id) {
         }
       } catch(e) {}
     }
-    // Fallback: direct Supabase delete
-    const { error } = await _supabase.from('users').delete().eq('id', id);
+    // Fallback: try admin client (service_role) first since anon key has RLS
+    var admin = await getAdminClient();
+    if (admin) {
+      var { error } = await admin.from('users').delete().eq('id', id);
+      if (!error) {
+        toast(__('admin.toast.userDeleted'), 'success');
+        loadUsers();
+        return;
+      }
+      // If admin client also fails, log it but continue to try anon
+      console.warn('Admin delete failed:', error);
+    }
+    // Last resort: direct Supabase delete with anon key
+    var { error } = await _supabase.from('users').delete().eq('id', id);
     if (error) {
-      // If RLS blocks, try with service-role via the API
       if (error.message?.includes('policy') || error.code === '42501') {
-        toast(__('admin.toast.deletePermissionError') || 'Permission denied. Use the backend API.', 'error');
+        toast(__('admin.toast.deletePermissionError') || 'Permission refusée. Configurez la clé service_role dans les paramètres.', 'error');
         return;
       }
       throw error;
@@ -709,6 +769,7 @@ function renderRequestsTable(requests) {
   
   tbody.innerHTML = requests.map(r => {
     const statuses = ['pending', 'under_review', 'waiting_info', 'approved', 'in_progress', 'completed', 'cancelled'];
+    var statusLabels = { pending: __('admin.requests.pending'), under_review: __('admin.requests.underReview'), waiting_info: __('admin.requests.waitingInfo'), approved: __('admin.requests.approved'), in_progress: __('admin.requests.inProgress'), completed: __('admin.requests.completed'), cancelled: __('admin.requests.cancelled') };
     return `<tr>
       <td class="font-semibold">${r.request_number || r.id.slice(0,8)}</td>
       <td>${r.school_name || 'N/A'}</td>
@@ -716,7 +777,7 @@ function renderRequestsTable(requests) {
       <td><span class="badge badge-${r.priority || 'normal'}">${r.priority || 'normal'}</span></td>
       <td>
         <select class="status-select" onchange="updateRequestStatus('${r.id}', this.value)">
-          ${statuses.map(s => `<option value="${s}" ${r.status===s?'selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}
+          ${statuses.map(s => `<option value="${s}" ${r.status===s?'selected':''}>${statusLabels[s] || s}</option>`).join('')}
         </select>
       </td>
       <td class="text-muted text-sm">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '-'}</td>
@@ -829,7 +890,7 @@ async function viewRequest(id) {
     <div class="detail-row"><span class="detail-label">${__('admin.table.contact')}</span><span class="detail-value">${r.contact_name || 'N/A'}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.table.email')}</span><span class="detail-value">${r.contact_email || 'N/A'}</span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.modal.phone')}</span><span class="detail-value">${r.contact_phone || 'N/A'}</span></div>
-    <div class="detail-row"><span class="detail-label">${__('admin.table.status')}</span><span class="detail-value"><span class="badge badge-${r.status}">${r.status}</span></span></div>
+    <div class="detail-row"><span class="detail-label">${__('admin.table.status')}</span><span class="detail-value"><span class="badge badge-${r.status}">${__('admin.requests.' + ({pending:'pending', under_review:'underReview', waiting_info:'waitingInfo', approved:'approved', in_progress:'inProgress', completed:'completed', cancelled:'cancelled'}[r.status] || r.status))}</span></span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.table.priority')}</span><span class="detail-value"><span class="badge badge-${r.priority||'normal'}">${r.priority||'normal'}</span></span></div>
     <div class="detail-row"><span class="detail-label">${__('admin.table.created')}</span><span class="detail-value">${r.created_at ? new Date(r.created_at).toLocaleString() : '-'}</span></div>
     ${r.description ? `<div class="detail-row"><span class="detail-label">${__('admin.table.description')}</span><span class="detail-value">${r.description}</span></div>` : ''}
@@ -855,6 +916,7 @@ async function editRequest(id) {
   const r = STATE.requests.find(x => x.id === id);
   if (!r) return;
   
+  var statusLabels = { pending: __('admin.requests.pending'), under_review: __('admin.requests.underReview'), waiting_info: __('admin.requests.waitingInfo'), approved: __('admin.requests.approved'), in_progress: __('admin.requests.inProgress'), completed: __('admin.requests.completed'), cancelled: __('admin.requests.cancelled') };
   const statuses = ['pending', 'under_review', 'waiting_info', 'approved', 'in_progress', 'completed', 'cancelled'];
   const priorities = ['low', 'normal', 'high', 'urgent', 'critical'];
   
@@ -864,7 +926,7 @@ async function editRequest(id) {
         <div class="form-group">
           <label class="form-label">${__('admin.modal.status')}</label>
           <select class="form-select" id="editReqStatus">
-            ${statuses.map(s => `<option value="${s}" ${r.status===s?'selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}
+            ${statuses.map(s => `<option value="${s}" ${r.status===s?'selected':''}>${statusLabels[s] || s}</option>`).join('')}
           </select>
         </div>
         <div class="form-group">
@@ -1395,6 +1457,21 @@ function toggleDarkMode() {
   toast(__('admin.toast.themeSwitched') + ' ' + newTheme, 'info');
 }
 
+function saveServiceRoleKey() {
+  var input = document.getElementById('serviceRoleKeyInput');
+  var status = document.getElementById('serviceRoleStatus');
+  if (!input || !input.value.trim()) {
+    if (status) status.textContent = 'Please enter a valid key.';
+    return;
+  }
+  localStorage.setItem('supabaseServiceKey', input.value.trim());
+  // Reset the admin client so it picks up the new key
+  _supabaseAdmin = null;
+  if (status) { status.textContent = '✓ Key saved! Refreshing admin client...'; status.style.color = '#10b981'; }
+  toast('Service role key saved successfully', 'success');
+  setTimeout(function() { location.reload(); }, 1200);
+}
+
 // ===== AUDIT LOGS =====
 async function loadAuditLogs() {
   try {
@@ -1490,6 +1567,98 @@ function logout() {
   window.location.href = 'login.html';
 }
 
+// ===== NOTIFICATIONS =====
+async function loadNotifications() {
+  try {
+    ensureSupabaseSession();
+    const { data, error } = await _supabase
+      .from('notifications')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+    if (error) throw error;
+    STATE.notifications = data || [];
+    renderNotifications();
+  } catch (err) {
+    console.error('Load notifications error:', err);
+  }
+}
+
+function renderNotifications() {
+  var list = document.getElementById('notifList');
+  var badge = document.getElementById('notifBadge');
+  if (!list) return;
+  var unread = STATE.notifications.filter(function(n) { return !n.read_at; }).length;
+  if (badge) {
+    badge.textContent = unread;
+    badge.classList.toggle('show', unread > 0);
+  }
+  if (STATE.notifications.length === 0) {
+    list.innerHTML = '<div class="notif-empty"><i class="fas fa-bell-slash"></i><span>' + (I18n && I18n.t ? I18n.t('admin.noNotifications') || 'Aucune notification' : 'Aucune notification') + '</span></div>';
+    return;
+  }
+  var html = '<div class="notif-list">';
+  for (var i = 0; i < STATE.notifications.length; i++) {
+    var n = STATE.notifications[i];
+    var iconType = n.type === 'devis_disponible' || n.type === 'success' ? 'success' : n.type === 'warning' ? 'warning' : n.type === 'error' ? 'danger' : 'info';
+    var iconMap = { info: 'fa-info-circle', success: 'fa-check-circle', warning: 'fa-exclamation-triangle', danger: 'fa-times-circle' };
+    var time = n.created_at ? timeAgo(n.created_at) : '';
+    html += '<div class="notif-item' + (n.read_at ? '' : ' unread') + '" data-id="' + n.id + '" onclick="markAsRead(\'' + n.id + '\')">';
+    html += '<div class="notif-icon ' + iconType + '"><i class="fas ' + (iconMap[iconType] || 'fa-bell') + '"></i></div>';
+    html += '<div class="notif-body">';
+    html += '<div class="notif-title">' + escHtml(n.title || '') + '</div>';
+    html += '<div class="notif-message">' + escHtml(n.message || '') + '</div>';
+    html += '<div class="notif-time">' + time + '</div>';
+    html += '</div></div>';
+  }
+  html += '</div>';
+  list.innerHTML = html;
+}
+
+function timeAgo(dateStr) {
+  var diff = Date.now() - new Date(dateStr).getTime();
+  var mins = Math.floor(diff / 60000);
+  if (mins < 1) return '\u00e0 l\'instant';
+  if (mins < 60) return 'il y a ' + mins + ' min';
+  var hrs = Math.floor(mins / 60);
+  if (hrs < 24) return 'il y a ' + hrs + 'h';
+  var days = Math.floor(hrs / 24);
+  return 'il y a ' + days + 'j';
+}
+
+function escHtml(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+async function markAsRead(id) {
+  try {
+    ensureSupabaseSession();
+    await _supabase.from('notifications').update({ read_at: new Date().toISOString() }).eq('id', id);
+    var notif = STATE.notifications.find(function(n) { return n.id === id; });
+    if (notif) notif.read_at = new Date().toISOString();
+    renderNotifications();
+  } catch (err) {
+    console.error('Mark as read error:', err);
+  }
+}
+
+async function markAllRead() {
+  var unreadIds = STATE.notifications.filter(function(n) { return !n.read_at; }).map(function(n) { return n.id; });
+  if (unreadIds.length === 0) return;
+  try {
+    ensureSupabaseSession();
+    await _supabase.from('notifications').update({ read_at: new Date().toISOString() }).in('id', unreadIds);
+    for (var i = 0; i < STATE.notifications.length; i++) {
+      STATE.notifications[i].read_at = new Date().toISOString();
+    }
+    renderNotifications();
+  } catch (err) {
+    console.error('Mark all read error:', err);
+  }
+}
+
 // Expose functions globally
 window.navigateTo = navigateTo;
 window.toggleSidebar = toggleSidebar;
@@ -1503,6 +1672,9 @@ window.viewRequest = viewRequest;
 window.editRequest = editRequest;
 window.saveRequest = saveRequest;
 window.deleteRequest = deleteRequest;
+window.loadNotifications = loadNotifications;
+window.markAsRead = markAsRead;
+window.markAllRead = markAllRead;
 window.updateRequestStatus = updateRequestStatus;
 window.uploadDevis = uploadDevis;
 window.processDevisUpload = processDevisUpload;
@@ -1514,4 +1686,5 @@ window.openModal = openModal;
 window.closeModal = closeModal;
 window.exportCSV = exportCSV;
 window.toggleDarkMode = toggleDarkMode;
+window.saveServiceRoleKey = saveServiceRoleKey;
 window.logout = logout;

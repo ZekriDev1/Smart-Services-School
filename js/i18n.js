@@ -458,6 +458,9 @@ const I18n = (function() {
         panel: 'Panneau d\'administration',
         search: 'Rechercher...',
         notifications: 'Notifications',
+        notificationsTitle: 'Notifications',
+        markAllRead: 'Tout marquer lu',
+        noNotifications: 'Aucune notification',
         toggleTheme: 'Changer le thème',
         loading: 'Chargement...',
         login: {
@@ -694,7 +697,8 @@ const I18n = (function() {
           devisUploaded: 'Devis téléchargé avec succès',
           devisUploadError: 'Erreur lors du téléchargement du devis',
           deleteQuotationConfirm: 'Supprimer ce devis ?',
-          quotationDeleted: 'Devis supprimé'
+          quotationDeleted: 'Devis supprimé',
+          deletePermissionError: 'Permission refusée. Ajoutez votre clé service_role dans Paramètres.'
         },
         empty: {
           noData: 'Pas encore de données',
@@ -1156,6 +1160,9 @@ const I18n = (function() {
         panel: 'لوحة التحكم',
         search: 'بحث...',
         notifications: 'الإشعارات',
+        notificationsTitle: 'الإشعارات',
+        markAllRead: 'تحديد الكل كمقروء',
+        noNotifications: 'لا توجد إشعارات',
         toggleTheme: 'تغيير السمة',
         loading: 'جارٍ التحميل...',
         login: {
@@ -1392,7 +1399,8 @@ const I18n = (function() {
           devisUploaded: 'تم رفع عرض السعر بنجاح',
           devisUploadError: 'خطأ في رفع عرض السعر',
           deleteQuotationConfirm: 'حذف عرض السعر هذا؟',
-          quotationDeleted: 'تم حذف عرض السعر'
+          quotationDeleted: 'تم حذف عرض السعر',
+          deletePermissionError: 'تم رفض الإذن. أضف مفتاح service_role في الإعدادات.'
         },
         empty: {
           noData: 'لا توجد بيانات بعد',
@@ -1854,6 +1862,9 @@ const I18n = (function() {
         panel: 'Admin Panel',
         search: 'Search...',
         notifications: 'Notifications',
+        notificationsTitle: 'Notifications',
+        markAllRead: 'Mark all read',
+        noNotifications: 'No notifications',
         toggleTheme: 'Toggle Theme',
         loading: 'Loading...',
         login: {
@@ -2090,7 +2101,8 @@ const I18n = (function() {
           devisUploaded: 'Devis uploaded successfully',
           devisUploadError: 'Error uploading devis',
           deleteQuotationConfirm: 'Delete this quotation?',
-          quotationDeleted: 'Quotation deleted'
+          quotationDeleted: 'Quotation deleted',
+          deletePermissionError: 'Permission denied. Add your service_role key in Settings.'
         },
         empty: {
           noData: 'No data yet',

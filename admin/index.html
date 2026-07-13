@@ -105,10 +105,19 @@
           <button class="header-action-btn" onclick="toggleDarkMode()" title="" id="themeToggleBtn" data-i18n-title="admin.toggleTheme">
             <i class="fas fa-moon"></i>
           </button>
-          <button class="header-action-btn" title="" id="notifBtn" data-i18n-title="admin.notifications">
-            <i class="fas fa-bell"></i>
-            <span class="dot"></span>
-          </button>
+          <div class="dropdown">
+            <button class="header-action-btn" title="" id="notifBtn" data-i18n-title="admin.notifications">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge" id="notifBadge">0</span>
+            </button>
+            <div class="dropdown-menu notif-menu" id="notifMenu">
+              <div class="notif-header">
+                <span class="notif-header-title" data-i18n="admin.notificationsTitle">Notifications</span>
+                <button class="btn btn-sm btn-ghost" onclick="markAllRead()" id="markAllReadBtn" style="font-size:0.75rem;padding:4px 10px;" data-i18n="admin.markAllRead">Tout marquer lu</button>
+              </div>
+              <div id="notifList"></div>
+            </div>
+          </div>
           <div class="flex items-center gap-2">
             <div class="avatar avatar-sm" id="headerUserName">A</div>
             <span class="text-sm font-semibold" id="headerUserDisplay">Admin</span>
@@ -594,6 +603,25 @@
                   <i class="fas fa-moon"></i> <span data-i18n="admin.settingsPage.toggle">Toggle</span>
                 </button>
               </div>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <div class="card-title">🔑 Supabase Service Role Key</div>
+            </div>
+            <div class="card-body">
+              <div class="flex items-center justify-between" style="flex-wrap:wrap;gap:12px;">
+                <div style="flex:1;min-width:200px;">
+                  <div class="font-semibold">Service Role Key</div>
+                  <div class="text-sm text-muted">Required for delete operations. Get it from Supabase Dashboard → Project Settings → API. This is stored locally in your browser.</div>
+                </div>
+                <div class="flex gap-2" style="flex-shrink:0;">
+                  <input type="password" id="serviceRoleKeyInput" style="padding:8px 12px;border:2px solid #e5e7eb;border-radius:8px;font-family:inherit;font-size:0.85rem;min-width:240px;" placeholder="Paste your service_role key here">
+                  <button class="btn btn-sm" onclick="saveServiceRoleKey()"><i class="fas fa-save"></i> Save</button>
+                </div>
+              </div>
+              <div id="serviceRoleStatus" style="margin-top:8px;font-size:0.8rem;"></div>
             </div>
           </div>
 
