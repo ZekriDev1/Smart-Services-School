@@ -66,6 +66,39 @@ class RequestController {
     }
   }
 
+  async createGuestRequest(req, res, next) {
+    try {
+      const request = await requestService.createGuestRequest(req.body);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Request submitted successfully',
+        data: request
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async uploadGuestFile(req, res, next) {
+    try {
+      const { request_id } = req.body;
+      const file = req.file;
+
+      if (!request_id) {
+        return res.status(400).json({ success: false, error: 'request_id is required' });
+      }
+      if (!file) {
+        return res.status(400).json({ success: false, error: 'No file provided' });
+      }
+
+      const doc = await requestService.uploadGuestFile(request_id, file);
+      return res.status(201).json({ success: true, data: doc });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async updateRequestStatus(req, res, next) {
     try {
       const { id } = req.params;

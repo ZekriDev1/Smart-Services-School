@@ -1042,53 +1042,91 @@
         async function uploadFilesForRequest(reqId) {
           const files = window.fileUploadApp?.getFiles() || [];
           if (files.length === 0) return;
-          
-          const supabase = window.__supabase?.getClient();
-          if (!supabase) return;
 
+          let uploadFailures = 0;
           for (const file of files) {
+            let uploaded = false;
+            // Try backend upload first
             try {
-              // Generate unique file path
-              const ext = file.name.split('.').pop().toLowerCase();
-              const filePath = `requests/${reqId}/${Date.now()}_${file.name}`;
-              const bucketName = 'pdf';
-              let uploadedUrl = null;
+              const formData = new FormData();
+              formData.append('request_id', reqId);
+              formData.append('file', file);
+
+              const response = await fetch('/api/requests/guest/upload', {
+                method: 'POST',
+                body: formData
+              });
+
+              if (response.ok) {
+                uploaded = true;
+              } else {
+                const errBody = await response.json().catch(() => ({}));
+                console.warn('Backend upload failed for', file.name, ':', response.status, errBody.error || errBody.message || 'Unknown error');
+              }
+            } catch (apiErr) {
+              console.warn('Backend upload unavailable, falling back to direct upload for', file.name, apiErr.message);
+            }
+
+            // Fallback: direct Supabase upload
+            if (!uploaded) {
               try {
+                let supabase = window.__supabase?.getClient();
+                if (!supabase) {
+                  supabase = await window.__supabase?.init();
+                }
+                if (!supabase) {
+                  console.error('Supabase client not available, cannot upload', file.name);
+                  uploadFailures++;
+                  continue;
+                }
+
+                const ext = file.name.split('.').pop().toLowerCase();
+                const filePath = `requests/${reqId}/${Date.now()}_${file.name}`;
+                const bucketName = 'pdf';
+                let uploadedUrl = null;
+
                 const { error: uploadError } = await supabase.storage
                   .from(bucketName)
                   .upload(filePath, file);
 
-                if (uploadError) throw uploadError;
+                if (uploadError) {
+                  console.error('Storage upload error for', file.name, ':', uploadError.message, uploadError);
+                  throw uploadError;
+                }
 
                 const { data: urlData } = supabase.storage
                   .from(bucketName)
                   .getPublicUrl(filePath);
                 uploadedUrl = urlData?.publicUrl || null;
-              } catch (bucketErr) {
-                console.warn('Storage upload failed, saving document reference only:', bucketErr.message);
-                uploadedUrl = null;
+
+                const { error: insertErr } = await supabase
+                  .from('documents')
+                  .insert({
+                    request_id: reqId,
+                    user_id: currentUser?.id || null,
+                    category: 'images',
+                    file_name: file.name,
+                    file_type: ext,
+                    file_size: file.size,
+                    storage_path: filePath,
+                    public_url: uploadedUrl || '',
+                    uploaded_by: currentUser?.id || null
+                  });
+                if (insertErr) {
+                  console.error('Document insert error for', file.name, ':', insertErr.message, insertErr);
+                  if (insertErr.message && (insertErr.message.includes('policy') || insertErr.code === '42501')) {
+                    console.warn('RLS policy blocked document insert. Run migration 008_pdf_bucket.sql or 009_anon_request_insert.sql in Supabase SQL Editor.');
+                  }
+                }
+                if (!uploadedUrl && !insertErr) console.warn('File stored in DB but storage bucket unavailable:', file.name);
+              } catch (fileErr) {
+                console.error('File upload error for', file.name, fileErr);
+                uploadFailures++;
               }
-
-              // Save document record to documents table
-              const { error: insertErr } = await supabase
-                .from('documents')
-                .insert({
-                  request_id: reqId,
-                  user_id: currentUser?.id || null,
-                  category: 'images',
-                  file_name: file.name,
-                  file_type: ext,
-                  file_size: file.size,
-                  storage_path: filePath,
-                  public_url: uploadedUrl || '',
-                  uploaded_by: currentUser?.id || null
-                });
-              if (insertErr) console.error('Document insert error:', insertErr, file.name);
-              if (!uploadedUrl && !insertErr) console.warn('File stored in DB but storage bucket unavailable:', file.name);
-
-            } catch (fileErr) {
-              console.error('File upload error for', file.name, fileErr);
             }
+          }
+          if (uploadFailures > 0) {
+            console.warn(uploadFailures + ' file(s) failed to upload. Check console for details.');
           }
         }
 

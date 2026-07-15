@@ -4,6 +4,7 @@
 
 const requestRepository = require('../repositories/request.repository');
 const invoiceRepository = require('../repositories/invoice.repository');
+const { supabase } = require('../config/db');
 const logger = require('../utils/logger');
 
 class RequestService {
@@ -27,6 +28,62 @@ class RequestService {
     });
 
     return request;
+  }
+
+  async createGuestRequest(requestData) {
+    logger.info('Creating guest service request (anonymous)');
+    const request = await requestRepository.create(requestData, null);
+    return request;
+  }
+
+  async uploadGuestFile(requestId, file) {
+    logger.info(`Uploading file for guest request: ${requestId}`);
+
+    const ext = file.originalname.split('.').pop().toLowerCase();
+    const filePath = `requests/${requestId}/${Date.now()}_${file.originalname}`;
+    const bucketName = 'pdf';
+
+    const { error: uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload(filePath, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false
+      });
+
+    if (uploadError) {
+      logger.error(`Storage upload failed for ${file.originalname}:`, uploadError);
+      throw uploadError;
+    }
+
+    const { data: urlData } = supabase.storage
+      .from(bucketName)
+      .getPublicUrl(filePath);
+    const publicUrl = urlData?.publicUrl || '';
+
+    const { data: doc, error: insertError } = await supabase
+      .from('documents')
+      .insert({
+        request_id: requestId,
+        user_id: null,
+        category: 'images',
+        file_name: file.originalname,
+        file_type: ext,
+        file_size: file.size,
+        storage_path: filePath,
+        public_url: publicUrl,
+        uploaded_by: null
+      })
+      .select()
+      .single();
+
+    if (insertError) {
+      logger.error(`Document insert failed for ${file.originalname}:`, insertError);
+      // If document insert fails, clean up the uploaded file
+      await supabase.storage.from(bucketName).remove([filePath]);
+      throw insertError;
+    }
+
+    return doc;
   }
 
   async getRequestDetails(id) {
