@@ -477,8 +477,12 @@
             <label data-i18n="form.desiredDate">Date souhaitée</label>
             <input type="date" id="modalRequestDate">
           </div>
-          <button class="btn btn-primary" onclick="submitModalRequest()"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">Soumettre la demande</span></button>
+          <button class="btn btn-primary" onclick="submitModalRequest()" id="modalSubmitBtn"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">Soumettre la demande</span></button>
         </div>
+      </div>
+      <div id="modalLoadingOverlay" class="modal-loading-overlay" style="display:none;">
+        <div class="modal-loading-spinner"></div>
+        <p class="modal-loading-text" data-i18n="form.submitting">Envoi de votre demande...</p>
       </div>
     </div>
   </div>
@@ -781,7 +785,14 @@
       document.getElementById('successModalIndex').classList.remove('open');
     }
 
+    let _submitting = false;
     async function submitModalRequest() {
+      if (_submitting) return;
+      _submitting = true;
+      const submitBtn = document.querySelector('#serviceModal .btn-primary');
+      const loadingOverlay = document.getElementById('modalLoadingOverlay');
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (loadingOverlay) loadingOverlay.style.display = 'flex';
       const schoolName = document.getElementById('modalSchoolName').value.trim();
       const city = document.getElementById('modalSchoolCity').value.trim();
       const contactName = document.getElementById('modalContactName').value.trim();
@@ -952,6 +963,9 @@
         } catch (dbErr) {
           console.error('Direct Supabase insert also failed:', dbErr);
           alert('Erreur lors de la soumission : ' + dbErr.message);
+          _submitting = false;
+          if (submitBtn) submitBtn.style.display = '';
+          if (loadingOverlay) loadingOverlay.style.display = 'none';
           return;
         }
       }
@@ -976,6 +990,9 @@
         // Clear uploaded files
         window.fileUploadModal?.clear();
       }
+      _submitting = false;
+      if (submitBtn) submitBtn.style.display = '';
+      if (loadingOverlay) loadingOverlay.style.display = 'none';
     }
 
     // ===== ENSURE SUPABASE CLIENT INITIALIZED =====

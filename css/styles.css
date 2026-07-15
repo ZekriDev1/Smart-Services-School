@@ -2145,3 +2145,38 @@ html[dir="rtl"] .fa-sign-in-alt,
 html[dir="rtl"] .fa-sign-out-alt {
     transform: scaleX(-1);
 }
+
+/* ===== MODAL LOADING OVERLAY ===== */
+.modal-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: var(--radius-lg);
+}
+
+.modal-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #ff6b00;
+  border-radius: 50%;
+  animation: modalSpin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes modalSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.modal-loading-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}

@@ -214,7 +214,7 @@
       </div>
 
       <!-- Request Form View (hidden by default) -->
-      <div id="formView" style="display: none;">
+      <div id="formView" style="display:none;position:relative;">
         <div class="app-header">
           <h1 id="formTitle" data-i18n="form.newRequest">Nouvelle demande</h1>
           <button class="btn btn-outline btn-sm" onclick="backToServices()"><i class="fas fa-arrow-left"></i> <span data-i18n="form.backToServices">Retour aux services</span></button>
@@ -267,9 +267,14 @@
             <label data-i18n="form.desiredDate">Date souhaitée</label>
             <input type="date" id="requestDate">
           </div>
-          <button class="btn btn-primary" onclick="submitRequest()"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">Soumettre la demande</span></button>
+          <button class="btn btn-primary" onclick="submitRequest()" id="appSubmitBtn"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">Soumettre la demande</span></button>
+        </div>
+        <div id="appLoadingOverlay" class="modal-loading-overlay" style="display:none;">
+          <div class="modal-loading-spinner"></div>
+          <p class="modal-loading-text" data-i18n="form.submitting">Envoi de votre demande...</p>
         </div>
       </div>
+    </div>
 
       <!-- My Requests View (hidden by default) -->
       <div id="requestsView" style="display: none;">
@@ -1018,7 +1023,14 @@
     }
 
     // ===== SUBMIT REQUEST VIA BACKEND API OR SUPABASE =====
+    let _submittingApp = false;
     async function submitRequest() {
+      if (_submittingApp) return;
+      _submittingApp = true;
+      const submitBtn = document.getElementById('appSubmitBtn');
+      const loadingOverlay = document.getElementById('appLoadingOverlay');
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (loadingOverlay) loadingOverlay.style.display = 'flex';
       const schoolName = document.getElementById('schoolName').value.trim();
       const city = document.getElementById('schoolCity').value.trim();
       const contactName = document.getElementById('contactName').value.trim();
@@ -1162,6 +1174,9 @@
             window.currentServiceKey = null;
             // Clear uploaded files
             window.fileUploadApp?.clear();
+            _submittingApp = false;
+            if (submitBtn) submitBtn.style.display = '';
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
             return;
           }
           throw new Error('API not available');
@@ -1200,6 +1215,9 @@
             window.currentServiceKey = null;
             // Clear uploaded files
             window.fileUploadApp?.clear();
+            _submittingApp = false;
+            if (submitBtn) submitBtn.style.display = '';
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
             return;
           }
           throw apiErr;
@@ -1208,6 +1226,9 @@
         console.error('Submit error:', err);
         alert('Erreur lors de la soumission : ' + err.message);
       }
+      _submittingApp = false;
+      if (submitBtn) submitBtn.style.display = '';
+      if (loadingOverlay) loadingOverlay.style.display = 'none';
     }
   </script>
 </body>
