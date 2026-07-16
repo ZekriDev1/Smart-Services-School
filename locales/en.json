@@ -1,6 +1,6 @@
 {
   "hero": {
-    "indexDesc": "A B2B platform dedicated to public and private schools, and educational institutions in Morocco. Centralize all your operational service requests and simplify your management.",
+    "indexDesc": "A   platform dedicated to public and private schools, and educational institutions in Morocco. Centralize all your operational service requests and simplify your management.",
     "quickRequest": "Quick request",
     "signIn": "Sign in",
     "createAccount": "Create an account"
@@ -101,7 +101,7 @@
     "howItWorks": "How it works",
     "faq": "FAQ",
     "location": "Tangier, Morocco",
-    "desc": "The B2B platform that centralizes all operational services for educational institutions in Morocco.",
+    "desc": "The   platform that centralizes all operational services for educational institutions in Morocco.",
     "copyright": "WEB DEVELOPMENT & WEB HOSTING BY Akram Zekri"
   }
 }

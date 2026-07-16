@@ -1,6 +1,6 @@
  SMARTSERVICES Schools
 
-Plateforme B2B dédiée aux établissements scolaires pour la gestion des services opérationnels.
+Plateforme   dédiée aux établissements scolaires pour la gestion des services opérationnels.
 
 ## 🚀 Démarrage rapide
 

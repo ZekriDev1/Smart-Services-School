@@ -177,7 +177,7 @@ APP = {
 }
 
 TEXT_KEYS = {
-    "Une plateforme B2B dédiée aux écoles publiques, privées et établissements d'enseignement au Maroc. Centralisez toutes vos demandes de services opérationnels et simplifiez votre gestion.": "hero.indexDesc",
+    "Une plateforme   dédiée aux écoles publiques, privées et établissements d'enseignement au Maroc. Centralisez toutes vos demandes de services opérationnels et simplifiez votre gestion.": "hero.indexDesc",
     "Découvrez tous nos services opérationnels pour établissements scolaires.": "hero.servicesDesc",
     "Tous les services opérationnels dont votre établissement a besoin, réunis sur une seule plateforme.": "services.sectionSubtitle",
     "Une question ? Besoin d'informations ? Notre équipe est à votre disposition pour vous accompagner.": "hero.contactDesc",
@@ -190,7 +190,7 @@ TEXT_KEYS = {
     "Des tarifs négociés grâce à notre réseau de partenaires et notre volume d'achats groupés.": "benefits.costDesc",
     "Suivez l'état de toutes vos demandes en temps réel depuis votre tableau de bord.": "benefits.trackingDesc",
     "Un responsable de compte dédié pour vous accompagner à chaque étape.": "benefits.supportDesc",
-    "La plateforme B2B qui centralise tous les services opérationnels pour les établissements scolaires au Maroc.": "footer.desc",
+    "La plateforme   qui centralise tous les services opérationnels pour les établissements scolaires au Maroc.": "footer.desc",
     'Cliquez sur "Créer un compte", remplissez le formulaire avec vos informations et validez. Vous recevrez un email de confirmation.': "faq.q1Desc",
     "Les demandes sont généralement traitées sous 24 à 48 heures ouvrables selon le type de service demandé.": "faq.q2Desc",
     'Connectez-vous à votre compte et accédez à "Mes demandes" pour suivre l\'état d\'avancement en temps réel.': "faq.q3Desc",
