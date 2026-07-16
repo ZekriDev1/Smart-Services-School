@@ -119,7 +119,7 @@ EXACT = {
     'placeholder="+212 6XX XX XX XX"': 'placeholder="+212 6XX XX XX XX" data-i18n-placeholder="auth.phonePlaceholder"',
     'placeholder="Min. 6 caractères"': 'placeholder="Min. 6 caractères" data-i18n-placeholder="auth.passwordMinPlaceholder"',
     'placeholder="Répétez le mot de passe"': 'placeholder="Répétez le mot de passe" data-i18n-placeholder="auth.confirmPlaceholder"',
-    'placeholder="Ex: Groupe Scolaire L\'Univers"': 'placeholder="Ex: Groupe Scolaire L\'Univers" data-i18n-placeholder="form.schoolPlaceholder"',
+    'placeholder="Ex: Groupe Scolaire........................"': 'placeholder="Ex: Groupe Scolaire........................" data-i18n-placeholder="form.schoolPlaceholder"',
     'placeholder="Ex: Casablanca"': 'placeholder="Ex: Casablanca" data-i18n-placeholder="form.cityPlaceholder"',
     'placeholder="contact@etablissement.ma"': 'placeholder="contact@etablissement.ma" data-i18n-placeholder="form.emailPlaceholder"',
     'placeholder="Décrivez précisément ce dont vous avez besoin..."': 'placeholder="Décrivez précisément ce dont vous avez besoin..." data-i18n-placeholder="form.descPlaceholder"',
@@ -261,7 +261,7 @@ Object.assign(window.I18n.translations.en, { formFields: { rewardType:'Desired a
 def repair(content: str) -> str:
     content = re.sub(r'(<p data-i18n="([^"]+)">)([^<"]*)" data-i18n="\2</p>', r"\1\3</p>", content)
     content = re.sub(r'(<p data-i18n="footer\.copyright">WEB DEVELOPMENT & WEB HOSTING BY Akram Zekri</p>)" data-i18n="footer\.copyright', r"\1", content)
-    content = content.replace('placeholder="Ex: Groupe Scolaire" data-i18n-placeholder="form.schoolPlaceholder" data-temp=" L\'Univers"', 'placeholder="Ex: Groupe Scolaire L\'Univers" data-i18n-placeholder="form.schoolPlaceholder"')
+    content = content.replace('placeholder="Ex: Groupe Scolaire" data-i18n-placeholder="form.schoolPlaceholder" data-temp="........................"', 'placeholder="Ex: Groupe Scolaire........................" data-i18n-placeholder="form.schoolPlaceholder"')
     content = content.replace('placeholder="Décrivez précisément" data-i18n-placeholder="form.descPlaceholder" data-temp=" ce dont vous avez besoin..."', 'placeholder="Décrivez précisément ce dont vous avez besoin..." data-i18n-placeholder="form.descPlaceholder"')
     content = re.sub(r'(\sdata-i18n="([^"]+)")(\sdata-i18n="\2")+', r"\1", content)
     content = re.sub(r'(\sdata-i18n-html="([^"]+)")(\sdata-i18n-html="\2")+', r"\1", content)
