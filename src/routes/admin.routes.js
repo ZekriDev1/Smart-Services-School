@@ -20,7 +20,7 @@ router.post('/login', express.json(), (req, res) => {
   }
 
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@smartservices.ma';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'G12345678';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'SMARTSERVICESSCHOOLS20012026@0101';
   const adminName = process.env.ADMIN_NAME || 'Super Admin';
 
   if (email === adminEmail && password === adminPassword) {
