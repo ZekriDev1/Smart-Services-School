@@ -2186,6 +2186,8 @@ const I18n = (function() {
         setLanguage(this.value);
       });
     }
+
+    requestAnimationFrame(() => document.body.classList.add('translated'));
   }
 
   return { t, setLanguage, init, applyTranslations, getLang: () => currentLang, translations };
