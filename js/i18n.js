@@ -2187,7 +2187,20 @@ const I18n = (function() {
       });
     }
 
-    requestAnimationFrame(() => document.body.classList.add('translated'));
+    var showPage = function() {
+      requestAnimationFrame(function() {
+        document.body.classList.add('translated');
+      });
+    };
+    if (document.fonts && document.fonts.ready) {
+      var fontTimeout = setTimeout(showPage, 3000);
+      document.fonts.ready.then(function() {
+        clearTimeout(fontTimeout);
+        showPage();
+      });
+    } else {
+      showPage();
+    }
   }
 
   return { t, setLanguage, init, applyTranslations, getLang: () => currentLang, translations };

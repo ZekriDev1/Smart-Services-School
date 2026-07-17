@@ -517,7 +517,7 @@ body.rtl .dropdown-arrow {
   line-height: 1.2;
   margin-bottom: 20px;
   color: var(--secondary);
-  min-height: 3.6rem;
+  min-height: 5rem;
 }
 
 .hero h1 .orange {
