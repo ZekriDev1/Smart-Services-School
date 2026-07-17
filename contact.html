@@ -29,13 +29,16 @@
   <!-- ================= Favicon & Logo ================= -->
   <link rel="icon" type="image/png" href="images/Assets/logo.png">
   <link rel="apple-touch-icon" href="images/Assets/logo.png">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#1a237e">
 
   <!-- ================= Fonts & Styles ================= -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+  <link rel="preload" href="images/Assets/logo2.png" as="image" fetchpriority="high">
+  <link rel="preload" href="css/styles.css" as="style">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -50,7 +53,7 @@
     <div class="container">
       <a href="index.html" class="logo">
         <div class="logo-icon">
-          <img src="images/Assets/logo2.png" alt="logo2" class="logo-image">
+          <img src="images/Assets/logo2.png" alt="SMARTSERVICES Schools" class="logo-image" width="48" height="48" fetchpriority="high">
           </div>
         <span class="logo-text">SMARTSERVICES<br>Schools</span>
       </a>
@@ -82,7 +85,9 @@
     </div>
   </header>
 
-  <!-- ===== HERO SECTION ===== -->
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <!-- ===== HERO SECTION ===== -->
   <section class="hero">
     <div class="container">
       <div class="hero-content">
@@ -124,20 +129,22 @@
     </div>
   </section>
 
+  </main>
+
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
           <div class="logo" style="margin-bottom: 16px;">
-            <img src="images/Assets/logo2.png" alt="logo2" class="logo-image">
+            <img src="images/Assets/logo2.png" alt="SMARTSERVICES Schools" class="logo-image" width="68" height="68">
             <span class="logo-text" style="color: white;">SMARTSERVICES<br>Schools</span>
           </div>
           <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6;"><span data-i18n="footer.desc">La plateforme   qui centralise tous les services opérationnels pour les établissements scolaires au Maroc.</span>
           </p>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.services">Services</h4>
+          <h3 data-i18n="footer.services">Services</h3>
           <a href="services.html" data-i18n="services.supplies.title">Fournitures de bureau</a>
           <a href="services.html" data-i18n="services.printing.title">Services d'impression</a>
           <a href="services.html" data-i18n="services.events.title">Événements</a>
@@ -145,14 +152,14 @@
           <a href="services.html" data-i18n="services.giveaways.title">Goodies</a>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.company">Entreprise</h4>
+          <h3 data-i18n="footer.company">Entreprise</h3>
           <a href="index.html" data-i18n="footer.about">À propos</a>
           <a href="fonctionnement.html" data-i18n="footer.howItWorks">Comment ça marche</a>
           <a href="contact.html" data-i18n="nav.contact">Contact</a>
           <a href="faq.html" data-i18n="footer.faq">FAQ</a>
         </div>
         <div class="footer-col">
-          <h4 data-i18n="footer.contact">Contact</h4>
+          <h3 data-i18n="footer.contact">Contact</h3>
           <span><i class="fas fa-phone-alt"></i> +212 5XX XX XX XX</span>
           <span><i class="fas fa-envelope"></i> contact@smartservices.ma</span>
           <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.location">Tanger, Maroc</span></span>
@@ -303,11 +310,11 @@
   </div>
 
   <!-- ===== JAVASCRIPT ===== -->
-  <script src="js/config-loader.js"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
+  <script defer src="js/config-loader.js"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/main.js"></script>
   <script>
     const modalServiceFields = {
       gifts: `<label data-i18n="formFields.rewardType">Type de récompense souhaitée</label><select><option data-i18n="options.trophies">Trophées</option><option data-i18n="options.medals">Médailles</option><option data-i18n="options.cups">Coupes</option><option data-i18n="options.certificates">Certificats</option><option data-i18n="options.prizePacks">Lots de remise des prix</option><option data-i18n="options.other">Autre</option></select><label style="margin-top:12px;display:block;" data-i18n="formFields.estimatedQuantity">Quantité estimée</label><input type="number" placeholder="Ex: 50">`,

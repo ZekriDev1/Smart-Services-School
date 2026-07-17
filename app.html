@@ -29,13 +29,16 @@
   <!-- ================= Favicon & Logo ================= -->
   <link rel="icon" type="image/png" href="images/Assets/logo.png">
   <link rel="apple-touch-icon" href="images/Assets/logo.png">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#1a237e">
 
   <!-- ================= Fonts & Styles ================= -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+  <link rel="preload" href="images/Assets/logo.png" as="image">
+  <link rel="preload" href="css/styles.css" as="style">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -48,7 +51,7 @@
   <header class="main-header" id="mainHeader">
     <div class="container">
       <a href="index.html" class="logo">
-        <img src="images/Assets/logo.png" alt="SMARTSERVICES Schools Logo" class="logo-image">
+        <img src="images/Assets/logo.png" alt="SMARTSERVICES Schools Logo" class="logo-image" width="68" height="68">
         <span class="logo-text">Smart Services<br>Schools</span>
       </a>
 
@@ -79,6 +82,7 @@
     </div>
   </header>
 
+  <main>
   <!-- ===== APP CONTAINER ===== -->
   <div class="app-container">
 
@@ -106,7 +110,7 @@
         <div class="services-grid">
           <div class="service-card" onclick="openForm('supplies')">
             <div class="service-image">
-              <img src="images/SchoolSupplies.png" alt="Fournitures de bureau" loading="lazy">
+              <img src="images/SchoolSupplies.png" alt="Fournitures de bureau" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-boxes"></i></div>
             </div>
             <div class="card-body">
@@ -117,7 +121,7 @@
           </div>
           <div class="service-card" onclick="openForm('printing')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Services d'impression" loading="lazy">
+              <img src="images/PrintingServices.png" alt="Services d'impression" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-print"></i></div>
             </div>
             <div class="card-body">
@@ -128,7 +132,7 @@
           </div>
           <div class="service-card" onclick="openForm('events')">
             <div class="service-image">
-              <img src="images/events.png" alt="Organisation d'événements" loading="lazy">
+              <img src="images/events.png" alt="Organisation d'événements" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-calendar-alt"></i></div>
             </div>
             <div class="card-body">
@@ -139,7 +143,7 @@
           </div>
           <div class="service-card" onclick="openForm('gifts')">
             <div class="service-image">
-              <img src="images/awards.png" alt="Cadeaux & Récompenses scolaires" loading="lazy">
+              <img src="images/awards.png" alt="Cadeaux & Récompenses scolaires" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-gift"></i></div>
             </div>
             <div class="card-body">
@@ -150,7 +154,7 @@
           </div>
           <div class="service-card" onclick="openForm('giveaways')">
             <div class="service-image">
-              <img src="images/awards2.png" alt="Goodies scolaires" loading="lazy">
+              <img src="images/awards2.png" alt="Goodies scolaires" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-tags"></i></div>
             </div>
             <div class="card-body">
@@ -161,7 +165,7 @@
           </div>
           <div class="service-card" onclick="openForm('repair')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Réparation informatique & CCTV" loading="lazy">
+              <img src="images/PrintingServices.png" alt="Réparation informatique & CCTV" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-laptop"></i></div>
             </div>
             <div class="card-body">
@@ -172,7 +176,7 @@
           </div>
           <div class="service-card" onclick="openForm('wifi')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Réparation réseau Wi-Fi" loading="lazy">
+              <img src="images/PrintingServices.png" alt="Réparation réseau Wi-Fi" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-wifi"></i></div>
             </div>
             <div class="card-body">
@@ -183,7 +187,7 @@
           </div>
           <div class="service-card" onclick="openForm('photo')">
             <div class="service-image">
-              <img src="images/events.png" alt="Photographie & Documentation" loading="lazy">
+              <img src="images/events.png" alt="Photographie & Documentation" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-camera"></i></div>
             </div>
             <div class="card-body">
@@ -194,7 +198,7 @@
           </div>
           <div class="service-card" onclick="openForm('printer')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Maintenance d'imprimantes" loading="lazy">
+              <img src="images/PrintingServices.png" alt="Maintenance d'imprimantes" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-tools"></i></div>
             </div>
             <div class="card-body">
@@ -205,7 +209,7 @@
           </div>
           <div class="service-card" onclick="openForm('programming')">
             <div class="service-image">
-              <img src="images/Programmation.png" alt="Programmation & Développement" loading="lazy">
+              <img src="images/Programmation.png" alt="Programmation & Développement" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-code"></i></div>
             </div>
             <div class="card-body">
@@ -216,7 +220,7 @@
           </div>
           <div class="service-card" onclick="openForm('consulting')">
             <div class="service-image">
-              <img src="images/SchoolSupplies.png" alt="Consulting" loading="lazy">
+              <img src="images/SchoolSupplies.png" alt="Consulting" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-chart-line"></i></div>
             </div>
             <div class="card-body">
@@ -227,7 +231,7 @@
           </div>
           <div class="service-card service-card-highlight" onclick="openForm('custom')">
             <div class="service-image">
-              <img src="images/awards.png" alt="Service personnalisé" loading="lazy">
+              <img src="images/awards.png" alt="Service personnalisé" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-plus-circle"></i></div>
             </div>
             <div class="card-body">
@@ -427,14 +431,15 @@
 
     </main>
   </div>
+  </main>
 
   <!-- ===== JAVASCRIPT ===== -->
-  <script src="js/config-loader.js"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/file-upload.js"></script>
+  <script defer src="js/config-loader.js"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/file-upload.js"></script>
 <script>
      // ===== GLOBAL FUNCTIONS =====
       function viewRequestDetails(id) {
