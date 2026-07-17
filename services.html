@@ -32,12 +32,17 @@
   <meta name="theme-color" content="#1a237e">
 
   <!-- ================= Fonts & Styles ================= -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
-  <link rel="preload" href="images/Assets/logo2.png" as="image" fetchpriority="high">
+  <style id="fontawesome-fix">@font-face{font-family:'Font Awesome 6 Free';font-display:swap}</style>
+  <link rel="preload" href="images/Assets/logo2.webp" as="image" fetchpriority="high">
   <link rel="preload" href="css/styles.css" as="style">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -106,7 +111,7 @@
       <div class="services-grid">
         <div class="service-card" onclick="openServiceModal('supplies')">
           <div class="service-image">
-            <img src="images/SchoolSupplies.png" alt="اللوازم المكتبية" loading="lazy" width="676" height="368">
+            <img src="images/SchoolSupplies.webp" alt="اللوازم المكتبية" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-boxes"></i></div>
           </div>
           <div class="card-body">
@@ -117,7 +122,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('printing')">
           <div class="service-image">
-            <img src="images/PrintingServices.png" alt="خدمات الطباعة" loading="lazy" width="676" height="368">
+            <img src="images/PrintingServices.webp" alt="خدمات الطباعة" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-print"></i></div>
           </div>
           <div class="card-body">
@@ -128,7 +133,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('events')">
           <div class="service-image">
-            <img src="images/events.png" alt="تنظيم الحفلات" loading="lazy" width="676" height="368">
+            <img src="images/events.webp" alt="تنظيم الحفلات" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-calendar-alt"></i></div>
           </div>
           <div class="card-body">
@@ -139,7 +144,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('gifts')">
           <div class="service-image">
-            <img src="images/awards.png" alt="الهدايا والجوائز المدرسية" loading="lazy" width="676" height="368">
+            <img src="images/awards.webp" alt="الهدايا والجوائز المدرسية" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-gift"></i></div>
           </div>
           <div class="card-body">
@@ -150,7 +155,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('giveaways')">
           <div class="service-image">
-            <img src="images/Goodies_scolaires.png" alt="المنتجات المخصصة" loading="lazy" width="676" height="368">
+            <img src="images/Goodies_scolaires.webp" alt="المنتجات المخصصة" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-tags"></i></div>
           </div>
           <div class="card-body">
@@ -161,7 +166,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('repair')">
           <div class="service-image">
-            <img src="images/R%C3%A9paration%20informatique%20%26%20CCTV.png" alt="إصلاح الحواسيب والكاميرات" loading="lazy" width="676" height="368">
+            <img src="images/Reparation-informatique-CCTV.webp" alt="إصلاح الحواسيب والكاميرات" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-laptop"></i></div>
           </div>
           <div class="card-body">
@@ -172,7 +177,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('wifi')">
           <div class="service-image">
-            <img src="images/R%C3%A9paration%20r%C3%A9seau%20Wi-Fi.png" alt="إصلاح وتركيب شبكات Wi-Fi" loading="lazy" width="676" height="368">
+            <img src="images/Reparation-reseau-Wi-Fi.webp" alt="إصلاح وتركيب شبكات Wi-Fi" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-wifi"></i></div>
           </div>
           <div class="card-body">
@@ -183,7 +188,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('photo')">
           <div class="service-image">
-            <img src="images/Photographie%20%26%20Documentation.png" alt="التصوير والتوثيق" loading="lazy" width="676" height="368">
+            <img src="images/Photographie-Documentation.webp" alt="التصوير والتوثيق" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-camera"></i></div>
           </div>
           <div class="card-body">
@@ -194,7 +199,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('printer')">
           <div class="service-image">
-            <img src="images/PrintingServices.png" alt="صيانة الطابعات" loading="lazy" width="676" height="368">
+            <img src="images/PrintingServices.webp" alt="صيانة الطابعات" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-tools"></i></div>
           </div>
           <div class="card-body">
@@ -205,7 +210,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('programming')">
           <div class="service-image">
-            <img src="images/Programmation.png" alt="خدمات تطوير البرمجيات" loading="lazy" width="676" height="368">
+            <img src="images/Programmation.webp" alt="خدمات تطوير البرمجيات" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-code"></i></div>
           </div>
           <div class="card-body">
@@ -216,7 +221,7 @@
         </div>
         <div class="service-card" onclick="openServiceModal('consulting')">
           <div class="service-image">
-            <img src="images/Consulting.png" alt="الاستشارات" loading="lazy" width="676" height="368">
+            <img src="images/Consulting.webp" alt="الاستشارات" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-chart-line"></i></div>
           </div>
           <div class="card-body">
@@ -227,7 +232,7 @@
         </div>
         <div class="service-card service-card-highlight" onclick="openServiceModal('custom')">
           <div class="service-image">
-            <img src="images/Demander%20un%20service%20personnalis%C3%A9.png" alt="طلب خدمة مخصصة" loading="lazy" width="676" height="368">
+            <img src="images/Demander-service-personnalise.webp" alt="طلب خدمة مخصصة" loading="lazy" width="676" height="368">
             <div class="service-icon-overlay"><i class="fas fa-plus-circle"></i></div>
           </div>
           <div class="card-body">
@@ -286,7 +291,7 @@
       <div class="footer-grid">
         <div class="footer-col">
           <div class="logo" style="margin-bottom: 16px;">
-            <img src="images/Assets/logo2.png" alt="SMARTSERVICES Schools" class="logo-image" width="68" height="68">
+            <img src="images/Assets/logo2.webp" alt="SMARTSERVICES Schools" class="logo-image" width="68" height="68">
             <span class="logo-text" style="color: white;">SMARTSERVICES<br>Schools</span>
           </div>
           <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6;"><span data-i18n="footer.desc">المنصة   التي توحد جميع الخدمات التشغيلية للمؤسسات التعليمية في المغرب.</span>

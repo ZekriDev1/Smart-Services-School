@@ -32,12 +32,17 @@
   <meta name="theme-color" content="#1a237e">
 
   <!-- ================= Fonts & Styles ================= -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
-  <link rel="preload" href="images/Assets/logo.png" as="image">
+  <style id="fontawesome-fix">@font-face{font-family:'Font Awesome 6 Free';font-display:swap}</style>
+  <link rel="preload" href="images/Assets/logo.webp" as="image">
   <link rel="preload" href="css/styles.css" as="style">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -51,7 +56,7 @@
   <header class="main-header" id="mainHeader">
     <div class="container">
       <a href="index.html" class="logo">
-        <img src="images/Assets/logo.png" alt="SMARTSERVICES Schools Logo" class="logo-image" width="68" height="68">
+        <img src="images/Assets/logo.webp" alt="SMARTSERVICES Schools Logo" class="logo-image" width="68" height="68">
         <span class="logo-text">Smart Services<br>Schools</span>
       </a>
 
@@ -110,7 +115,7 @@
         <div class="services-grid">
           <div class="service-card" onclick="openForm('supplies')">
             <div class="service-image">
-              <img src="images/SchoolSupplies.png" alt="Fournitures de bureau" loading="lazy" width="676" height="368">
+              <img src="images/SchoolSupplies.webp" alt="Fournitures de bureau" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-boxes"></i></div>
             </div>
             <div class="card-body">
@@ -121,7 +126,7 @@
           </div>
           <div class="service-card" onclick="openForm('printing')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Services d'impression" loading="lazy" width="676" height="368">
+              <img src="images/PrintingServices.webp" alt="Services d'impression" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-print"></i></div>
             </div>
             <div class="card-body">
@@ -132,7 +137,7 @@
           </div>
           <div class="service-card" onclick="openForm('events')">
             <div class="service-image">
-              <img src="images/events.png" alt="Organisation d'événements" loading="lazy" width="676" height="368">
+              <img src="images/events.webp" alt="Organisation d'événements" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-calendar-alt"></i></div>
             </div>
             <div class="card-body">
@@ -143,7 +148,7 @@
           </div>
           <div class="service-card" onclick="openForm('gifts')">
             <div class="service-image">
-              <img src="images/awards.png" alt="Cadeaux & Récompenses scolaires" loading="lazy" width="676" height="368">
+              <img src="images/awards.webp" alt="Cadeaux & Récompenses scolaires" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-gift"></i></div>
             </div>
             <div class="card-body">
@@ -154,7 +159,7 @@
           </div>
           <div class="service-card" onclick="openForm('giveaways')">
             <div class="service-image">
-              <img src="images/awards2.png" alt="Goodies scolaires" loading="lazy" width="676" height="368">
+              <img src="images/awards2.webp" alt="Goodies scolaires" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-tags"></i></div>
             </div>
             <div class="card-body">
@@ -165,7 +170,7 @@
           </div>
           <div class="service-card" onclick="openForm('repair')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Réparation informatique & CCTV" loading="lazy" width="676" height="368">
+              <img src="images/PrintingServices.webp" alt="Réparation informatique & CCTV" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-laptop"></i></div>
             </div>
             <div class="card-body">
@@ -176,7 +181,7 @@
           </div>
           <div class="service-card" onclick="openForm('wifi')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Réparation réseau Wi-Fi" loading="lazy" width="676" height="368">
+              <img src="images/PrintingServices.webp" alt="Réparation réseau Wi-Fi" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-wifi"></i></div>
             </div>
             <div class="card-body">
@@ -187,7 +192,7 @@
           </div>
           <div class="service-card" onclick="openForm('photo')">
             <div class="service-image">
-              <img src="images/events.png" alt="Photographie & Documentation" loading="lazy" width="676" height="368">
+              <img src="images/events.webp" alt="Photographie & Documentation" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-camera"></i></div>
             </div>
             <div class="card-body">
@@ -198,7 +203,7 @@
           </div>
           <div class="service-card" onclick="openForm('printer')">
             <div class="service-image">
-              <img src="images/PrintingServices.png" alt="Maintenance d'imprimantes" loading="lazy" width="676" height="368">
+              <img src="images/PrintingServices.webp" alt="Maintenance d'imprimantes" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-tools"></i></div>
             </div>
             <div class="card-body">
@@ -209,7 +214,7 @@
           </div>
           <div class="service-card" onclick="openForm('programming')">
             <div class="service-image">
-              <img src="images/Programmation.png" alt="Programmation & Développement" loading="lazy" width="676" height="368">
+              <img src="images/Programmation.webp" alt="Programmation & Développement" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-code"></i></div>
             </div>
             <div class="card-body">
@@ -220,7 +225,7 @@
           </div>
           <div class="service-card" onclick="openForm('consulting')">
             <div class="service-image">
-              <img src="images/SchoolSupplies.png" alt="Consulting" loading="lazy" width="676" height="368">
+              <img src="images/SchoolSupplies.webp" alt="Consulting" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-chart-line"></i></div>
             </div>
             <div class="card-body">
@@ -231,7 +236,7 @@
           </div>
           <div class="service-card service-card-highlight" onclick="openForm('custom')">
             <div class="service-image">
-              <img src="images/awards.png" alt="Service personnalisé" loading="lazy" width="676" height="368">
+              <img src="images/awards.webp" alt="Service personnalisé" loading="lazy" width="676" height="368">
               <div class="service-icon-overlay"><i class="fas fa-plus-circle"></i></div>
             </div>
             <div class="card-body">
