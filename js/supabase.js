@@ -38,23 +38,12 @@ let supabaseClient = null;
 async function initSupabase() {
   if (supabaseClient) return supabaseClient;
 
-  // Try to load from config loader (server endpoint or localStorage)
   let config = SUPABASE_CONFIG;
   
   if (window.__configLoader) {
     const loaded = await window.__configLoader.load();
     if (loaded && loaded.url && loaded.anonKey) {
       config = loaded;
-    }
-  } else if (!config.url || !config.anonKey) {
-    // Fallback: try direct fetch
-    try {
-      const response = await fetch('/api/config');
-      if (response.ok) {
-        config = await response.json();
-      }
-    } catch (e) {
-      // Not running on server
     }
   }
   
@@ -103,21 +92,6 @@ async function initSupabase() {
  * Priority: hardcoded config > .env (not available in browser directly)
  */
 async function loadSupabaseConfig() {
-  // Use the hardcoded config values from above
-  if (SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
-    return SUPABASE_CONFIG;
-  }
-
-  // Try to fetch from a server endpoint (if you have a backend)
-  try {
-    const response = await fetch('/api/config');
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (e) {
-    // No server endpoint available, use static config
-  }
-
   return SUPABASE_CONFIG;
 }
 
