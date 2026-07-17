@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page non trouvée | SMARTSERVICES Schools</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .page-404 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 200px);
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .page-404 .error-code {
+      font-size: 8rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .page-404 h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 12px;
+    }
+    .page-404 p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+    .page-404 .btn {
+      font-size: 1rem;
+      padding: 14px 32px;
+    }
+    .page-404 .btn i {
+      margin-inline-end: 8px;
+    }
+    @media (max-width: 768px) {
+      .page-404 .error-code { font-size: 5rem; }
+      .page-404 h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header" id="mainHeader">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="images/Assets/logo.webp" alt="SMARTSERVICES Schools Logo" class="logo-image" width="68" height="68">
+        <span class="logo-text">Smart Services<br>Schools</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Accueil</a>
+        <a href="services.html">Services</a>
+        <a href="fonctionnement.html">Fonctionnement</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <a href="app.html" class="btn btn-sm">Connexion</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-404">
+      <div class="error-code">404</div>
+      <h1>Page non trouvée</h1>
+      <p>La page que vous cherchez n'existe pas ou a été déplacée. Vérifiez l'URL ou retournez à l'accueil.</p>
+      <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 16px;">
+            <img src="images/Assets/logo2.webp" alt="SMARTSERVICES Schools" class="logo-image" width="68" height="68">
+            <span class="logo-text" style="color: white;">SMARTSERVICES<br>Schools</span>
+          </div>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6;">La plateforme qui centralise tous les services opérationnels pour les établissements scolaires au Maroc.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Services</h3>
+          <a href="services.html">Fournitures de bureau</a>
+          <a href="services.html">Services d'impression</a>
+          <a href="services.html">Organisation d'événements</a>
+          <a href="services.html">Cadeaux &amp; Récompenses</a>
+          <a href="services.html">Produits personnalisés</a>
+          <a href="services.html">Développement logiciel</a>
+        </div>
+        <div class="footer-col">
+          <h3>Entreprise</h3>
+          <a href="index.html">À propos</a>
+          <a href="fonctionnement.html">Comment ça marche</a>
+          <a href="contact.html">Contact</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h3>Contact</h3>
+          <span><i class="fas fa-phone-alt"></i> +212 5XX XX XX XX</span>
+          <span><i class="fas fa-envelope"></i> contact@smartservices.ma</span>
+          <span><i class="fas fa-map-marker-alt"></i> Tanger, Maroc</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>WEB DEVELOPMENT &amp; WEB HOSTING BY Akram Zekri</p>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="js/config-loader.js"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/main.js"></script>
+  <script>
+    // Hide auth-dependent elements on 404 page
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('translated');
+    });
+  </script>
+</body>
+</html>
